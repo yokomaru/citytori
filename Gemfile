@@ -54,6 +54,8 @@ group :development, :test do
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
   gem "rubocop-capybara", require: false
+
+  gem "herb", require: false
 end
 
 group :development do
