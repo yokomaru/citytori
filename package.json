@@ -9,7 +9,9 @@
   "scripts": {
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint 'app/javascript/**/*.js' --max-warnings=0",
-    "lint:prettier": "prettier 'app/javascript/**/*.js' --check"
+    "lint:prettier": "prettier 'app/javascript/**/*.js' --check",
+    "format": "npm run format:js",
+    "format:js": "prettier 'app/javascript/**/*.js' --write"
   },
   "repository": {
     "type": "git",
