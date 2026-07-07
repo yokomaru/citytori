@@ -7,7 +7,9 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint 'app/javascript/**/*.js' --max-warnings=0",
+    "lint:prettier": "prettier 'app/javascript/**/*.js' --check"
   },
   "repository": {
     "type": "git",
