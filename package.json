@@ -7,11 +7,14 @@
     "lib": "lib"
   },
   "scripts": {
-    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint": "npm run lint:js && npm run lint:erb",
+    "lint:js": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint 'app/javascript/**/*.js' --max-warnings=0",
     "lint:prettier": "prettier 'app/javascript/**/*.js' --check",
-    "format": "npm run format:js",
-    "format:js": "prettier 'app/javascript/**/*.js' --write"
+    "lint:erb": "herb-lint",
+    "format": "npm run format:js && npm run format:erb",
+    "format:js": "prettier 'app/javascript/**/*.js' --write",
+    "format:erb": "herb-format"
   },
   "repository": {
     "type": "git",
@@ -27,6 +30,8 @@
   "homepage": "https://github.com/yokomaru/citytori#readme",
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@herb-tools/formatter": "^0.10.1",
+    "@herb-tools/linter": "^0.10.1",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.7.0",
