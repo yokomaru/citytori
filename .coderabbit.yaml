@@ -1,0 +1,44 @@
+# .coderabbit.yaml
+language: "ja-JP"
+
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: true
+  review_status: true
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - "main"
+  path_instructions:
+    - path: "**/*.rb"
+      instructions: |-
+        # refactoring
+        - まずFat Controllerを避け、次にFat Modelを避ける。
+        - Serviceクラスの乱用を避ける。
+        - controller concernを作ろうとしたらPORO(Plain Old Ruby Object)やActiveRecordモデルでの実装で代替できないか検討する。
+        # Rails Patterns
+        - Viewにpartialを作る場合、単純な表示の切り出しならpartialでよい。
+        - 状態やロジックを持つ再利用可能なUIの場合はViewComponentを検討する。
+    - path: "spec/**/*"
+      instructions: |-
+        # Test
+        - どうしても避けられない時以外にsystem specでsleepは使わない。
+        - 各テストケースの間には空行を設ける。
+        # Model Spec
+        - model, helper, view_componentに新しい振る舞いを追加した場合は、対応するspecを1つ以上書く。
+    - path: "app/views/**/*"
+      instructions: |-
+        # Rails Views / Hotwire
+        - Turbo FrameやTurbo Streamを使う場合は、対象のidやframe名が一貫しているか確認する。
+        - data-controller, data-action, data-*-target, data-*-valueの指定がStimulus controller側と対応しているか確認する。
+        - JavaScriptでDOMを書き換える前に、Turbo StreamやRailsのpartialで表現できないか検討する。
+    - path: "app/javascript/**/*.js"
+      instructions: |-
+        # JavaScript / Stimulus / Hotwire
+        - Stimulus controllerには画面上の振る舞いを中心に置き、業務ロジックを持たせすぎない。
+        - DOM要素の取得は、可能な範囲でStimulusのtargets/values/classesを使う。
+        - Turbo Drive/Turbo Frame/Turbo Streamと競合する処理になっていないか確認する。
+        - 外部ライブラリを初期化する場合は、Turboによる再描画や再接続時に二重初期化されないか確認する。
