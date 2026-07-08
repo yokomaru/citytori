@@ -13,4 +13,8 @@ Rails.application.routes.draw do
   # TODO: 一時的にログインしたらユーザー情報に飛ぶようにする
   root "users#show"
   resource :user, only: :show
+
+  get "/auth/:provider/callback", to: "sessions#create"
+  get "/auth/failure", to: "sessions#failure"
+  post "/logout", to: "sessions#destroy"
 end
