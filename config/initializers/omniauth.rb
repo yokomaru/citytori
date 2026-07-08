@@ -4,3 +4,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
           Rails.application.credentials.google[:client_secret]
 end
 OmniAuth.config.request_validation_phase = OmniAuth::AuthenticityTokenProtection.new(key: :_csrf_token)
+
+OmniAuth.config.on_failure = lambda do |env|
+  OmniAuth::FailureEndpoint.new(env).redirect_to_failure
+end
