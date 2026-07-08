@@ -11,8 +11,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # TODO: 一時的にログインしたらユーザー情報に飛ぶようにする
-  root "users#show"
-  resource :user, only: :show
+  root "home#show"
+  resources :users, only: :show
 
   get "/auth/:provider/callback", to: "sessions#create"
   get "/auth/failure", to: "sessions#failure"
