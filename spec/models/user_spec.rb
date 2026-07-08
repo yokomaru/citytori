@@ -30,4 +30,44 @@ RSpec.describe User, type: :model do
     user = FactoryBot.build(:user, provider: 'google_oauth2', uid: '12345')
     expect(user).to be_invalid
   end
+
+  describe '.find_or_create_from_omniauth' do
+    let(:auth) do
+      OmniAuth::AuthHash.new(
+        provider: 'google_oauth2',
+        uid: '12345',
+        info: {
+          email: 'test@example.com',
+          name: 'テストユーザー'
+        }
+      )
+    end
+
+    it 'providerとuidが一致するUserがある場合は既存のUserを返すこと' do
+      existing_user =
+        FactoryBot.create(
+          :user,
+          provider: 'google_oauth2',
+          uid: '12345',
+          email: 'old@example.com',
+          name: '既存ユーザー'
+        )
+      user = User.find_or_create_from_omniauth(auth)
+      expect(user).to eq(existing_user)
+    end
+
+    it 'providerとuidが一致するUserがない場合は新しいUserを作成すること' do
+      expect {
+        User.find_or_create_from_omniauth(auth)
+      }.to change(User, :count).by(1)
+    end
+
+    it 'auth情報がUserに保存されること' do
+      user = User.find_or_create_from_omniauth(auth)
+      expect(user.provider).to eq('google_oauth2')
+      expect(user.uid).to eq('12345')
+      expect(user.email).to eq('test@example.com')
+      expect(user.name).to eq('テストユーザー')
+    end
+  end
 end
