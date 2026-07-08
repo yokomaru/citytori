@@ -52,18 +52,18 @@ RSpec.describe User, type: :model do
           email: 'old@example.com',
           name: '既存ユーザー'
         )
-      user = User.find_or_create_from_omniauth(auth)
+      user = described_class.find_or_create_from_omniauth(auth)
       expect(user).to eq(existing_user)
     end
 
     it 'providerとuidが一致するUserがない場合は新しいUserを作成すること' do
       expect {
-        User.find_or_create_from_omniauth(auth)
-      }.to change(User, :count).by(1)
+        described_class.find_or_create_from_omniauth(auth)
+      }.to change(described_class, :count).by(1)
     end
 
     it 'auth情報がUserに保存されること' do
-      user = User.find_or_create_from_omniauth(auth)
+      user = described_class.find_or_create_from_omniauth(auth)
       expect(user.provider).to eq('google_oauth2')
       expect(user.uid).to eq('12345')
       expect(user.email).to eq('test@example.com')
