@@ -80,7 +80,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-
+    environment: test
     services:
       postgres:
         image: postgres:14
