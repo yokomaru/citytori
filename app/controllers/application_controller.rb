@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
   def log_in(user)
     reset_session
     session[:user_id] = user.id
+    @current_user = user
   end
 
   def log_out
