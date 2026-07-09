@@ -10,5 +10,11 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  # TODO: 一時的にログインしたらユーザー情報に飛ぶようにする
+  root "home#show"
+  resources :users, only: :show
+
+  get "/auth/:provider/callback", to: "sessions#create"
+  get "/auth/failure", to: "sessions#failure"
+  post "/logout", to: "sessions#destroy"
 end

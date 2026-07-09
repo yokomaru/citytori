@@ -1,0 +1,13 @@
+<header>
+  <% if logged_in? %>
+    <%= current_user.name %>さん
+    <%= button_to "ログアウト",
+                  logout_path,
+                  method: :post %>
+  <% else %>
+    <%= button_to "Googleでログイン",
+                  "/auth/google_oauth2",
+                  method: :post,
+                  data: { turbo: false } %>
+  <% end %>
+</header>
