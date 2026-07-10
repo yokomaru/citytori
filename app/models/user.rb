@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :word_chain_walks, dependent: :destroy
+
   validates :provider, presence: true, uniqueness: { scope: :uid }
   validates :uid, presence: true
   validates :email, presence: true
