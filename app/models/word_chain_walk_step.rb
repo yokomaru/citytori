@@ -9,6 +9,7 @@ class WordChainWalkStep < ApplicationRecord
 
   validate :image_attached
   validate :must_connect_previous_char
+  validate :must_not_add_steps_to_finished_word_chain_walk
 
   private
 
@@ -22,5 +23,13 @@ class WordChainWalkStep < ApplicationRecord
     return unless word_chain_walk.target_char != word[0] # TODO: 本当はword[0]を正規化する必要がある
 
     errors.add(:word, "と前の文字が繋がっていません")
+  end
+
+  def must_not_add_steps_to_finished_word_chain_walk
+    return if word.blank?
+
+    return unless word_chain_walk.finished?
+
+    errors.add(:word, "は終了済みのしりとり散歩には追加できません")
   end
 end
