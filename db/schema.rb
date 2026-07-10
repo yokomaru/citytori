@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_10_072413) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_10_072658) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,6 +52,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_10_072413) do
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
   end
 
+  create_table "word_chain_walk_steps", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.text "memo"
+    t.datetime "updated_at", null: false
+    t.string "word", limit: 100, null: false
+    t.bigint "word_chain_walk_id", null: false
+    t.index ["word_chain_walk_id"], name: "index_word_chain_walk_steps_on_word_chain_walk_id"
+  end
+
   create_table "word_chain_walks", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "finished_at"
@@ -64,5 +75,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_10_072413) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "word_chain_walk_steps", "word_chain_walks"
   add_foreign_key "word_chain_walks", "users"
 end

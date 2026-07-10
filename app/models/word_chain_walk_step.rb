@@ -1,0 +1,3 @@
+class WordChainWalkStep < ApplicationRecord
+  belongs_to :word_chain_walk
+end
