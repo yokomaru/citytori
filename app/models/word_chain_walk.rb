@@ -16,4 +16,35 @@ class WordChainWalk < ApplicationRecord
 
   after_initialize :assign_random_start_char, if: :new_record?
   after_initialize :assign_started_at, if: :new_record?
+
+  scope :finished, -> { where.not(finished_at: nil) }
+  scope :active, -> { where(finished_at: nil) }
+
+  def finished?
+    finished_at.present?
+  end
+
+  def elapsed_seconds
+    return nil if started_at.nil?
+
+    if finished?
+      finished_at - started_at
+    else
+      Time.zone.now - started_at
+    end
+  end
+
+  private
+
+  def assign_random_start_char
+    return if start_char.present?
+
+    self.start_char = ALLOW_START_CHARS.sample
+  end
+
+  def assign_started_at
+    return if started_at.present?
+
+    self.started_at = Time.zone.now
+  end
 end
