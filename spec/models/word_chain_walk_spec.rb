@@ -79,7 +79,7 @@ RSpec.describe WordChainWalk, type: :model do
   end
 
   it '最新のステップが取得できること' do
-    word_chain_walk = FactoryBot.build(:word_chain_walk, start_char: 'り')
+    word_chain_walk = FactoryBot.create(:word_chain_walk, start_char: 'り')
     FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: 'りんご')
     new_step = FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: 'ごりら')
 
@@ -93,7 +93,7 @@ RSpec.describe WordChainWalk, type: :model do
   end
 
   it 'ステップがある場合は、登録済みの最新ステップのwordの最後の1文字現在探している文字を取得できること' do
-    word_chain_walk = FactoryBot.build(:word_chain_walk, start_char: 'り')
+    word_chain_walk = FactoryBot.create(:word_chain_walk, start_char: 'り')
     FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: 'りんご')
 
     expect(word_chain_walk.target_char).to eq('ご')
