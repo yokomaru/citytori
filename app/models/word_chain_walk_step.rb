@@ -6,4 +6,10 @@ class WordChainWalkStep < ApplicationRecord
   validates :word, presence: true
   validates :word, length: { maximum: 100 }
   validates :word, format: { with: /\A[ぁ-んー]*\z/ }
+  validate :image_attached
+
+  private
+  def image_attached
+    errors.add(:image, "を添付してください") unless image.attached?
+  end
 end
