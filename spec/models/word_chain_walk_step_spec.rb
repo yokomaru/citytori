@@ -4,13 +4,12 @@ RSpec.describe WordChainWalkStep, type: :model do
   let(:word_chain_walk) { FactoryBot.create(:word_chain_walk, start_char: 'り') }
 
   it 'has a valid factory' do
-    word_chain_walk = FactoryBot.create(:word_chain_walk, start_char: 'あ')
     word_chain_walk_step =
       FactoryBot.build(
         :word_chain_walk_step,
         :with_image,
         word_chain_walk: word_chain_walk,
-        word: 'あいうえお'
+        word: 'りんご'
       )
 
     expect(word_chain_walk_step).to be_valid
@@ -24,7 +23,6 @@ RSpec.describe WordChainWalkStep, type: :model do
   end
 
   it 'WordChainWalkを削除した場合、紐づくStepも削除されること' do
-    word_chain_walk = FactoryBot.create(:word_chain_walk, start_char: 'り')
     FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: 'りんご')
     expect { word_chain_walk.destroy }.to change(described_class, :count).by(-1)
   end
