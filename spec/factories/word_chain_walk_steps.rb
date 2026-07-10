@@ -6,7 +6,7 @@ FactoryBot.define do
     trait :with_image do
       after(:build) do |step|
         step.image.attach(
-          io: File.open(Rails.root.join('spec/fixtures/files/480x320.png')),
+          io: StringIO.new(File.binread(Rails.root.join('spec/fixtures/files/480x320.png'))),
           filename: 'sample.png',
           content_type: 'image/png'
         )
