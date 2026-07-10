@@ -6,6 +6,7 @@ class WordChainWalk < ApplicationRecord
   ].freeze
 
   belongs_to :user
+  has_many :word_chain_walk_steps, dependent: :destroy
 
   validates :start_char, presence: true
   validates :start_char, length: { is: 1 }
