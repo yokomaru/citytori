@@ -19,6 +19,7 @@ class WordChainWalkStep < ApplicationRecord
 
   def must_connect_previous_char
     return if word.blank?
+    return if word_chain_walk.blank?
 
     return unless word_chain_walk.target_char != word[0] # TODO: 本当はword[0]を正規化する必要がある
 
@@ -27,6 +28,7 @@ class WordChainWalkStep < ApplicationRecord
 
   def must_not_add_steps_to_finished_word_chain_walk
     return if word.blank?
+    return if word_chain_walk.blank?
 
     return unless word_chain_walk.finished?
 
