@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_08_100754) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_09_144920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,4 +23,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_08_100754) do
     t.datetime "updated_at", null: false
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
   end
+
+  create_table "word_chain_walks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "finished_at"
+    t.string "start_char", null: false
+    t.datetime "started_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_word_chain_walks_on_user_id"
+  end
+
+  add_foreign_key "word_chain_walks", "users"
 end

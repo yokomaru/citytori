@@ -1,0 +1,2 @@
+class WordChainWalk < ApplicationRecord
+end
