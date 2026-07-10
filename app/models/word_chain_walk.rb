@@ -6,6 +6,7 @@ class WordChainWalk < ApplicationRecord
   ].freeze
 
   belongs_to :user
+  has_many :word_chain_walk_steps, dependent: :destroy
 
   validates :start_char, presence: true
   validates :start_char, length: { is: 1 }
@@ -24,6 +25,10 @@ class WordChainWalk < ApplicationRecord
     finished_at.present?
   end
 
+  def latest_step
+    word_chain_walk_steps.order(:id).last
+  end
+
   def elapsed_seconds
     return nil if started_at.nil?
 
@@ -32,6 +37,12 @@ class WordChainWalk < ApplicationRecord
     else
       Time.zone.now - started_at
     end
+  end
+
+  def target_char
+    return start_char if latest_step.nil?
+
+    latest_step.word[-1] # 本当は正規化必要
   end
 
   private
