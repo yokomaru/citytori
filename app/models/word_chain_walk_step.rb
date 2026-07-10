@@ -6,10 +6,21 @@ class WordChainWalkStep < ApplicationRecord
   validates :word, presence: true
   validates :word, length: { maximum: 100 }
   validates :word, format: { with: /\A[ぁ-んー]*\z/ }
+
   validate :image_attached
+  validate :must_connect_previous_char
 
   private
+
   def image_attached
     errors.add(:image, "を添付してください") unless image.attached?
+  end
+
+  def must_connect_previous_char
+    return if word.blank?
+
+    return unless word_chain_walk.target_char != word[0] # TODO: 本当はword[0]を正規化する必要がある
+
+    errors.add(:word, "と前の文字が繋がっていません")
   end
 end
