@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     auth = request.env["omniauth.auth"]
     user = User.find_or_create_from_omniauth(auth)
     log_in(user)
-    redirect_to user_path(user), notice: "ログインしました"
+    redirect_to word_chain_walks_path, notice: "ログインしました"
   end
 
   def destroy
