@@ -1,0 +1,32 @@
+<div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
+  <% if word_chain_walk.finished? %>
+    <div>
+      完成
+    </div>
+  <% end %>
+
+  <div
+    id="<%= dom_id word_chain_walk %>"
+    class="w-full sm:w-auto my-5 space-y-5"
+  >
+    <div>
+      <strong class="block font-medium mb-1">完了日:</strong>
+      <%= word_chain_walk.finished_at %>
+    </div>
+
+    <div>
+      <strong class="block font-medium mb-1">見つけた文字の数: </strong>
+      <%= word_chain_walk.word_chain_walk_steps.size %>
+    </div>
+
+    <div>
+      <strong class="block font-medium mb-1">かかった時間: </strong>
+      <%= formatted_elapsed_time(word_chain_walk.elapsed_seconds) %>
+    </div>
+  </div>
+
+  <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
+    <%= link_to "Show", word_chain_walk, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+    <%= button_to "Destroy", word_chain_walk, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+  </div>
+</div>
