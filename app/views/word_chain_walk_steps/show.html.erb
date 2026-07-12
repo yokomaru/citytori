@@ -1,0 +1,47 @@
+<% content_for :title, "Step詳細" %>
+
+<div class="md:w-2/3 w-full">
+  <% if notice.present? %>
+    <p
+      class="
+        py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md
+        inline-block
+      "
+      id="notice"
+    >
+      <%= notice %>
+    </p>
+  <% end %>
+
+  <h1 class="font-bold text-4xl">Step詳細</h1>
+
+  <div class="my-5 space-y-5">
+    <div>
+      <strong class="block font-medium mb-1">言葉</strong>
+      <%= @word_chain_walk_step.word %>
+    </div>
+
+    <% if @word_chain_walk_step.image.attached? %>
+      <div>
+        <strong class="block font-medium mb-1">画像</strong>
+        <%= image_tag @word_chain_walk_step.image.variant(resize_to_limit: [600, 600]) %>
+      </div>
+    <% end %>
+
+    <% if @word_chain_walk_step.memo.present? %>
+      <div>
+        <strong class="block font-medium mb-1">メモ</strong>
+        <%= @word_chain_walk_step.memo %>
+      </div>
+    <% end %>
+
+    <div>
+      <strong class="block font-medium mb-1">作成日時</strong>
+      <%= @word_chain_walk_step.created_at.strftime("%Y/%m/%d %H:%M") %>
+    </div>
+  </div>
+
+  <%= link_to "散歩詳細へ戻る",
+              word_chain_walk_path(@word_chain_walk),
+              class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+</div>

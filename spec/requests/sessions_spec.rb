@@ -34,7 +34,7 @@ RSpec.describe "Sessions", type: :request do
       user = User.find_by(provider: "google_oauth2", uid: "12345")
 
       expect(session[:user_id]).to eq(user.id)
-      expect(response).to redirect_to(user_path(user.id))
+      expect(response).to redirect_to(word_chain_walks_path)
       expect(flash[:notice]).to eq("ログインしました")
     end
 
@@ -53,7 +53,7 @@ RSpec.describe "Sessions", type: :request do
       }.not_to change(User, :count)
 
       expect(session[:user_id]).to eq(existing_user.id)
-      expect(response).to redirect_to(user_path(existing_user.id))
+      expect(response).to redirect_to(word_chain_walks_path)
     end
   end
 

@@ -17,4 +17,8 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "sessions#create"
   get "/auth/failure", to: "sessions#failure"
   post "/logout", to: "sessions#destroy"
+
+  resources :word_chain_walks, only: %i[index create show] do
+    resources :word_chain_walk_steps, only: %i[new create show]
+  end
 end

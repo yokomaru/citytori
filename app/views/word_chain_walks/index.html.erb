@@ -1,0 +1,46 @@
+<% content_for :title, "しりとり散歩" %>
+
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice">
+      <%= notice %>
+    </p>
+  <% end %>
+
+  <% if alert.present? %>
+    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-md inline-block" id="alert">
+      <%= alert %>
+    </p>
+  <% end %>
+
+  <% if @word_chain_walk %>
+    <%= render 'shared/error_messages', object: @word_chain_walk %>
+  <% end %>
+
+  <% if @active_word_chain_walks.any? %>
+    <p class="text-center my-10">現在進行中の散歩を表示する</p>
+
+    <% @active_word_chain_walks.each do |active_word_chain_walk| %>
+      <%= render 'active_word_chain_walk', word_chain_walk: active_word_chain_walk %>
+    <% end %>
+  <% else %>
+    <div class="flex justify-between items-center">
+      <h1 class="font-bold text-4xl">しりとり散歩</h1>
+
+      <%= button_to "始める", word_chain_walks_path, method: :post, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+    </div>
+  <% end %>
+
+  <% if @finished_word_chain_walks.any? %>
+    <div id="word_chain_walks" class="min-w-full divide-y divide-gray-200 space-y-5">
+      <p class="text-center my-10">過去の散歩を表示する</p>
+      <% @finished_word_chain_walks.each do |finished_word_chain_walk| %>
+        <%= render 'finished_word_chain_walk', word_chain_walk: finished_word_chain_walk %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @active_word_chain_walks.blank? && @finished_word_chain_walks.blank? %>
+    <p class="text-center my-10">早速遊ぼう</p>
+  <% end %>
+</div>

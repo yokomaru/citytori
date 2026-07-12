@@ -1,0 +1,25 @@
+<div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
+  <div
+    id="<%= dom_id word_chain_walk %>"
+    class="w-full sm:w-auto my-5 space-y-5"
+  >
+    <div>
+      <strong class="block font-medium mb-1">開始日:</strong>
+      <%= word_chain_walk.started_at %>
+    </div>
+
+    <div>
+      <strong class="block font-medium mb-1">探している文字: </strong>
+      <%= word_chain_walk.target_char %>
+    </div>
+
+    <div>
+      <strong class="block font-medium mb-1">現在の文字の数: </strong>
+      <%= word_chain_walk.word_chain_walk_steps.size %>
+    </div>
+  </div>
+
+  <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
+    <%= link_to "詳細", word_chain_walk, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  </div>
+</div>

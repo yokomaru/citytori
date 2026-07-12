@@ -13,3 +13,6 @@ plugins:
   - rubocop-rails
   - rubocop-rspec
   - rubocop-performance
+
+RSpec/ContextWording:
+  Enabled: false

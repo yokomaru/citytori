@@ -1,0 +1,17 @@
+<% content_for :title, "Stepを追加する" %>
+
+<div class="md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">Stepを追加する</h1>
+
+  <div class="my-5">
+    <%= @word_chain_walk.target_char %> を探しましょう
+  </div>
+
+  <%= render "form",
+             word_chain_walk_step: @word_chain_walk_step,
+             word_chain_walk: @word_chain_walk %>
+
+  <%= link_to "散歩詳細へ戻る",
+              word_chain_walk_path(@word_chain_walk),
+              class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+</div>
