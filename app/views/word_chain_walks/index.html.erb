@@ -13,7 +13,9 @@
     </p>
   <% end %>
 
-  <%= render 'shared/error_messages', object: @word_chain_walk %>
+  <% if @word_chain_walk %>
+    <%= render 'shared/error_messages', object: @word_chain_walk %>
+  <% end %>
 
   <% if @active_word_chain_walks.any? %>
     <p class="text-center my-10">現在進行中の散歩を表示する</p>
