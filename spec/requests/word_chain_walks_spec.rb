@@ -33,8 +33,8 @@ RSpec.describe 'WordChainWalks', type: :request do
           FactoryBot.create(:word_chain_walk, user: other_user, start_char: 'あ')
         log_in(user)
         get word_chain_walks_path
-        expect(response.body).to include(own_word_chain_walk.start_char)
-        expect(response.body).not_to include(other_word_chain_walk.start_char)
+        expect(response.body).to include(word_chain_walk_path(own_word_chain_walk))
+        expect(response.body).not_to include(word_chain_walk_path(other_word_chain_walk))
       end
     end
 
