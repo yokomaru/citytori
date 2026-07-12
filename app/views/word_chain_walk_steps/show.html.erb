@@ -21,6 +21,13 @@
       <%= @word_chain_walk_step.word %>
     </div>
 
+    <% if @word_chain_walk_step.image.attached? %>
+      <div>
+        <strong class="block font-medium mb-1">画像</strong>
+        <%= image_tag @word_chain_walk_step.image.variant(resize_to_limit: [600, 600]) %>
+      </div>
+    <% end %>
+
     <% if @word_chain_walk_step.memo.present? %>
       <div>
         <strong class="block font-medium mb-1">メモ</strong>
