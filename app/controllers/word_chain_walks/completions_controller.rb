@@ -3,6 +3,9 @@ class WordChainWalks::CompletionsController < ApplicationController
   before_action :set_word_chain_walk
 
   def show
+    return if @word_chain_walk.finished?
+
+    redirect_to word_chain_walk_path(@word_chain_walk), alert: "まだ完了していません", status: :see_other
   end
 
   def update
