@@ -107,7 +107,7 @@ RSpec.describe WordChainWalkStep, type: :model do
 
     expect(word_chain_walk_step).to be_invalid
     expect(word_chain_walk_step.errors[:base]).to include(
-      '完了済みの散歩にはステップを追加できません'
+      '終了済みの散歩にはステップを追加できません'
     )
   end
 end
