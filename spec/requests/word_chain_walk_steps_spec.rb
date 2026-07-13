@@ -140,30 +140,22 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
     end
 
     context 'んで終わる単語を追加した時' do
-      it 'finished_atが保存されること' do
+      before do
         log_in(user)
         post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
-            params: {
-              word_chain_walk_step: {
-                word: 'りん',
-                image: attached_image
-              }
-            }
+             params: {
+               word_chain_walk_step: {
+                 word: 'りん',
+                 image: attached_image
+               }
+             }
+      end
 
+      it 'finished_atが保存されること' do
         expect(word_chain_walk.reload.finished_at).to be_present
       end
 
       it '完了画面へリダイレクトされること' do
-        log_in(user)
-
-        post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
-            params: {
-              word_chain_walk_step: {
-                word: 'りん',
-                image: attached_image
-              }
-            }
-
         expect(response).to redirect_to(word_chain_walk_completion_path(word_chain_walk))
       end
     end
