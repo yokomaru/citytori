@@ -130,4 +130,14 @@ RSpec.describe 'WordChainWalks', type: :system do
     expect(page).to have_content('1件のエラーがあります')
     expect(page).to have_content('Image を添付してください')
   end
+
+  scenario '進行中の散歩を完了できること' do
+    log_in(user)
+    visit word_chain_walk_path(word_chain_walk)
+    expect(page).to have_button('散歩を完了する')
+    expect do
+      click_button '散歩を完了する'
+    end.to change { word_chain_walk.reload.finished? }.from(false).to(true)
+    expect(page).to have_content('しりとり散歩が完了しました')
+  end
 end
