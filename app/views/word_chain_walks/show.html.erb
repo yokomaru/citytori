@@ -72,6 +72,16 @@
     <% end %>
   </div>
 
+  <% unless @word_chain_walk.finished? %>
+    <div>
+      <%= button_to "散歩を完了する",
+                    word_chain_walk_completion_path(@word_chain_walk),
+                    method: :patch,
+                    class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer",
+                    data: { turbo_confirm: "散歩を完了しますか？" } %>
+    </div>
+  <% end %>
+
   <div class="mt-6">
     <%= link_to "一覧へ戻る",
                 word_chain_walks_path,

@@ -5,6 +5,14 @@ class WordChainWalks::CompletionsController < ApplicationController
   def show
   end
 
+  def update
+    @word_chain_walk.update!(finished_at: Time.current)
+
+    redirect_to word_chain_walk_completion_path(@word_chain_walk),
+                notice: "しりとり散歩が完了しました",
+                status: :see_other
+  end
+
   private
 
   def set_word_chain_walk
