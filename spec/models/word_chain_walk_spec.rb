@@ -138,4 +138,10 @@ RSpec.describe WordChainWalk, type: :model do
 
     expect(described_class.finished).to contain_exactly(finished_walk)
   end
+
+  it 'finish!を実行すると終了状態になること' do
+    word_chain_walk = FactoryBot.create(:word_chain_walk, finished_at: nil)
+    word_chain_walk.finish!
+    expect(word_chain_walk).to be_finished
+  end
 end

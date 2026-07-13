@@ -15,7 +15,7 @@ class WordChainWalkStepsController < ApplicationController
 
     if @word_chain_walk_step.save
       if @word_chain_walk_step.word.end_with?("ん")
-        @word_chain_walk.update!(finished_at: Time.current)
+        @word_chain_walk.finish!
         redirect_to word_chain_walk_completion_path(@word_chain_walk), notice: "しりとり散歩が完了しました", status: :see_other
       else
         redirect_to word_chain_walk_path(@word_chain_walk), notice: "ステップを追加しました", status: :see_other
