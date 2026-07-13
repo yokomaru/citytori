@@ -144,4 +144,12 @@ RSpec.describe WordChainWalk, type: :model do
     word_chain_walk.finish!
     expect(word_chain_walk).to be_finished
   end
+
+  it '完了済みの場合はfinished_atを上書きしないこと' do
+    word_chain_walk = FactoryBot.create(:word_chain_walk, finished_at: 1.day.ago)
+
+    expect do
+      word_chain_walk.finish!
+    end.not_to change { word_chain_walk.reload.finished_at }
+  end
 end
