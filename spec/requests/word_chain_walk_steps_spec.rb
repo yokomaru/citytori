@@ -138,6 +138,27 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
         expect(response).to have_http_status(:not_found)
       end
     end
+
+    context 'んで終わる単語を追加した時' do
+      before do
+        log_in(user)
+        post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+             params: {
+               word_chain_walk_step: {
+                 word: 'りん',
+                 image: attached_image
+               }
+             }
+      end
+
+      it 'finished_atが保存されること' do
+        expect(word_chain_walk.reload.finished_at).to be_present
+      end
+
+      it '完了画面へリダイレクトされること' do
+        expect(response).to redirect_to(word_chain_walk_completion_path(word_chain_walk))
+      end
+    end
   end
 
   describe 'GET /word_chain_walks/:word_chain_walk_id/word_chain_walk_steps/:id' do

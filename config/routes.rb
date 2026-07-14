@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   post "/logout", to: "sessions#destroy"
 
   resources :word_chain_walks, only: %i[index create show] do
+    scope module: :word_chain_walks do
+      resource :completion, only: %i[show update]
+    end
     resources :word_chain_walk_steps, only: %i[new create show]
   end
 end

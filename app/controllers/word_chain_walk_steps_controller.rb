@@ -13,10 +13,15 @@ class WordChainWalkStepsController < ApplicationController
   def create
     @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build(word_chain_walk_step_params)
 
-    if @word_chain_walk_step.save
-      redirect_to @word_chain_walk, notice: "ステップを追加しました"
+    unless @word_chain_walk_step.save
+      return render :new, status: :unprocessable_content
+    end
+
+    if @word_chain_walk_step.word.end_with?("ん")
+      @word_chain_walk.finish
+      redirect_to word_chain_walk_completion_path(@word_chain_walk), notice: "しりとり散歩が完了しました", status: :see_other
     else
-      render :new, status: :unprocessable_entity
+      redirect_to word_chain_walk_path(@word_chain_walk), notice: "ステップを追加しました", status: :see_other
     end
   end
 

@@ -15,11 +15,20 @@ class WordChainWalk < ApplicationRecord
   validates :started_at, presence: true
   validates :finished_at, comparison: { greater_than: :started_at }, allow_nil: true
 
+  # 完了済みの散歩に対してfinished_atを再設定できないようにする
+  validate :finished_at_cannot_change_once_set, on: :update
+
   after_initialize :assign_random_start_char, if: :new_record?
   after_initialize :assign_started_at, if: :new_record?
 
   scope :finished, -> { where.not(finished_at: nil) }
   scope :active, -> { where(finished_at: nil) }
+
+  def finish
+    return false if finished?
+
+    update(finished_at: Time.current)
+  end
 
   def finished?
     finished_at.present?
@@ -57,5 +66,12 @@ class WordChainWalk < ApplicationRecord
     return if started_at.present?
 
     self.started_at = Time.zone.now
+  end
+
+
+  def finished_at_cannot_change_once_set
+    return unless finished_at_changed? && finished_at_was.present?
+
+    errors.add(:finished_at, "は既に設定されています")
   end
 end

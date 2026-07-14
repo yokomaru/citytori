@@ -2,6 +2,13 @@ require 'rails_helper'
 
 RSpec.describe WordChainWalkStep, type: :model do
   let(:word_chain_walk) { FactoryBot.create(:word_chain_walk, start_char: 'り') }
+  let(:finished_word_chain_walk) do
+    FactoryBot.create(
+      :word_chain_walk,
+      start_char: 'り',
+      finished_at: Time.current
+    )
+  end
 
   it 'has a valid factory' do
     word_chain_walk_step =
@@ -87,5 +94,20 @@ RSpec.describe WordChainWalkStep, type: :model do
     word_chain_walk_step = FactoryBot.build(:word_chain_walk_step)
 
     expect(word_chain_walk_step).to be_invalid
+  end
+
+  it '紐づく散歩が完了済みの場合はStepを追加できないこと' do
+    word_chain_walk_step =
+      FactoryBot.build(
+        :word_chain_walk_step,
+        :with_image,
+        word_chain_walk: finished_word_chain_walk,
+        word: 'りんご'
+      )
+
+    expect(word_chain_walk_step).to be_invalid
+    expect(word_chain_walk_step.errors[:base]).to include(
+      '終了済みの散歩にはステップを追加できません'
+    )
   end
 end
