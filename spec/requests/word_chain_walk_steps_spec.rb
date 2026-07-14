@@ -189,4 +189,69 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
       expect(response).to have_http_status(:not_found)
     end
   end
+
+  describe "DELETE /word_chain_walks/:word_chain_walk_id/word_chain_walk_steps/latest" do
+    it "最新Stepを削除できること" do
+      log_in(user)
+
+      FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: "りんご")
+      FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: "ごりら")
+
+      expect do
+        delete latest_word_chain_walk_word_chain_walk_steps_path(word_chain_walk)
+      end.to change(WordChainWalkStep, :count).by(-1)
+    end
+
+    it "最新Stepだけが削除されること" do
+      log_in(user)
+
+      old_step = FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: "りんご")
+      latest_step = FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: "ごりら")
+
+      delete latest_word_chain_walk_word_chain_walk_steps_path(word_chain_walk)
+
+      expect(WordChainWalkStep.exists?(old_step.id)).to be true
+      expect(WordChainWalkStep.exists?(latest_step.id)).to be false
+    end
+
+    it "削除後に散歩詳細画面へリダイレクトされること" do
+      log_in(user)
+
+      FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: "りんご")
+
+      delete latest_word_chain_walk_word_chain_walk_steps_path(word_chain_walk)
+
+      expect(response).to redirect_to(word_chain_walk_path(word_chain_walk))
+    end
+
+    it "Stepがない場合でもエラーにならないこと" do
+      log_in(user)
+
+      expect do
+        delete latest_word_chain_walk_word_chain_walk_steps_path(word_chain_walk)
+      end.not_to change(WordChainWalkStep, :count)
+    end
+
+    it "他人の散歩のStepを削除できないこと" do
+      log_in(user)
+
+      FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: other_word_chain_walk, word: "りんご")
+
+      expect do
+        delete latest_word_chain_walk_word_chain_walk_steps_path(other_word_chain_walk)
+      end.not_to change(WordChainWalkStep, :count)
+    end
+
+    it "完了済みの散歩ではStepを削除できないこと" do
+      log_in(user)
+
+      FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: "りんご")
+
+      word_chain_walk.update!(finished_at: Time.current)
+
+      expect do
+        delete latest_word_chain_walk_word_chain_walk_steps_path(word_chain_walk)
+      end.not_to change(WordChainWalkStep, :count)
+    end
+  end
 end
