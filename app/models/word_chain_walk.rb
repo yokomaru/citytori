@@ -24,10 +24,10 @@ class WordChainWalk < ApplicationRecord
   scope :finished, -> { where.not(finished_at: nil) }
   scope :active, -> { where(finished_at: nil) }
 
-  def finish!
+  def finish
     return false if finished?
 
-    update!(finished_at: Time.current)
+    update(finished_at: Time.current)
   end
 
   def finished?

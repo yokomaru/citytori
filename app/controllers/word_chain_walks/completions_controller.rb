@@ -9,10 +9,10 @@ class WordChainWalks::CompletionsController < ApplicationController
   end
 
   def update
-    @word_chain_walk.finish!
+    finished_now = @word_chain_walk.finish
 
     redirect_to word_chain_walk_completion_path(@word_chain_walk),
-                notice: "しりとり散歩が完了しました",
+                notice: finished_now ? "しりとり散歩が完了しました" : "すでに散歩は完了しています",
                 status: :see_other
   end
 

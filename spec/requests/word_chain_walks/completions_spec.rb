@@ -81,5 +81,20 @@ RSpec.describe 'WordChainWalks::Completions', type: :request do
       patch word_chain_walk_completion_path(finished_word_chain_walk)
       expect(finished_word_chain_walk.reload.finished?).to be true
     end
+
+    it '完了済みの散歩に再度完了リクエストした場合は完了済みメッセージを表示すること' do
+      log_in(user)
+
+      finished_word_chain_walk =
+        FactoryBot.create(
+          :word_chain_walk,
+          user: user,
+          finished_at: 1.day.ago
+        )
+
+      patch word_chain_walk_completion_path(finished_word_chain_walk)
+
+      expect(flash[:notice]).to eq('すでに散歩は完了しています')
+    end
   end
 end
