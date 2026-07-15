@@ -4,6 +4,13 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["latitude", "longitude", "status", "position"];
 
+  connect() {
+    if (this.latitudeTarget.value && this.longitudeTarget.value) {
+      this.showPosition(this.latitudeTarget.value, this.longitudeTarget.value);
+      this.showStatus("位置情報を取得済みです。");
+    }
+  }
+
   fetchPosition() {
     if (!navigator.geolocation) {
       this.showStatus("このブラウザでは位置情報を取得できません。");
