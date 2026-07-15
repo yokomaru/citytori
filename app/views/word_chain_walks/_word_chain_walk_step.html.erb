@@ -15,7 +15,7 @@
     <%= image_tag word_chain_walk_step.image.variant(resize_to_limit: [200, 200]) %>
   <% end %>
 
-  <% if !word_chain_walk.finished? && word_chain_walk_step == word_chain_walk.latest_step %>
+  <% if !word_chain_walk.finished? && word_chain_walk_step.id == latest_step_id %>
     <%= button_to "最新Stepを削除する",
                   latest_word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
                   method: :delete,
