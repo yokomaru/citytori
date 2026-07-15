@@ -47,6 +47,6 @@ class WordChainWalkStepsController < ApplicationController
   end
 
   def word_chain_walk_step_params
-    params.require(:word_chain_walk_step).permit(:word, :memo, :image)
+    params.require(:word_chain_walk_step).permit(:word, :memo, :image, :latitude, :longitude)
   end
 end
