@@ -10,6 +10,10 @@ class WordChainWalkStep < ApplicationRecord
   validate :image_attached
   validate :must_connect_previous_char
   validate :word_chain_walk_must_not_be_finished
+  validates :latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90, allow_nil: true }
+  validates :longitude, numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180, allow_nil: true }
+
+  validate :latitude_and_longitude_must_be_both_present_or_blank
 
   private
 
@@ -31,5 +35,12 @@ class WordChainWalkStep < ApplicationRecord
     return unless word_chain_walk.finished?
 
     errors.add(:base, "終了済みの散歩にはステップを追加できません")
+  end
+
+  def latitude_and_longitude_must_be_both_present_or_blank
+    return if latitude.blank? && longitude.blank?
+    return if latitude.present? && longitude.present?
+
+    errors.add(:base, "緯度と経度は両方入力してください")
   end
 end
