@@ -41,6 +41,16 @@
     </div>
   </div>
 
+  <% if @word_chain_walk_step.latitude.present? && @word_chain_walk_step.longitude.present? %>
+    <div
+      data-controller="step-map"
+      data-step-map-latitude-value="<%= @word_chain_walk_step.latitude %>"
+      data-step-map-longitude-value="<%= @word_chain_walk_step.longitude %>"
+      data-step-map-word-value="<%= @word_chain_walk_step.word %>"
+      class="h-64 w-full my-5"
+    ></div>
+  <% end %>
+
   <%= link_to "散歩詳細へ戻る",
               word_chain_walk_path(@word_chain_walk),
               class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
