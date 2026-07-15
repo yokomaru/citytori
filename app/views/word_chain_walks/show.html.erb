@@ -2,13 +2,25 @@
 
 <div class="md:w-2/3 w-full">
   <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice">
+    <p
+      class="
+        py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md
+        inline-block
+      "
+      id="notice"
+    >
       <%= notice %>
     </p>
   <% end %>
 
   <% if alert.present? %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-md inline-block" id="alert">
+    <p
+      class="
+        py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-md
+        inline-block
+      "
+      id="alert"
+    >
       <%= alert %>
     </p>
   <% end %>
@@ -19,23 +31,19 @@
 
   <div class="space-y-2 mb-6">
     <p>
-      開始文字:
-      <%= @word_chain_walk.start_char %>
+      開始文字: <%= @word_chain_walk.start_char %>
     </p>
 
     <p>
-      現在探す文字:
-      <%= @word_chain_walk.target_char %>
+      現在探す文字: <%= @word_chain_walk.target_char %>
     </p>
 
     <p>
-      開始日時:
-      <%= @word_chain_walk.started_at.strftime("%Y/%m/%d %H:%M") %>
+      開始日時: <%= @word_chain_walk.started_at.strftime("%Y/%m/%d %H:%M") %>
     </p>
 
     <p>
-      状態:
-      <%= @word_chain_walk.finished? ? "完了済み" : "進行中" %>
+      状態: <%= @word_chain_walk.finished? ? "完了済み" : "進行中" %>
     </p>
   </div>
 
@@ -62,6 +70,7 @@
         class="min-w-full divide-y divide-gray-200 space-y-5"
       >
         <% latest_step_id = @word_chain_walk.latest_step.id %>
+
         <% @word_chain_walk_steps.each do |word_chain_walk_step| %>
           <%= render "word_chain_walk_step",
                      word_chain_walk: @word_chain_walk,
@@ -82,6 +91,19 @@
                     class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer",
                     data: { turbo_confirm: "散歩を完了しますか？" } %>
     </div>
+  <% else %>
+    <% if @locations.present? %>
+      <div
+        id="walk-map-container"
+        data-controller="walk-map"
+        data-walk-map-positions-value="<%= @locations.to_json %>"
+      >
+        <div
+          data-walk-map-target="placeholder"
+          style="height: 500px; width: 100%;"
+        ></div>
+      </div>
+    <% end %>
   <% end %>
 
   <div class="mt-6">

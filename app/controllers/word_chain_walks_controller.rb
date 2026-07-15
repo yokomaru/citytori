@@ -9,6 +9,7 @@ class WordChainWalksController < ApplicationController
   def show
     @word_chain_walk = current_user.word_chain_walks.find(params[:id])
     @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.order(id: :desc)
+    @locations = @word_chain_walk.word_chain_walk_steps.where.not(latitude: nil, longitude: nil).order(id: :desc).pluck(:latitude, :longitude)
   end
 
   def create
