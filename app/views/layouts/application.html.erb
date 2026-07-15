@@ -23,11 +23,13 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css", integrity: "sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==", crossorigin: "" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
     <%= render "layouts/header" %>
+
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>
