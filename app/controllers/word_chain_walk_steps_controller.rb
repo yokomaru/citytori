@@ -25,6 +25,21 @@ class WordChainWalkStepsController < ApplicationController
     end
   end
 
+  def destroy_latest
+    if @word_chain_walk.finished?
+      redirect_to word_chain_walk_path(@word_chain_walk),
+                  alert: "完了済みの散歩ではStepを削除できません",
+                  status: :see_other
+      return
+    end
+
+    @word_chain_walk.latest_step&.destroy!
+
+    redirect_to word_chain_walk_path(@word_chain_walk),
+                notice: "最新Stepを削除しました",
+                status: :see_other
+  end
+
   private
 
   def set_word_chain_walk

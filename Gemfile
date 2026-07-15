@@ -59,6 +59,8 @@ group :development, :test do
   gem "rubocop-capybara", require: false
 
   gem "herb", require: false
+
+  gem "bullet"
 end
 
 group :development do

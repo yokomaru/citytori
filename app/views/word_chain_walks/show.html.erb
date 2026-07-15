@@ -61,10 +61,12 @@
         id="word_chain_walk_steps"
         class="min-w-full divide-y divide-gray-200 space-y-5"
       >
+        <% latest_step_id = @word_chain_walk.latest_step.id %>
         <% @word_chain_walk_steps.each do |word_chain_walk_step| %>
           <%= render "word_chain_walk_step",
                      word_chain_walk: @word_chain_walk,
-                     word_chain_walk_step: word_chain_walk_step %>
+                     word_chain_walk_step: word_chain_walk_step,
+                     latest_step_id: latest_step_id %>
         <% end %>
       </div>
     <% else %>
