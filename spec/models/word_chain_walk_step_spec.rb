@@ -229,4 +229,54 @@ RSpec.describe WordChainWalkStep, type: :model do
   ensure
     file&.close!
   end
+
+  it "PNGファイルは有効であること" do
+    step = FactoryBot.build(
+        :word_chain_walk_step,
+        word_chain_walk: word_chain_walk,
+        word: "りんご"
+      )
+
+    step.image = fixture_file_upload("spec/fixtures/files/test_png.png")
+
+    expect(step).to be_valid
+  end
+
+  it "JPEGファイルは有効であること" do
+    step = FactoryBot.build(
+        :word_chain_walk_step,
+        word_chain_walk: word_chain_walk,
+        word: "りんご"
+      )
+
+    step.image = fixture_file_upload("spec/fixtures/files/test_jpeg.jpeg")
+
+    expect(step).to be_valid
+  end
+
+  it "JPGファイルは有効であること" do
+    step = FactoryBot.build(
+        :word_chain_walk_step,
+        word_chain_walk: word_chain_walk,
+        word: "りんご"
+      )
+
+    step.image = fixture_file_upload("spec/fixtures/files/test_jpg.jpg")
+
+    expect(step).to be_valid
+  end
+
+  it "PNG、JPEG以外のファイルは無効であること" do
+    step =
+      FactoryBot.build(
+        :word_chain_walk_step,
+        word_chain_walk: word_chain_walk,
+        word: "りんご"
+      )
+
+    step.image = fixture_file_upload("spec/fixtures/files/test_pdf.pdf")
+
+    expect(step).to be_invalid
+    expect(step.errors[:image]).to include("はすべてPNGまたはJPEG形式の画像にしてください")
+  end
 end
