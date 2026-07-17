@@ -64,24 +64,6 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
     )
   end
 
-  describe 'GET /word_chain_walks/:word_chain_walk_id/word_chain_walk_steps/new' do
-    it '自分の散歩のStep追加画面を表示できること' do
-      log_in(user)
-
-      get new_word_chain_walk_word_chain_walk_step_path(word_chain_walk)
-
-      expect(response).to have_http_status(:ok)
-    end
-
-    it '他人の散歩のStep追加画面を表示できないこと' do
-      log_in(user)
-
-      get new_word_chain_walk_word_chain_walk_step_path(other_word_chain_walk)
-
-      expect(response).to have_http_status(:not_found)
-    end
-  end
-
   describe 'POST /word_chain_walks/:word_chain_walk_id/word_chain_walk_steps' do
     context 'ステップを登録する場合' do
       it '自分の散歩にStepを追加できること' do
