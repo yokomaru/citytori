@@ -195,21 +195,10 @@ RSpec.describe WordChainWalkStep, type: :model do
     expect(word_chain_walk_step).to be_invalid
   end
 
-  it '10MB以下の画像は有効である' do
-    word_chain_walk = FactoryBot.create(:word_chain_walk, start_char: 'り')
+  it '10MBの画像は有効である' do
+    step = FactoryBot.build(:word_chain_walk_step)
 
-    step =
-      FactoryBot.build(
-        :word_chain_walk_step,
-        word_chain_walk: word_chain_walk,
-        word: 'りんご'
-      )
-
-    step.image.attach(
-      io: File.open(Rails.root.join('spec/fixtures/files/480x320.png')),
-      filename: '480x320.png',
-      content_type: 'image/png'
-    )
+    step.image = fixture_file_upload("spec/fixtures/files/10MB.png")
 
     expect(step).to be_valid
   end

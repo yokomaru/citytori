@@ -236,37 +236,4 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
       end.not_to change(WordChainWalkStep, :count)
     end
   end
-
-  describe 'image size validation' do
-    it '10MB以下の画像は有効である' do
-      step = FactoryBot.build(:word_chain_walk_step)
-
-      step.image.attach(
-        io: File.open(Rails.root.join('spec/fixtures/files/480x320.png')),
-        filename: '480x320.png',
-        content_type: 'image/png'
-      )
-
-      expect(step).to be_valid
-    end
-
-    it '10MBを超える画像は無効であること' do
-      file = Tempfile.new([ 'large_image', '.png' ])
-      file.truncate(10.megabytes + 1)
-      file.rewind
-
-      step = FactoryBot.build(:word_chain_walk_step)
-
-      step.image.attach(
-        io: file,
-        filename: 'large_image.png',
-        content_type: 'image/png'
-      )
-
-      expect(step).to be_invalid
-      expect(step.errors[:image]).to include('は10MB以下にしてください')
-    ensure
-      file&.close!
-    end
-  end
 end
