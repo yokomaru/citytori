@@ -17,19 +17,28 @@
     <p data-geolocation-target="position" class="text-sm text-gray-600"></p>
   </div>
 
-  <div class="my-5">
-    <%= form.label :image, "写真" %>
+  <div data-controller="previews">
+    <div class="my-5">
+      <%= form.label :image, "写真" %>
 
-    <%= form.file_field :image,
-                        accept: "image/jpeg,image/jpg,image/png",
-                        capture: "environment",
-                        class: [
-                          "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
-                          {
-                            "border-gray-400 focus:outline-blue-600": word_chain_walk_step.errors[:image].none?,
-                            "border-red-400 focus:outline-red-600": word_chain_walk_step.errors[:image].any?
-                          }
-                        ] %>
+      <%= form.file_field :image,
+                          accept: "image/jpeg,image/jpg,image/png",
+                          capture: "environment",
+                          class: [
+                            "block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
+                            {
+                              "border-gray-400 focus:outline-blue-600": word_chain_walk_step.errors[:image].none?,
+                              "border-red-400 focus:outline-red-600": word_chain_walk_step.errors[:image].any?
+                            }],
+                          data: {
+                            previews_target: "input",
+                            action: "change->previews#preview"
+                          } %>
+    </div>
+
+    <div data-previews-target="preview" class="mt-4 hidden">
+      <img data-previews-target="image">
+    </div>
   </div>
 
   <div class="my-5">

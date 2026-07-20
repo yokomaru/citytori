@@ -1,13 +1,16 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  // デバッグ用のログ出力
-  connect() {
-    console.log("Preview controller connected")
-  }
+  static targets = ["input", "preview", "image"];
 
-  // デバッグ用
-  disconnect() {
-    console.log("Preview controller disconnected")
+  preview(e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      this.imageTarget.src = event.target.result;
+      this.previewTarget.classList.remove("hidden");
+    };
+    reader.readAsDataURL(file);
   }
 }
