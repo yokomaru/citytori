@@ -5,6 +5,13 @@ export default class extends Controller {
 
   preview(e) {
     const file = e.target.files[0];
+
+    if (!file) {
+      this.imageTarget.src = "";
+      this.previewTarget.classList.add("hidden");
+      return;
+    }
+
     const reader = new FileReader();
 
     reader.onload = (event) => {
