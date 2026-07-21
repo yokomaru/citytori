@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Preview', type: :system do
+RSpec.describe 'Images', type: :system do
   before do
     driven_by(:selenium_chrome_headless)
   end
