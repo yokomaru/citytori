@@ -13,6 +13,17 @@ export default class extends Controller {
     const file = e.target.files[0];
 
     if (!file) {
+      this.inputTarget.value = "";
+      this.imageTarget.src = "";
+      this.previewTarget.classList.add("hidden");
+      return;
+    }
+
+    const maxSizeOfBytes = 10 * 1024 * 1024; // 画像の最大サイズは10MB
+
+    if (file.size > maxSizeOfBytes) {
+      alert("画像のサイズは10MB以下にしてください");
+      this.inputTarget.value = "";
       this.imageTarget.src = "";
       this.previewTarget.classList.add("hidden");
       return;

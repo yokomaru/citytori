@@ -5,6 +5,9 @@ RSpec.describe 'Images', type: :system do
     driven_by(:selenium_chrome_headless)
   end
 
+  let(:user) { FactoryBot.create(:user) }
+  let(:word_chain_walk) { FactoryBot.create(:word_chain_walk, user: user, start_char: 'り') }
+
   def log_in(user)
     OmniAuth.config.test_mode = true
     OmniAuth.config.mock_auth[:google_oauth2] =
@@ -21,9 +24,6 @@ RSpec.describe 'Images', type: :system do
   end
 
   scenario '画像を選択するとプレビューが表示されること' do
-    user = FactoryBot.create(:user)
-    word_chain_walk = FactoryBot.create(:word_chain_walk, user: user, start_char: 'り')
-
     log_in(user)
     visit new_word_chain_walk_word_chain_walk_step_path(word_chain_walk)
 
@@ -44,5 +44,31 @@ RSpec.describe 'Images', type: :system do
     expect(
       find('[data-previews-target="image"]')[:src]
     ).to start_with('blob:')
+  end
+
+  scenario '10MBを超える画像を選択するとプレビューが表示されないこと' do
+    log_in(user)
+    visit new_word_chain_walk_word_chain_walk_step_path(word_chain_walk)
+
+    expect(page).to have_css(
+      '[data-previews-target="preview"].hidden',
+      visible: :all
+    )
+
+    accept_alert('画像のサイズは10MB以下にしてください') do
+      attach_file(
+        '写真',
+        Rails.root.join('spec/fixtures/files/11MB.png')
+      )
+    end
+
+    expect(page).to have_css(
+      '[data-previews-target="preview"].hidden',
+      visible: :all
+    )
+
+    expect(
+      find('[data-previews-target="image"]', visible: :all).value
+    ).to be_blank
   end
 end
