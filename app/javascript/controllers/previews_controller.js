@@ -18,9 +18,7 @@ export default class extends Controller {
     const file = e.target.files[0];
 
     if (!file) {
-      this.inputTarget.value = "";
-      this.imageTarget.src = "";
-      this.previewTarget.classList.add("hidden");
+      this.removeImage()
       return;
     }
 
@@ -28,14 +26,18 @@ export default class extends Controller {
 
     if (file.size > maxSizeOfBytes) {
       alert("画像のサイズは10MB以下にしてください");
-      this.inputTarget.value = "";
-      this.imageTarget.src = "";
-      this.previewTarget.classList.add("hidden");
+      this.removeImage()
       return;
     }
 
     this.objectUrl = URL.createObjectURL(file);
     this.imageTarget.src = this.objectUrl;
     this.previewTarget.classList.remove("hidden");
+  }
+
+  removeImage(){
+    this.inputTarget.value = "";
+    this.imageTarget.src = "";
+    this.previewTarget.classList.add("hidden");
   }
 }
