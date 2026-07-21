@@ -194,4 +194,20 @@ RSpec.describe WordChainWalkStep, type: :model do
 
     expect(word_chain_walk_step).to be_invalid
   end
+
+  it '10MBの画像は有効である' do
+    step = FactoryBot.build(:word_chain_walk_step)
+
+    step.image = fixture_file_upload("spec/fixtures/files/10MB.png")
+
+    expect(step).to be_valid
+  end
+
+  it '10MB以上のサイズの画像は無効である' do
+    step = FactoryBot.build(:word_chain_walk_step)
+
+    step.image = fixture_file_upload("spec/fixtures/files/11MB.png")
+
+    expect(step).to be_invalid
+  end
 end
