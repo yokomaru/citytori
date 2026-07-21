@@ -22,6 +22,7 @@ class WordChainWalkStep < ApplicationRecord
   end
 
   def image_size
+    return unless image.attached?
     errors.add(:image, "は10MB以下にしてください") if image.blob.byte_size > 10.megabytes
   end
 
