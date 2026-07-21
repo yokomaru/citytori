@@ -3,6 +3,12 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["input", "preview", "image"];
 
+  disconnect() {
+    if (this.objectUrl) {
+      URL.revokeObjectURL(this.objectUrl);
+    }
+  }
+
   preview(e) {
     const file = e.target.files[0];
 
@@ -12,12 +18,12 @@ export default class extends Controller {
       return;
     }
 
-    const reader = new FileReader();
+    if (this.objectUrl) {
+      URL.revokeObjectURL(this.objectUrl);
+    }
 
-    reader.onload = (event) => {
-      this.imageTarget.src = event.target.result;
-      this.previewTarget.classList.remove("hidden");
-    };
-    reader.readAsDataURL(file);
+    this.objectUrl = URL.createObjectURL(file);
+    this.imageTarget.src = this.objectUrl;
+    this.previewTarget.classList.remove("hidden");
   }
 }

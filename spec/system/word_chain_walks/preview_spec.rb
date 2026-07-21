@@ -43,6 +43,6 @@ RSpec.describe 'Preview', type: :system do
 
     expect(
       find('[data-previews-target="image"]')[:src]
-    ).to start_with('data:image/png;base64,')
+    ).to start_with('blob:')
   end
 end
