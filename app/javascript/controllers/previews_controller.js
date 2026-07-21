@@ -10,6 +10,11 @@ export default class extends Controller {
   }
 
   preview(e) {
+    if (this.objectUrl) {
+      URL.revokeObjectURL(this.objectUrl);
+      this.objectUrl = null;
+    }
+
     const file = e.target.files[0];
 
     if (!file) {
@@ -27,10 +32,6 @@ export default class extends Controller {
       this.imageTarget.src = "";
       this.previewTarget.classList.add("hidden");
       return;
-    }
-
-    if (this.objectUrl) {
-      URL.revokeObjectURL(this.objectUrl);
     }
 
     this.objectUrl = URL.createObjectURL(file);
