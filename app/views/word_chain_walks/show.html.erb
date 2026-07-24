@@ -58,31 +58,18 @@
                     new_word_chain_walk_word_chain_walk_step_path(@word_chain_walk),
                     class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium" %>
       </div>
+      <div data-controller="modal">
+        <button type="button" data-action="modal#open" class="rounded bg-blue-600 px-4 py-2 text-white" >
+          Open Modal
+        </button>
+
+        <%= render "modal" %>
+      </div>
     </div>
   <% end %>
 
   <div>
     <h2 class="font-bold text-2xl mb-4">Step一覧</h2>
-
-  <div data-controller="modal">
-    <button type="button" data-action="modal#open" class="rounded bg-blue-600 px-4 py-2 text-white" >
-      Open Modal
-    </button>
-
-    <dialog data-modal-target="modal" class=" fixed inset-0 size-auto max-h-none max-w-none bg-transparent p-0 backdrop:bg-black/70">
-      <div class="flex min-h-full items-center justify-center p-4">
-        <div class="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
-          <p>
-            Content of the modal
-          </p>
-
-          <button type="button" data-action="modal#close" class="mt-4 rounded border px-4 py-2">
-            Close modal
-          </button>
-        </div>
-      </div>
-    </dialog>
-  </div>
 
     <% if @word_chain_walk_steps.any? %>
       <div
