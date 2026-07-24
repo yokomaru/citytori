@@ -49,9 +49,7 @@
 
   <% unless @word_chain_walk.finished? %>
     <div class="mb-6">
-      <p>
-        <%= @word_chain_walk.target_char %> に続く言葉を街の中から見つけましょう
-      </p>
+      <%= render "word_chain_walks/target", word_chain_walk: @word_chain_walk %>
 
       <div class="mt-4">
         <%= link_to "写真を撮る",

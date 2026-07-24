@@ -7,3 +7,7 @@
     latest_step_id: latest_step_id %>
   <% end %>
 <% end %>
+<%= turbo_stream.replace "word_chain_walk_target" do %>
+  <%= render "word_chain_walks/target",
+    word_chain_walk: @word_chain_walk %>
+<% end %>
