@@ -68,7 +68,11 @@ RSpec.describe 'Images', type: :system do
     )
 
     expect(
-      find('[data-previews-target="image"]', visible: :all).value
+      find('[data-previews-target="input"]', visible: :all).value
+    ).to be_blank
+
+    expect(
+      find('[data-previews-target="image"]', visible: :all)[:src]
     ).to be_blank
   end
 end
