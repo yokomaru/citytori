@@ -1,29 +1,10 @@
 <% content_for :title, "散歩中の画面" %>
 
 <div class="md:w-2/3 w-full">
-  <% if notice.present? %>
-    <p
-      class="
-        py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md
-        inline-block
-      "
-      id="notice"
-    >
-      <%= notice %>
-    </p>
-  <% end %>
+  <div id="flash_messages">
+    <%= render "shared/flash_messages" %>
+  </div>
 
-  <% if alert.present? %>
-    <p
-      class="
-        py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-md
-        inline-block
-      "
-      id="alert"
-    >
-      <%= alert %>
-    </p>
-  <% end %>
 
   <%= render 'shared/error_messages', object: @word_chain_walk_step %>
 
