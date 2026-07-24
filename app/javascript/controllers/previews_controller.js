@@ -30,6 +30,14 @@ export default class extends Controller {
       return;
     }
 
+    const allowedMimeType = ["image/jpeg", "image/png"];
+
+    if (!allowedMimeType.includes(file.type)) {
+      alert("PNGまたはJPEG形式のファイルを選択してください");
+      this.removeImage()
+      return;
+    }
+
     this.objectUrl = URL.createObjectURL(file);
     this.imageTarget.src = this.objectUrl;
     this.previewTarget.classList.remove("hidden");

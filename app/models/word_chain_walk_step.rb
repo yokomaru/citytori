@@ -11,6 +11,7 @@ class WordChainWalkStep < ApplicationRecord
 
   validate :image_attached
   validate :image_size
+  validate :image_content_type
   validate :must_connect_previous_char
   validate :word_chain_walk_must_not_be_finished
   validate :latitude_and_longitude_must_be_both_present_or_blank
@@ -24,6 +25,16 @@ class WordChainWalkStep < ApplicationRecord
   def image_size
     return unless image.attached?
     errors.add(:image, "は10MB以下にしてください") if image.blob.byte_size > 10.megabytes
+  end
+
+  def image_content_type
+    return unless image.attached?
+
+    allowed_types = [ "image/png", "image/jpeg" ]
+
+    unless allowed_types.include?(image.blob.content_type)
+      errors.add(:image, "はPNGまたはJPEG形式の画像にしてください")
+    end
   end
 
   def must_connect_previous_char
