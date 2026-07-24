@@ -1,13 +1,13 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["dialog"];
+  static targets = ["modal"];
 
   open() {
-    this.dialogTarget.showModal();
+    this.modalTarget.showModal();
   }
 
   close() {
-    this.dialogTarget.close();
+    this.modalTarget.close();
   }
 }

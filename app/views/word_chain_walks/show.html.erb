@@ -64,15 +64,15 @@
   <div>
     <h2 class="font-bold text-2xl mb-4">Step一覧</h2>
 
-    <div data-controller='dialog'>
-      <button data-action='dialog#open'>Open dialog</button>
+    <div data-controller='modal'>
+      <button data-action='modal#open'>Open modal</button>
 
-      <dialog data-dialog-target='dialog'>
+      <dialog data-modal-target='modal'>
         <p>
-          Content of the dialog
+          Content of the modal
         </p>
 
-        <button data-action='dialog#close'>Close dialog</button>
+        <button data-action='modal#close'>Close modal</button>
       </dialog>
     </div>
 
