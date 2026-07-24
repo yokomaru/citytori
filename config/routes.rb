@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     scope module: :word_chain_walks do
       resource :completion, only: %i[show update]
     end
-    resources :word_chain_walk_steps, only: %i[new create show] do
+    resources :word_chain_walk_steps, only: %i[create show] do
       delete "latest", on: :collection, action: :destroy_latest
     end
   end

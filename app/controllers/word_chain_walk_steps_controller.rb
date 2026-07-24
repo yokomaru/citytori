@@ -2,10 +2,6 @@ class WordChainWalkStepsController < ApplicationController
   before_action :authenticate
   before_action :set_word_chain_walk
 
-  def new
-    @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build
-  end
-
   def show
     @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.find(params[:id])
   end

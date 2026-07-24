@@ -33,14 +33,10 @@
       <%= render "word_chain_walks/target", word_chain_walk: @word_chain_walk %>
 
       <div class="mt-4">
-        <%= link_to "写真を撮る",
-                    new_word_chain_walk_word_chain_walk_step_path(@word_chain_walk),
-                    class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium" %>
-      </div>
-      <div data-controller="modal">
-        <button type="button" data-action="modal#open" class="rounded bg-blue-600 px-4 py-2 text-white" >
-          Open Modal
-        </button>
+        <div data-controller="modal">
+          <button type="button" data-action="modal#open" class="rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium" >
+            写真を撮る
+          </button>
 
         <%= render "word_chain_walks/modal", word_chain_walk: @word_chain_walk, word_chain_walk_step: @word_chain_walk_step %>
       </div>
