@@ -21,7 +21,12 @@ class WordChainWalkStepsController < ApplicationController
       @word_chain_walk.finish
       redirect_to word_chain_walk_completion_path(@word_chain_walk), notice: "しりとり散歩が完了しました", status: :see_other
     else
-      redirect_to word_chain_walk_path(@word_chain_walk), notice: "ステップを追加しました", status: :see_other
+      respond_to do |format|
+        format.turbo_stream
+        format.html do
+          redirect_to word_chain_walk_path(@word_chain_walk), notice: "言葉を登録しました", status: :see_other
+        end
+      end
     end
   end
 
