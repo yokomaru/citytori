@@ -36,13 +36,19 @@ RSpec.describe 'WordChainWalks', type: :system do
     visit '/auth/google_oauth2/callback'
   end
 
-  def attach_step_image
-    attach_file '写真', Rails.root.join('spec/fixtures/files/480x320.png')
-  end
+  scenario '画像を選択してStepを登録できる' do
+    log_in(user)
 
-  def fill_in_step_form(word:, memo: '見つけた言葉のメモ')
-    fill_in '見つけた言葉', with: word
-    fill_in 'メモ', with: memo
-    attach_step_image
+    visit word_chain_walk_path(word_chain_walk)
+    click_button '写真を撮る'
+
+    fill_in '見つけた言葉', with: 'りんご'
+    fill_in 'メモ', with: 'メモ'
+    attach_file '写真', Rails.root.join('spec/fixtures/files/480x320.png')
+
+    expect do
+      click_button '登録する'
+      expect(page).to have_content('りんご')
+    end.to change(WordChainWalkStep, :count).by(1)
   end
 end
