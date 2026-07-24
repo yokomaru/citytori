@@ -75,4 +75,37 @@ RSpec.describe 'Images', type: :system do
       find('[data-previews-target="image"]', visible: :all)[:src]
     ).to be_blank
   end
+
+  scenario 'PNG、JPEG以外のファイルを選択するとプレビューが表示されないこと' do
+    user = FactoryBot.create(:user)
+    word_chain_walk = FactoryBot.create(:word_chain_walk, user: user, start_char: 'り')
+
+    log_in(user)
+    visit new_word_chain_walk_word_chain_walk_step_path(word_chain_walk)
+
+    expect(page).to have_css(
+      '[data-previews-target="preview"].hidden',
+      visible: :all
+    )
+
+    accept_alert('PNGまたはJPEG形式のファイルを選択してください') do
+      attach_file(
+        '写真',
+        Rails.root.join('spec/fixtures/files/test_pdf.pdf')
+      )
+    end
+
+    expect(page).to have_css(
+      '[data-previews-target="preview"].hidden',
+      visible: :all
+    )
+
+    expect(
+      find('[data-previews-target="input"]', visible: :all).value
+    ).to be_blank
+
+    expect(
+      find('[data-previews-target="image"]', visible: :all)[:src]
+    ).to be_blank
+  end
 end
