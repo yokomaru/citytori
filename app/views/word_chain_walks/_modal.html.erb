@@ -3,6 +3,11 @@
   <div class="flex min-h-full items-center justify-center p-4">
     <div class="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
       <p>
+        <div id="word_chain_walk_step_errors" data-step-form-target="errors">
+          <%= render "shared/error_messages", object: word_chain_walk_step %>
+        </div>
+      </p>
+      <p>
         <%= render "word_chain_walk_steps/form", word_chain_walk: word_chain_walk, word_chain_walk_step: word_chain_walk_step %>
 
         <button type="button" data-action="modal#close" class="mt-4 rounded border px-4 py-2">

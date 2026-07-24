@@ -14,7 +14,18 @@ class WordChainWalkStepsController < ApplicationController
     @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build(word_chain_walk_step_params)
 
     unless @word_chain_walk_step.save
-      return render :new, status: :unprocessable_content
+     respond_to do |format|
+        format.turbo_stream do
+          render :create_error, status: :unprocessable_entity
+        end
+        format.html do
+          @word_chain_walk_steps =@word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
+          @locations = @word_chain_walk.word_chain_walk_steps.where.not(latitude: nil, longitude: nil).order(id: :desc).pluck(:latitude, :longitude)
+          render "word_chain_walks/show", status: :unprocessable_entity
+        end
+      end
+
+      return
     end
 
     if @word_chain_walk_step.word.end_with?("ん")
