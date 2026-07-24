@@ -64,6 +64,18 @@
   <div>
     <h2 class="font-bold text-2xl mb-4">Step一覧</h2>
 
+    <div data-controller='dialog'>
+      <button data-action='dialog#open'>Open dialog</button>
+
+      <dialog data-dialog-target='dialog'>
+        <p>
+          Content of the dialog
+        </p>
+
+        <button data-action='dialog#close'>Close dialog</button>
+      </dialog>
+    </div>
+
     <% if @word_chain_walk_steps.any? %>
       <div
         id="word_chain_walk_steps"
