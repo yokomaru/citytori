@@ -65,4 +65,22 @@ RSpec.describe 'WordChainWalks', type: :system do
       'dialog[data-modal-target="modal"][open]'
     )
   end
+
+  scenario '登録失敗時、エラーの表示がモーダル内で確認できること' do
+    log_in(user)
+
+    visit word_chain_walk_path(word_chain_walk)
+    click_button '写真を撮る'
+
+    attach_file(
+      '写真',
+      Rails.root.join('spec/fixtures/files/480x320.png')
+    )
+
+    click_button '登録する'
+
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(page).to have_content("Word can't be blank")
+    end
+  end
 end
