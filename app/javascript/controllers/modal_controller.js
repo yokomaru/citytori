@@ -10,4 +10,10 @@ export default class extends Controller {
   close() {
     this.modalTarget.close();
   }
+
+  closeIfSubmitSuccess(event) {
+    if (!event.detail.success) return;
+
+    this.modalTarget.close();
+  }
 }
