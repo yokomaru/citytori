@@ -10,20 +10,34 @@ export default class extends Controller {
   }
 
   preview(e) {
+    if (this.objectUrl) {
+      URL.revokeObjectURL(this.objectUrl);
+      this.objectUrl = null;
+    }
+
     const file = e.target.files[0];
 
     if (!file) {
-      this.imageTarget.src = "";
-      this.previewTarget.classList.add("hidden");
+      this.removeImage()
       return;
     }
 
-    if (this.objectUrl) {
-      URL.revokeObjectURL(this.objectUrl);
+    const maxSizeOfBytes = 10 * 1024 * 1024; // 画像の最大サイズは10MB
+
+    if (file.size > maxSizeOfBytes) {
+      alert("画像のサイズは10MB以下にしてください");
+      this.removeImage()
+      return;
     }
 
     this.objectUrl = URL.createObjectURL(file);
     this.imageTarget.src = this.objectUrl;
     this.previewTarget.classList.remove("hidden");
+  }
+
+  removeImage(){
+    this.inputTarget.value = "";
+    this.imageTarget.src = "";
+    this.previewTarget.classList.add("hidden");
   }
 }

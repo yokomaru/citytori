@@ -6,19 +6,24 @@ class WordChainWalkStep < ApplicationRecord
   validates :word, presence: true
   validates :word, length: { maximum: 100 }
   validates :word, format: { with: /\A[ぁ-んー]*\z/ }
-
-  validate :image_attached
-  validate :must_connect_previous_char
-  validate :word_chain_walk_must_not_be_finished
   validates :latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90, allow_nil: true }
   validates :longitude, numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180, allow_nil: true }
 
+  validate :image_attached
+  validate :image_size
+  validate :must_connect_previous_char
+  validate :word_chain_walk_must_not_be_finished
   validate :latitude_and_longitude_must_be_both_present_or_blank
 
   private
 
   def image_attached
     errors.add(:image, "を添付してください") unless image.attached?
+  end
+
+  def image_size
+    return unless image.attached?
+    errors.add(:image, "は10MB以下にしてください") if image.blob.byte_size > 10.megabytes
   end
 
   def must_connect_previous_char
