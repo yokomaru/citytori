@@ -18,12 +18,12 @@ require "simplecov"
 SimpleCov.start "rails" do
   enable_coverage :branch
 
-  track_files "{app,lib}/**/*.rb"
+  cover "{app,lib}/**/*.rb"
 
-  add_filter "/spec/"
-  add_filter "/config/"
-  add_filter "/db/"
-  add_filter "/vendor/"
+  skip "/spec/"
+  skip "/config/"
+  skip "/db/"
+  skip "/vendor/"
 
   minimum_coverage 80
 end
