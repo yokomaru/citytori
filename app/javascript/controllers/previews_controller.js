@@ -18,7 +18,7 @@ export default class extends Controller {
     const file = e.target.files[0];
 
     if (!file) {
-      this.removeImage()
+      this.removeImage();
       return;
     }
 
@@ -26,7 +26,7 @@ export default class extends Controller {
 
     if (file.size > maxSizeOfBytes) {
       alert("画像のサイズは10MB以下にしてください");
-      this.removeImage()
+      this.removeImage();
       return;
     }
 
@@ -34,7 +34,7 @@ export default class extends Controller {
 
     if (!allowedMimeType.includes(file.type)) {
       alert("PNGまたはJPEG形式のファイルを選択してください");
-      this.removeImage()
+      this.removeImage();
       return;
     }
 
@@ -43,7 +43,7 @@ export default class extends Controller {
     this.previewTarget.classList.remove("hidden");
   }
 
-  removeImage(){
+  removeImage() {
     this.inputTarget.value = "";
     this.imageTarget.src = "";
     this.previewTarget.classList.add("hidden");

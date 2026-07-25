@@ -83,4 +83,48 @@ RSpec.describe 'WordChainWalks', type: :system do
       expect(page).to have_content("Word can't be blank")
     end
   end
+
+  scenario 'モーダルを閉じて再度開くと入力内容とエラー表示がリセットされる' do
+    log_in(user)
+    visit word_chain_walk_path(word_chain_walk)
+
+    click_button '写真を撮る'
+
+    attach_file('写真', Rails.root.join('spec/fixtures/files/480x320.png'))
+
+    fill_in 'メモ', with: '入力途中のメモ'
+
+    expect(page).to have_css('[data-previews-target="preview"]:not(.hidden)')
+
+    expect(
+      find('[data-previews-target="image"]')[:src]
+    ).to start_with('blob:')
+
+    click_button '登録する'
+
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(page).to have_content("Word can't be blank")
+    end
+
+    click_button 'キャンセル'
+    click_button '写真を撮る'
+
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(page).to have_no_css('#error_explanation')
+      expect(find_field('メモ').value).to be_blank
+
+      expect(
+        find('[data-previews-target="input"]', visible: :all).value
+      ).to be_blank
+
+      expect(page).to have_css(
+        '[data-previews-target="preview"].hidden',
+        visible: :all
+      )
+
+      expect(
+        find('[data-previews-target="image"]', visible: :all)[:src]
+      ).to be_blank
+    end
+  end
 end
