@@ -17,9 +17,6 @@ export default class extends Controller {
   closeIfSubmitSuccess(event) {
     if (!event.detail.success) return;
 
-    if (this.hasErrorsTarget) this.errorsTarget.innerHTML = "";
-    this.formTarget.reset();
-    this.modalTarget.close();
-    this.dispatch("image-reset");
+    this.close();
   }
 }
