@@ -84,26 +84,32 @@ RSpec.describe 'WordChainWalks', type: :system do
     end
   end
 
-  scenario 'モーダルを閉じて再度開くと入力内容とエラー表示がリセットされる' do
+  scenario 'モーダルを閉じて再度開くと入力内容がリセットされる' do
     log_in(user)
     visit word_chain_walk_path(word_chain_walk)
 
     click_button '写真を撮る'
+    fill_in '見つけた言葉', with: 'りんご'
+    fill_in 'メモ', with: 'メモ'
 
-    attach_file('写真', Rails.root.join('spec/fixtures/files/480x320.png'))
+    click_button 'キャンセル'
+    click_button '写真を撮る'
 
-    fill_in 'メモ', with: '入力途中のメモ'
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(find_field('見つけた言葉').value).to be_blank
+      expect(find_field('メモ').value).to be_blank
+    end
+  end
 
-    expect(page).to have_css('[data-previews-target="preview"]:not(.hidden)')
+  scenario 'モーダルを閉じて再度開くとエラー表示がリセットされる' do
+    log_in(user)
+    visit word_chain_walk_path(word_chain_walk)
 
-    expect(
-      find('[data-previews-target="image"]')[:src]
-    ).to start_with('blob:')
-
+    click_button '写真を撮る'
     click_button '登録する'
 
     within 'dialog[data-modal-target="modal"][open]' do
-      expect(page).to have_content("Word can't be blank")
+      expect(page).to have_css('#error_explanation')
     end
 
     click_button 'キャンセル'
@@ -111,8 +117,29 @@ RSpec.describe 'WordChainWalks', type: :system do
 
     within 'dialog[data-modal-target="modal"][open]' do
       expect(page).to have_no_css('#error_explanation')
-      expect(find_field('メモ').value).to be_blank
+    end
+  end
 
+  scenario 'モーダルを閉じて再度開くと画像プレビューがリセットされる' do
+    log_in(user)
+    visit word_chain_walk_path(word_chain_walk)
+
+    click_button '写真を撮る'
+
+    attach_file('写真', Rails.root.join('spec/fixtures/files/480x320.png'))
+
+    expect(page).to have_css(
+      '[data-previews-target="preview"]:not(.hidden)'
+    )
+
+    expect(
+      find('[data-previews-target="image"]')[:src]
+    ).to start_with('blob:')
+
+    click_button 'キャンセル'
+    click_button '写真を撮る'
+
+    within 'dialog[data-modal-target="modal"][open]' do
       expect(
         find('[data-previews-target="input"]', visible: :all).value
       ).to be_blank
