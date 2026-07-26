@@ -11,7 +11,7 @@ export default class extends Controller {
     this.formTarget.reset();
     this.errorsTarget.replaceChildren();
     this.modalTarget.close();
-    this.dispatch("image-reset");
+    this.dispatch("reset");
   }
 
   closeIfSubmitSuccess(event) {

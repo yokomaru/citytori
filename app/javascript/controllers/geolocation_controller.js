@@ -64,4 +64,11 @@ export default class extends Controller {
       this.positionTarget.textContent = "";
     }
   }
+
+  removeGeolocationInfo() {
+    this.latitudeTarget.value = "";
+    this.longitudeTarget.value = "";
+    this.statusTarget.textContent = "";
+    this.positionTarget.textContent = "";
+  }
 }

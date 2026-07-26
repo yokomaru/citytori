@@ -33,7 +33,7 @@
       <%= render "word_chain_walks/target", word_chain_walk: @word_chain_walk %>
 
       <div class="mt-4">
-        <div data-controller="modal previews" data-action="modal:image-reset->previews#removeImage">
+        <div data-controller="modal previews geolocation" data-action="modal:reset->previews#removeImage modal:reset->geolocation#removeGeolocationInfo">
           <button type="button" data-action="modal#open" class="rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium" >
             写真を撮る
           </button>
