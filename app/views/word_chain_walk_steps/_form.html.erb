@@ -1,7 +1,9 @@
-<%= form_with(model: [word_chain_walk, word_chain_walk_step], class: "contents") do |form| %>
-  <%= render 'shared/error_messages', object: form.object %>
+<%= form_with(model: [word_chain_walk, word_chain_walk_step], class: "contents", data: {action: 'turbo:submit-end->modal#closeIfSubmitSuccess', modal_target: "form"} ) do |form| %>
+  <div id="word_chain_walk_step_errors" data-modal-target="errors">
+    <%= render "shared/error_messages", object: form.object %>
+  </div>
 
-  <div data-controller="geolocation">
+  <div>
     <%= form.hidden_field :latitude, data: { geolocation_target: "latitude" } %>
     <%= form.hidden_field :longitude, data: { geolocation_target: "longitude" } %>
 
@@ -17,7 +19,7 @@
     <p data-geolocation-target="position" class="text-sm text-gray-600"></p>
   </div>
 
-  <div data-controller="previews">
+  <div>
     <div class="my-5">
       <%= form.label :image, "写真" %>
 
@@ -37,7 +39,10 @@
     </div>
 
     <div data-previews-target="preview" class="mt-4 hidden">
-      <img data-previews-target="image" class="max-w-full h-auto rounded-md shadow-sm">
+      <img
+        data-previews-target="image"
+        class="max-w-full h-auto rounded-md shadow-sm"
+      >
     </div>
   </div>
 

@@ -25,7 +25,9 @@ RSpec.describe 'Images', type: :system do
 
   scenario '画像を選択するとプレビューが表示されること' do
     log_in(user)
-    visit new_word_chain_walk_word_chain_walk_step_path(word_chain_walk)
+    visit word_chain_walk_path(word_chain_walk)
+
+    click_button "写真を撮る"
 
     expect(page).to have_css(
       '[data-previews-target="preview"].hidden',
@@ -48,7 +50,9 @@ RSpec.describe 'Images', type: :system do
 
   scenario '10MBを超える画像を選択するとプレビューが表示されないこと' do
     log_in(user)
-    visit new_word_chain_walk_word_chain_walk_step_path(word_chain_walk)
+    visit word_chain_walk_path(word_chain_walk)
+
+    click_button "写真を撮る"
 
     expect(page).to have_css(
       '[data-previews-target="preview"].hidden',
@@ -81,7 +85,8 @@ RSpec.describe 'Images', type: :system do
     word_chain_walk = FactoryBot.create(:word_chain_walk, user: user, start_char: 'り')
 
     log_in(user)
-    visit new_word_chain_walk_word_chain_walk_step_path(word_chain_walk)
+    visit word_chain_walk_path(word_chain_walk)
+    click_button "写真を撮る"
 
     expect(page).to have_css(
       '[data-previews-target="preview"].hidden',

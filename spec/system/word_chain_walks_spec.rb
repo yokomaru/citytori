@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'WordChainWalks', type: :system do
   before do
-    driven_by(:rack_test)
+    driven_by(:selenium_chrome_headless)
   end
 
   let(:user) { FactoryBot.create(:user) }
@@ -36,108 +36,158 @@ RSpec.describe 'WordChainWalks', type: :system do
     visit '/auth/google_oauth2/callback'
   end
 
-  def attach_step_image
-    attach_file '写真', Rails.root.join('spec/fixtures/files/480x320.png')
-  end
-
-  def fill_in_step_form(word:, memo: '見つけた言葉のメモ')
-    fill_in '見つけた言葉', with: word
-    fill_in 'メモ', with: memo
-    attach_step_image
-  end
-
-  scenario 'ログインユーザーが散歩を開始できること' do
+  scenario 'モーダルからステップを登録できること' do
     log_in(user)
-    visit word_chain_walks_path
 
-    expect do
-      click_button '始める'
-    end.to change(WordChainWalk, :count).by(1)
-  end
-
-  scenario '散歩開始後に完了メッセージが表示されること' do
-    log_in(user)
-    visit word_chain_walks_path
-
-    click_button '始める'
-
-    expect(page).to have_content('しりとり散歩を開始しました')
-  end
-
-  scenario 'ログインユーザーが画像付きStepを追加できること' do
-    log_in(user)
     visit word_chain_walk_path(word_chain_walk)
+    click_button '写真を撮る'
 
-    click_link '写真を撮る'
-    fill_in_step_form(word: 'りんご')
-
-    expect do
-      click_button '登録する'
-    end.to change(WordChainWalkStep, :count).by(1)
-  end
-
-  scenario 'Step追加後に完了メッセージが表示されること' do
-    log_in(user)
-    visit new_word_chain_walk_word_chain_walk_step_path(word_chain_walk)
-
-    fill_in_step_form(word: 'りんご')
-    click_button '登録する'
-
-    expect(page).to have_content('ステップを追加しました')
-  end
-
-  scenario '追加したStepが散歩詳細画面に表示されること' do
-    step = word_chain_walk_step
-    log_in(user)
-    visit word_chain_walk_path(word_chain_walk)
-    expect(page).to have_content(step.word)
-    expect(page).to have_content(step.memo)
-  end
-
-  scenario 'Step詳細画面を表示できること' do
-    step = word_chain_walk_step
-    log_in(user)
-    visit word_chain_walk_path(word_chain_walk)
-    click_link step.word
-    expect(page).to have_content('Step詳細')
-  end
-
-  scenario 'Step詳細画面にwordとmemoが表示されること' do
-    log_in(user)
-    visit word_chain_walk_word_chain_walk_step_path(
-      word_chain_walk,
-      word_chain_walk_step
+    expect(page).to have_css(
+      'dialog[data-modal-target="modal"][open]'
     )
-    expect(page).to have_content(word_chain_walk_step.word)
-    expect(page).to have_content(word_chain_walk_step.memo)
-  end
 
-  scenario '不正なwordを入力した場合、エラーが表示されること' do
-    log_in(user)
-    visit new_word_chain_walk_word_chain_walk_step_path(word_chain_walk)
-    fill_in '見つけた言葉', with: 'ごりら'
-    attach_step_image
-    click_button '登録する'
-    expect(page).to have_content('1件のエラーがあります')
-    expect(page).to have_content('前の文字が繋がっていません')
-  end
-
-  scenario '画像がない場合、エラーが表示されること' do
-    log_in(user)
-    visit new_word_chain_walk_word_chain_walk_step_path(word_chain_walk)
     fill_in '見つけた言葉', with: 'りんご'
+    fill_in 'メモ', with: 'メモ'
+    attach_file '写真', Rails.root.join('spec/fixtures/files/480x320.png')
+
     click_button '登録する'
-    expect(page).to have_content('1件のエラーがあります')
-    expect(page).to have_content('Image を添付してください')
+
+    within '#word_chain_walk_steps' do
+      expect(page).to have_content('りんご')
+    end
+
+    expect(page).to have_css(
+      '#word_chain_walk_target',
+      text: 'ご'
+    )
+
+    expect(page).to have_no_css(
+      'dialog[data-modal-target="modal"][open]'
+    )
   end
 
-  scenario '進行中の散歩を完了できること' do
+  scenario '登録失敗時、エラーの表示がモーダル内で確認できること' do
+    log_in(user)
+
+    visit word_chain_walk_path(word_chain_walk)
+    click_button '写真を撮る'
+
+    attach_file(
+      '写真',
+      Rails.root.join('spec/fixtures/files/480x320.png')
+    )
+
+    click_button '登録する'
+
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(page).to have_content("Word can't be blank")
+    end
+  end
+
+  scenario 'モーダルを閉じて再度開くと入力内容がリセットされる' do
     log_in(user)
     visit word_chain_walk_path(word_chain_walk)
-    expect(page).to have_button('散歩を完了する')
-    expect do
-      click_button '散歩を完了する'
-    end.to change { word_chain_walk.reload.finished? }.from(false).to(true)
-    expect(page).to have_content('しりとり散歩が完了しました')
+
+    click_button '写真を撮る'
+    fill_in '見つけた言葉', with: 'りんご'
+    fill_in 'メモ', with: 'メモ'
+
+    click_button 'キャンセル'
+    click_button '写真を撮る'
+
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(find_field('見つけた言葉').value).to be_blank
+      expect(find_field('メモ').value).to be_blank
+    end
+  end
+
+  scenario 'モーダルを閉じて再度開くとエラー表示がリセットされる' do
+    log_in(user)
+    visit word_chain_walk_path(word_chain_walk)
+
+    click_button '写真を撮る'
+    click_button '登録する'
+
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(page).to have_css('#error_explanation')
+    end
+
+    click_button 'キャンセル'
+    click_button '写真を撮る'
+
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(page).to have_no_css('#error_explanation')
+    end
+  end
+
+  scenario 'モーダルを閉じて再度開くと画像プレビューがリセットされる' do
+    log_in(user)
+    visit word_chain_walk_path(word_chain_walk)
+
+    click_button '写真を撮る'
+
+    attach_file('写真', Rails.root.join('spec/fixtures/files/480x320.png'))
+
+    expect(page).to have_css(
+      '[data-previews-target="preview"]:not(.hidden)'
+    )
+
+    expect(
+      find('[data-previews-target="image"]')[:src]
+    ).to start_with('blob:')
+
+    click_button 'キャンセル'
+    click_button '写真を撮る'
+
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(
+        find('[data-previews-target="input"]', visible: :all).value
+      ).to be_blank
+
+      expect(page).to have_css(
+        '[data-previews-target="preview"].hidden',
+        visible: :all
+      )
+
+      expect(
+        find('[data-previews-target="image"]', visible: :all)[:src]
+      ).to be_blank
+    end
+  end
+
+  scenario 'モーダルを閉じると位置情報がリセットされる' do
+    log_in(user)
+    visit word_chain_walk_path(word_chain_walk)
+
+    begin
+      page.driver.browser.execute_cdp(
+        'Emulation.setGeolocationOverride',
+        latitude:  35.6586,
+        longitude: 139.7454,
+        accuracy: 100
+      )
+
+      click_button '写真を撮る'
+      click_button '位置情報を取得する'
+
+      within 'dialog[data-modal-target="modal"][open]' do
+        expect(find('#word_chain_walk_step_latitude', visible: :all).value).to eq('35.6586')
+        expect(find('#word_chain_walk_step_longitude', visible: :all).value).to eq('139.7454')
+        expect(page).to have_content('位置情報を取得しました。')
+        expect(page).to have_content('緯度: 35.6586, 経度: 139.7454')
+      end
+
+      click_button 'キャンセル'
+      click_button '写真を撮る'
+
+      within 'dialog[data-modal-target="modal"][open]' do
+        expect(find('#word_chain_walk_step_latitude', visible: :all).value).to be_blank
+        expect(find('#word_chain_walk_step_longitude', visible: :all).value).to be_blank
+        expect(page).to have_no_content('位置情報を取得しました。')
+        expect(page).to have_no_content('緯度:')
+      end
+    ensure
+      page.driver.browser.execute_cdp('Emulation.clearGeolocationOverride')
+    end
   end
 end

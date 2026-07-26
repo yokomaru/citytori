@@ -2,10 +2,6 @@ class WordChainWalkStepsController < ApplicationController
   before_action :authenticate
   before_action :set_word_chain_walk
 
-  def new
-    @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build
-  end
-
   def show
     @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.find(params[:id])
   end
@@ -14,14 +10,32 @@ class WordChainWalkStepsController < ApplicationController
     @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build(word_chain_walk_step_params)
 
     unless @word_chain_walk_step.save
-      return render :new, status: :unprocessable_content
+     respond_to do |format|
+        format.turbo_stream do
+          render :create_error, status: :unprocessable_entity
+        end
+        format.html do
+          @word_chain_walk_steps =@word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
+          @locations = @word_chain_walk.word_chain_walk_steps.where.not(latitude: nil, longitude: nil).order(id: :desc).pluck(:latitude, :longitude)
+          render "word_chain_walks/show", status: :unprocessable_entity
+        end
+      end
+
+      return
     end
 
     if @word_chain_walk_step.word.end_with?("ん")
       @word_chain_walk.finish
       redirect_to word_chain_walk_completion_path(@word_chain_walk), notice: "しりとり散歩が完了しました", status: :see_other
     else
-      redirect_to word_chain_walk_path(@word_chain_walk), notice: "ステップを追加しました", status: :see_other
+      respond_to do |format|
+        flash.now.notice = "言葉を登録しました"
+
+        format.turbo_stream
+        format.html do
+          redirect_to word_chain_walk_path(@word_chain_walk), notice: "言葉を登録しました", status: :see_other
+        end
+      end
     end
   end
 
