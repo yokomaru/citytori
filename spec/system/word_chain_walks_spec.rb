@@ -159,31 +159,35 @@ RSpec.describe 'WordChainWalks', type: :system do
     log_in(user)
     visit word_chain_walk_path(word_chain_walk)
 
-    page.driver.browser.execute_cdp(
-      'Emulation.setGeolocationOverride',
-      latitude:  35.6586,
-      longitude: 139.7454,
-      accuracy: 100
-    )
+    begin
+      page.driver.browser.execute_cdp(
+        'Emulation.setGeolocationOverride',
+        latitude:  35.6586,
+        longitude: 139.7454,
+        accuracy: 100
+      )
 
-    click_button '写真を撮る'
-    click_button '位置情報を取得する'
+      click_button '写真を撮る'
+      click_button '位置情報を取得する'
 
-    within 'dialog[data-modal-target="modal"][open]' do
-      expect(find('#word_chain_walk_step_latitude', visible: :all).value).to eq('35.6586')
-      expect(find('#word_chain_walk_step_longitude', visible: :all).value).to eq('139.7454')
-      expect(page).to have_content('位置情報を取得しました。')
-      expect(page).to have_content('緯度: 35.6586, 経度: 139.7454')
-    end
+      within 'dialog[data-modal-target="modal"][open]' do
+        expect(find('#word_chain_walk_step_latitude', visible: :all).value).to eq('35.6586')
+        expect(find('#word_chain_walk_step_longitude', visible: :all).value).to eq('139.7454')
+        expect(page).to have_content('位置情報を取得しました。')
+        expect(page).to have_content('緯度: 35.6586, 経度: 139.7454')
+      end
 
-    click_button 'キャンセル'
-    click_button '写真を撮る'
+      click_button 'キャンセル'
+      click_button '写真を撮る'
 
-    within 'dialog[data-modal-target="modal"][open]' do
-      expect(find('#word_chain_walk_step_latitude', visible: :all).value).to be_blank
-      expect(find('#word_chain_walk_step_longitude', visible: :all).value).to be_blank
-      expect(page).to have_no_content('位置情報を取得しました。')
-      expect(page).to have_no_content('緯度:')
+      within 'dialog[data-modal-target="modal"][open]' do
+        expect(find('#word_chain_walk_step_latitude', visible: :all).value).to be_blank
+        expect(find('#word_chain_walk_step_longitude', visible: :all).value).to be_blank
+        expect(page).to have_no_content('位置情報を取得しました。')
+        expect(page).to have_no_content('緯度:')
+      end
+    ensure
+      page.driver.browser.execute_cdp('Emulation.clearGeolocationOverride')
     end
   end
 end
