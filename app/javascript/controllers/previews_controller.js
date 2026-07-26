@@ -41,6 +41,8 @@ export default class extends Controller {
     this.objectUrl = URL.createObjectURL(file);
     this.imageTarget.src = this.objectUrl;
     this.previewTarget.classList.remove("hidden");
+
+    this.dispatch("valid-file-selected");
   }
 
   removeImage() {

@@ -6,15 +6,6 @@
   <div>
     <%= form.hidden_field :latitude, data: { geolocation_target: "latitude" } %>
     <%= form.hidden_field :longitude, data: { geolocation_target: "longitude" } %>
-
-    <button
-      type="button"
-      data-action="geolocation#fetchPosition"
-      class="rounded-md px-3 py-2 bg-gray-100 hover:bg-gray-50 font-medium"
-    >
-      位置情報を取得する
-    </button>
-
     <p data-geolocation-target="status" class="mt-3 text-sm text-gray-600"></p>
     <p data-geolocation-target="position" class="text-sm text-gray-600"></p>
   </div>
