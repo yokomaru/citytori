@@ -1,5 +1,6 @@
 <%= turbo_stream.update "word_chain_walk_steps" do %>
   <% latest_step_id = @word_chain_walk.latest_step.id %>
+
   <% @word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc).each do |word_chain_walk_step| %>
     <%= render "word_chain_walks/word_chain_walk_step",
     word_chain_walk: @word_chain_walk,
@@ -7,12 +8,15 @@
     latest_step_id: latest_step_id %>
   <% end %>
 <% end %>
+
 <%= turbo_stream.replace "word_chain_walk_target" do %>
   <%= render "word_chain_walks/target", word_chain_walk: @word_chain_walk %>
 <% end %>
+
 <%= turbo_stream.update "flash_messages" do %>
   <%= render "shared/flash_messages" %>
 <% end %>
+
 <%= turbo_stream.update "word_chain_walk_modal_target" do %>
   <%= render "word_chain_walks/modal_target",
              word_chain_walk: @word_chain_walk %>

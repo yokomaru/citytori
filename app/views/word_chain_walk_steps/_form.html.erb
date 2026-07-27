@@ -4,7 +4,10 @@
 
 <div>
   <div class="my-5">
-    <div data-previews-target="preview" class="hidden mb-5 overflow-hidden rounded-md bg-gray-100">
+    <div
+      data-previews-target="preview"
+      class="hidden mb-5 overflow-hidden rounded-md bg-gray-100"
+    >
       <img
         data-previews-target="image"
         class="block max-h-72 w-full object-contain"
@@ -17,6 +20,7 @@
   <div>
     <%= form.hidden_field :latitude, data: { geolocation_target: "latitude" } %>
     <%= form.hidden_field :longitude, data: { geolocation_target: "longitude" } %>
+
     <p data-geolocation-target="status" class="mt-3 text-sm text-gray-600"></p>
     <p data-geolocation-target="position" class="text-sm text-gray-600"></p>
   </div>
