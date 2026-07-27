@@ -17,7 +17,7 @@
   <%= render "shared/flash_messages" %>
 <% end %>
 
-<%= turbo_stream.update "word_chain_walk_modal_target" do %>
+<%= turbo_stream.replace "word_chain_walk_modal_target" do %>
   <%= render "word_chain_walks/modal_target",
              word_chain_walk: @word_chain_walk %>
 <% end %>
