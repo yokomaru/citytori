@@ -190,8 +190,8 @@ RSpec.describe 'WordChainWalks', type: :system do
       )
 
       within 'dialog[data-modal-target="modal"][open]' do
-        expect(find('#word_chain_walk_step_latitude', visible: :all).value).to eq('35.6586')
-        expect(find('#word_chain_walk_step_longitude', visible: :all).value).to eq('139.7454')
+        expect(page).to have_field('word_chain_walk_step_latitude', with: '35.6586', type: 'hidden')
+        expect(page).to have_field('word_chain_walk_step_longitude', with: '139.7454', type: 'hidden')
         expect(page).to have_content('位置情報を取得しました。')
       end
 
@@ -206,8 +206,8 @@ RSpec.describe 'WordChainWalks', type: :system do
       )
 
       within 'dialog[data-modal-target="modal"][open]' do
-        expect(find('#word_chain_walk_step_latitude', visible: :all).value).to eq('34.6525')
-        expect(find('#word_chain_walk_step_longitude', visible: :all).value).to eq('135.5063')
+        expect(page).to have_field('word_chain_walk_step_latitude', with: '34.6525', type: 'hidden')
+        expect(page).to have_field('word_chain_walk_step_longitude', with: '135.5063', type: 'hidden')
         expect(page).to have_content('位置情報を取得しました。')
       end
     ensure
