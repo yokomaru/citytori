@@ -40,7 +40,12 @@ RSpec.describe 'WordChainWalks', type: :system do
     log_in(user)
 
     visit word_chain_walk_path(word_chain_walk)
-    click_button '写真を撮る'
+
+    attach_file(
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
+    )
 
     expect(page).to have_css(
       'dialog[data-modal-target="modal"][open]'
@@ -48,7 +53,6 @@ RSpec.describe 'WordChainWalks', type: :system do
 
     fill_in '見つけた言葉', with: 'りんご'
     fill_in 'メモ', with: 'メモ'
-    attach_file '写真', Rails.root.join('spec/fixtures/files/480x320.png')
 
     click_button '登録する'
 
@@ -70,11 +74,11 @@ RSpec.describe 'WordChainWalks', type: :system do
     log_in(user)
 
     visit word_chain_walk_path(word_chain_walk)
-    click_button '写真を撮る'
 
     attach_file(
-      '写真',
-      Rails.root.join('spec/fixtures/files/480x320.png')
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
     )
 
     click_button '登録する'
@@ -88,12 +92,22 @@ RSpec.describe 'WordChainWalks', type: :system do
     log_in(user)
     visit word_chain_walk_path(word_chain_walk)
 
-    click_button '写真を撮る'
+    attach_file(
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
+    )
+
     fill_in '見つけた言葉', with: 'りんご'
     fill_in 'メモ', with: 'メモ'
 
     click_button 'キャンセル'
-    click_button '写真を撮る'
+
+    attach_file(
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
+    )
 
     within 'dialog[data-modal-target="modal"][open]' do
       expect(find_field('見つけた言葉').value).to be_blank
@@ -105,7 +119,12 @@ RSpec.describe 'WordChainWalks', type: :system do
     log_in(user)
     visit word_chain_walk_path(word_chain_walk)
 
-    click_button '写真を撮る'
+    attach_file(
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
+    )
+
     click_button '登録する'
 
     within 'dialog[data-modal-target="modal"][open]' do
@@ -113,81 +132,95 @@ RSpec.describe 'WordChainWalks', type: :system do
     end
 
     click_button 'キャンセル'
-    click_button '写真を撮る'
+
+    attach_file(
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
+    )
 
     within 'dialog[data-modal-target="modal"][open]' do
       expect(page).to have_no_css('#error_explanation')
     end
   end
 
-  scenario 'モーダルを閉じて再度開くと画像プレビューがリセットされる' do
+  scenario 'モーダルを閉じると画像プレビューがリセットされる' do
     log_in(user)
     visit word_chain_walk_path(word_chain_walk)
 
-    click_button '写真を撮る'
-
-    attach_file('写真', Rails.root.join('spec/fixtures/files/480x320.png'))
-
-    expect(page).to have_css(
-      '[data-previews-target="preview"]:not(.hidden)'
+    attach_file(
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
     )
-
-    expect(
-      find('[data-previews-target="image"]')[:src]
-    ).to start_with('blob:')
-
-    click_button 'キャンセル'
-    click_button '写真を撮る'
 
     within 'dialog[data-modal-target="modal"][open]' do
       expect(
-        find('[data-previews-target="input"]', visible: :all).value
-      ).to be_blank
-
-      expect(page).to have_css(
-        '[data-previews-target="preview"].hidden',
-        visible: :all
-      )
-
-      expect(
-        find('[data-previews-target="image"]', visible: :all)[:src]
-      ).to be_blank
+        find('[data-previews-target="image"]')[:src]
+      ).to start_with('blob:')
     end
+
+    click_button 'キャンセル'
+
+    expect(
+      find('[data-previews-target="input"]', visible: :all).value
+    ).to be_blank
+
+    expect(page).to have_css(
+      '[data-previews-target="preview"].hidden',
+      visible: :all
+    )
+
+    expect(
+      find('[data-previews-target="image"]', visible: :all)[:src]
+    ).to be_blank
   end
 
-  scenario 'モーダルを閉じると位置情報がリセットされる' do
+  scenario 'モーダルを再度開くと位置情報を再取得する' do
     log_in(user)
     visit word_chain_walk_path(word_chain_walk)
 
     begin
-      page.driver.browser.execute_cdp(
-        'Emulation.setGeolocationOverride',
-        latitude:  35.6586,
-        longitude: 139.7454,
-        accuracy: 100
+      set_browser_geolocation(35.6586, 139.7454)
+
+      attach_file(
+        'word_chain_walk_step_image',
+        Rails.root.join('spec/fixtures/files/480x320.png'),
+        make_visible: true
       )
 
-      click_button '写真を撮る'
-      click_button '位置情報を取得する'
-
       within 'dialog[data-modal-target="modal"][open]' do
-        expect(find('#word_chain_walk_step_latitude', visible: :all).value).to eq('35.6586')
-        expect(find('#word_chain_walk_step_longitude', visible: :all).value).to eq('139.7454')
+        expect(page).to have_field('word_chain_walk_step_latitude', with: '35.6586', type: 'hidden')
+        expect(page).to have_field('word_chain_walk_step_longitude', with: '139.7454', type: 'hidden')
         expect(page).to have_content('位置情報を取得しました。')
-        expect(page).to have_content('緯度: 35.6586, 経度: 139.7454')
       end
 
       click_button 'キャンセル'
-      click_button '写真を撮る'
+
+      set_browser_geolocation(34.6525, 135.5063)
+
+      attach_file(
+        'word_chain_walk_step_image',
+        Rails.root.join('spec/fixtures/files/480x320.png'),
+        make_visible: true
+      )
 
       within 'dialog[data-modal-target="modal"][open]' do
-        expect(find('#word_chain_walk_step_latitude', visible: :all).value).to be_blank
-        expect(find('#word_chain_walk_step_longitude', visible: :all).value).to be_blank
-        expect(page).to have_no_content('位置情報を取得しました。')
-        expect(page).to have_no_content('緯度:')
+        expect(page).to have_field('word_chain_walk_step_latitude', with: '34.6525', type: 'hidden')
+        expect(page).to have_field('word_chain_walk_step_longitude', with: '135.5063', type: 'hidden')
+        expect(page).to have_content('位置情報を取得しました。')
       end
     ensure
       page.driver.browser.execute_cdp('Emulation.clearGeolocationOverride')
     end
+  end
+
+  def set_browser_geolocation(latitude, longitude, accuracy: 100)
+    page.driver.browser.execute_cdp(
+      'Emulation.setGeolocationOverride',
+      latitude:,
+      longitude:,
+      accuracy:
+    )
   end
 end
