@@ -9,6 +9,10 @@ export default class extends Controller {
     }
   }
 
+  openFileSelector() {
+    this.inputTarget.click();
+  }
+
   preview(e) {
     if (this.objectUrl) {
       URL.revokeObjectURL(this.objectUrl);
@@ -42,7 +46,7 @@ export default class extends Controller {
     this.imageTarget.src = this.objectUrl;
     this.previewTarget.classList.remove("hidden");
 
-    this.dispatch("valid-file-selected");
+    this.dispatch("file-selected");
   }
 
   removeImage() {

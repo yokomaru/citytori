@@ -8,8 +8,7 @@
   <% end %>
 <% end %>
 <%= turbo_stream.replace "word_chain_walk_target" do %>
-  <%= render "word_chain_walks/target",
-    word_chain_walk: @word_chain_walk %>
+  <%= render "word_chain_walks/target", word_chain_walk: @word_chain_walk %>
 <% end %>
 <%= turbo_stream.update "flash_messages" do %>
   <%= render "shared/flash_messages" %>
