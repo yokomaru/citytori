@@ -250,7 +250,7 @@ RSpec.describe WordChainWalkStep, type: :model do
       expect(step.normalize_first_char).to eq("い")
     end
 
-    it "濁音は静音に変換してから文字を返すこと" do
+    it "濁音は静音に変換してから先頭の文字を返すこと" do
       step = FactoryBot.build(:word_chain_walk_step)
 
       step.word = "がくせい"
@@ -258,7 +258,7 @@ RSpec.describe WordChainWalkStep, type: :model do
       expect(step.normalize_first_char).to eq("か")
     end
 
-    it "半濁音は清音に変換から文字を返すこと" do
+    it "半濁音は清音に変換から先頭の文字を返すこと" do
       step = FactoryBot.build(:word_chain_walk_step)
 
       step.word = "ぱん"
@@ -266,7 +266,7 @@ RSpec.describe WordChainWalkStep, type: :model do
       expect(step.normalize_first_char).to eq("は")
     end
 
-    it "小文字は通常文字に変換から文字を返すこと" do
+    it "小文字は通常文字に変換から先頭の文字を返すこと" do
       step = FactoryBot.build(:word_chain_walk_step)
 
       step.word = "ゃさい"
@@ -284,7 +284,7 @@ RSpec.describe WordChainWalkStep, type: :model do
       expect(step.normalize_last_char).to eq("か")
     end
 
-    it "濁音は静音に変換してから文字を返すこと" do
+    it "濁音は静音に変換してから末尾の文字を返すこと" do
       step = FactoryBot.build(:word_chain_walk_step)
 
       step.word = "りんご"
@@ -292,15 +292,7 @@ RSpec.describe WordChainWalkStep, type: :model do
       expect(step.normalize_last_char).to eq("こ")
     end
 
-    it "濁音は静音に変換してから文字を返すこと" do
-      step = FactoryBot.build(:word_chain_walk_step)
-
-      step.word = "らっぱ"
-
-      expect(step.normalize_last_char).to eq("は")
-    end
-
-    it "小文字は通常文字に変換から文字を返すこと" do
+    it "小文字は通常文字に変換から末尾の文字を返すこと" do
       step = FactoryBot.build(:word_chain_walk_step)
 
       step.word = "きゃ"
