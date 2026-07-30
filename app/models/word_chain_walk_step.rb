@@ -39,14 +39,8 @@ class WordChainWalkStep < ApplicationRecord
 
   private
 
-
   def normalize_char(char)
-    first_char_sym = char.to_sym
-    if NORMALIZED_HIRAGANA_CHARS.key?(first_char_sym)
-      normarized_char = NORMALIZED_HIRAGANA_CHARS.fetch(first_char_sym)
-      return normarized_char
-    end
-    char
+    NORMALIZED_HIRAGANA_CHARS.fetch(char.to_sym, char)
   end
 
   def image_attached
