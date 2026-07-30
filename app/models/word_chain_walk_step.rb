@@ -33,8 +33,8 @@ class WordChainWalkStep < ApplicationRecord
   end
 
   def normalize_last_char
-    striped_dash_word = word.strip("ー")
-    normalize_char(striped_dash_word[-1])
+    removal_dash_word = word.sub(/ー+\z/, "")
+    normalize_char(removal_dash_word[-1])
   end
 
   private

@@ -305,10 +305,18 @@ RSpec.describe WordChainWalkStep, type: :model do
       expect(step.normalize_last_char).to eq("や")
     end
 
-    it "末尾の伸ばし棒がある場合は無視して末尾の文字を返すこと" do
+    it "末尾の伸ばし棒がある場合は伸ばし棒を除去した末尾の文字を返すこと" do
       step = FactoryBot.build(:word_chain_walk_step)
 
       step.word = "こーひー"
+
+      expect(step.normalize_last_char).to eq("ひ")
+    end
+
+    it "末尾の伸ばし棒が複数ある場合も伸ばし棒を除去した末尾の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "こーひーー"
 
       expect(step.normalize_last_char).to eq("ひ")
     end
