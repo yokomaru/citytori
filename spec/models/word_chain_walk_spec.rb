@@ -96,7 +96,7 @@ RSpec.describe WordChainWalk, type: :model do
     word_chain_walk = FactoryBot.create(:word_chain_walk, start_char: 'り')
     FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: 'りんご')
 
-    expect(word_chain_walk.target_char).to eq('ご')
+    expect(word_chain_walk.target_char).to eq('こ')
   end
 
   it 'ステップがない場合は、start_charが現在探している文字として表示できること' do
