@@ -49,6 +49,11 @@ RSpec.describe WordChainWalkStep, type: :model do
     expect(word_chain_walk_step).to be_valid
   end
 
+  it 'wordの先頭が伸ばし棒の場合は無効であること' do
+    word_chain_walk_step = FactoryBot.build(:word_chain_walk_step, :with_image, word: 'ーあいうえお')
+    expect(word_chain_walk_step).to be_invalid
+  end
+
   it 'wordにカタカナが含まれる場合は無効であること' do
     word_chain_walk_step = FactoryBot.build(:word_chain_walk_step, :with_image, word: 'アイウエオ')
     expect(word_chain_walk_step).to be_invalid
