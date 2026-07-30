@@ -29,26 +29,25 @@ class WordChainWalkStep < ApplicationRecord
   validate :latitude_and_longitude_must_be_both_present_or_blank
 
   def normalize_first_char
-    striped_dash_word = word.strip("ー")
-    first_char_sym = striped_dash_word[0].to_sym
-    if NORMALIZED_HIRAGANA_CHARS.key?(first_char_sym)
-      normarized_char = NORMALIZED_HIRAGANA_CHARS.fetch(first_char_sym)
-      return normarized_char
-    end
-    striped_dash_word[0]
+    normalize_char(word[0])
   end
 
   def normalize_last_char
     striped_dash_word = word.strip("ー")
-    first_char_sym = striped_dash_word[-1].to_sym
+    normalize_char(striped_dash_word[-1])
+  end
+
+  private
+
+
+  def normalize_char(char)
+    first_char_sym = char.to_sym
     if NORMALIZED_HIRAGANA_CHARS.key?(first_char_sym)
       normarized_char = NORMALIZED_HIRAGANA_CHARS.fetch(first_char_sym)
       return normarized_char
     end
-    striped_dash_word[-1]
+    char
   end
-
-  private
 
   def image_attached
     errors.add(:image, "を添付してください") unless image.attached?
