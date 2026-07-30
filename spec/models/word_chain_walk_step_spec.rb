@@ -274,4 +274,46 @@ RSpec.describe WordChainWalkStep, type: :model do
       expect(step.normalize_first_char).to eq("や")
     end
   end
+
+  describe "#normalize_last_char" do
+    it "通常のひらがなはそのまま末尾の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "いるか"
+
+      expect(step.normalize_last_char).to eq("か")
+    end
+
+    it "濁音は静音に変換してから文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "りんご"
+
+      expect(step.normalize_last_char).to eq("こ")
+    end
+
+    it "濁音は静音に変換してから文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "らっぱ"
+
+      expect(step.normalize_last_char).to eq("は")
+    end
+
+    it "小文字は通常文字に変換から文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "きゃ"
+
+      expect(step.normalize_last_char).to eq("や")
+    end
+
+    it "末尾の伸ばし棒がある場合は無視して末尾の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "こーひー"
+
+      expect(step.normalize_last_char).to eq("ひ")
+    end
+  end
 end

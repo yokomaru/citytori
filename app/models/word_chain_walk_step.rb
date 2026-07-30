@@ -38,6 +38,16 @@ class WordChainWalkStep < ApplicationRecord
     striped_dash_word[0]
   end
 
+  def normalize_last_char
+    striped_dash_word = word.strip("ー")
+    first_char_sym = striped_dash_word[-1].to_sym
+    if NORMALIZED_HIRAGANA_CHARS.key?(first_char_sym)
+      normarized_char = NORMALIZED_HIRAGANA_CHARS.fetch(first_char_sym)
+      return normarized_char
+    end
+    striped_dash_word[-1]
+  end
+
   private
 
   def image_attached
