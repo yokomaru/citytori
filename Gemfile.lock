@@ -139,7 +139,7 @@ GEM
     ffi (1.17.4-arm64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
     ffi (1.17.4-x86_64-linux-musl)
-    fugit (1.12.3)
+    fugit (1.13.0)
       et-orbi (~> 1.4)
       raabro (~> 1.4)
     globalid (1.4.0)
@@ -277,7 +277,7 @@ GEM
     public_suffix (7.0.5)
     puma (8.0.2)
       nio4r (~> 2.0)
-    raabro (1.4.0)
+    raabro (1.5.0)
     racc (1.8.1)
     rack (3.2.6)
     rack-protection (4.2.1)
@@ -412,7 +412,7 @@ GEM
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
-    solid_queue (1.4.0)
+    solid_queue (1.5.1)
       activejob (>= 7.1)
       activerecord (>= 7.1)
       concurrent-ruby (>= 1.3.1)
@@ -564,7 +564,7 @@ CHECKSUMS
   ffi (1.17.4-arm64-darwin) sha256=19071aaf1419251b0a46852abf960e77330a3b334d13a4ab51d58b31a937001b
   ffi (1.17.4-x86_64-linux-gnu) sha256=9d3db14c2eae074b382fa9c083fe95aec6e0a1451da249eab096c34002bc752d
   ffi (1.17.4-x86_64-linux-musl) sha256=3fdf9888483de005f8ef8d1cf2d3b20d86626af206cbf780f6a6a12439a9c49e
-  fugit (1.12.3) sha256=826d77739086482a6ac2805bc32693845395da688f637890cb4ca457dede2ec2
+  fugit (1.13.0) sha256=a4f093fce740da52f216740a5041e2a594ea763cdb89e8b2754ca4399634ab18
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   hashie (5.1.0) sha256=c266471896f323c446ea8207f8ffac985d2718df0a0ba98651a3057096ca3870
   herb (0.10.2-aarch64-linux-gnu) sha256=7888e560a9eaede00db65475981858b0d7be287ea72686360a3a11a86d6a8011
@@ -628,7 +628,7 @@ CHECKSUMS
   propshaft (1.3.2) sha256=1d56a3e56a92c21bfc29caf07406b5386b00d4c47ddf357cf989a5a234b1389e
   public_suffix (7.0.5) sha256=1a8bb08f1bbea19228d3bed6e5ed908d1cb4f7c2726d18bd9cadf60bc676f623
   puma (8.0.2) sha256=c8ed871dfbbe66448ea9ffd46692342d9804d4071522b52b5331b7b6e7b686fb
-  raabro (1.4.0) sha256=d4fa9ff5172391edb92b242eed8be802d1934b1464061ae5e70d80962c5da882
+  raabro (1.5.0) sha256=3f998a7bc84f9c84df3ab580634d2e0a5bda4f0841168d56035f529c9877440a
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
   rack (3.2.6) sha256=5ed78e1f73b2e25679bec7d45ee2d4483cc4146eb1be0264fc4d94cb5ef212c2
   rack-protection (4.2.1) sha256=cf6e2842df8c55f5e4d1a4be015e603e19e9bc3a7178bae58949ccbb58558bac
@@ -667,7 +667,7 @@ CHECKSUMS
   simplecov (1.0.3) sha256=38ef0514f16ae7562f0d0f4df02610071115103d301b6de7dacbcc000082e39b
   snaky_hash (2.0.6) sha256=3663cae48cdef582b517025cf8a39d8789996eaf0b4ed89e2f0624836505654a
   solid_cache (1.0.10) sha256=bc05a2fb3ac78a6f43cbb5946679cf9db67dd30d22939ededc385cb93e120d41
-  solid_queue (1.4.0) sha256=e6a18d196f0b27cb6e3c77c5b31258b05fb634f8ed64fb1866ed164047216c2a
+  solid_queue (1.5.1) sha256=ecd2ee3b3f09c2f210b1176d68264f7dcca4d28b1a5d2d1ad9f57dc1e7a750df
   sshkit (1.25.0) sha256=c8c6543cdb60f91f1d277306d585dd11b6a064cb44eab0972827e4311ff96744
   stimulus-rails (1.3.4) sha256=765676ffa1f33af64ce026d26b48e8ffb2e0b94e0f50e9119e11d6107d67cb06
   tailwindcss-rails (4.6.0) sha256=d99512867173d55c5ef8890427682299d8539f550cec1408b3d8667a538bd365
