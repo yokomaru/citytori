@@ -66,7 +66,7 @@ class WordChainWalkStep < ApplicationRecord
     return if word.blank?
     return if word_chain_walk.blank?
 
-    return if word_chain_walk.target_char == word[0] # TODO: 本当はword[0]を正規化する必要がある
+    return if word_chain_walk.target_char == normalize_first_char
 
     errors.add(:word, "と前の文字が繋がっていません")
   end
