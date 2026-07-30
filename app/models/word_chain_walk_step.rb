@@ -1,4 +1,16 @@
 class WordChainWalkStep < ApplicationRecord
+  NORMALIZED_HIRAGANA_CHARS = {
+    "が": "か", "ぎ": "き", "ぐ": "く", "げ": "け", "ご": "こ",
+    "ざ": "さ", "じ": "し", "ず": "す", "ぜ": "せ", "ぞ": "そ",
+    "だ": "た", "ぢ": "ち", "づ": "つ", "で": "て", "ど": "と",
+    "ば": "は", "び": "ひ", "ぶ": "ふ", "ベ": "へ", "ぼ": "ほ",
+    "ゔ": "う",
+    "ぱ": "は", "ぴ": "ひ", "ぷ": "ふ", "ぺ": "へ", "ぽ": "ほ",
+    "ぁ": "あ", "ぃ": "い", "ぅ": "う", "ぇ": "え", "ぉ": "お",
+    "ゃ": "や", "ゅ": "ゆ", "ょ": "よ", "っ": "つ", "ゎ": "わ",
+    "ゕ": "か", "ゖ": "け"
+  }.freeze
+
   belongs_to :word_chain_walk
 
   has_one_attached :image
@@ -15,6 +27,16 @@ class WordChainWalkStep < ApplicationRecord
   validate :must_connect_previous_char
   validate :word_chain_walk_must_not_be_finished
   validate :latitude_and_longitude_must_be_both_present_or_blank
+
+  def normalize_first_char
+    striped_dash_word = word.strip("ー")
+    first_char_sym = striped_dash_word[0].to_sym
+    if NORMALIZED_HIRAGANA_CHARS.key?(first_char_sym)
+      normarized_char = NORMALIZED_HIRAGANA_CHARS.fetch(first_char_sym)
+      return normarized_char
+    end
+    striped_dash_word[0]
+  end
 
   private
 

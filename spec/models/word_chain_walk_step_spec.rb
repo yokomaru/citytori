@@ -240,4 +240,38 @@ RSpec.describe WordChainWalkStep, type: :model do
     expect(step).to be_invalid
     expect(step.errors[:image]).to include("はPNGまたはJPEG形式の画像にしてください")
   end
+
+  describe "#normalize_first_char" do
+    it "通常のひらがなはそのまま先頭の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "いるか"
+      # debugger
+      expect(step.normalize_first_char).to eq("い")
+    end
+
+    it "濁音は静音に変換してから文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "がくせい"
+
+      expect(step.normalize_first_char).to eq("か")
+    end
+
+    it "半濁音は清音に変換から文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "ぱん"
+
+      expect(step.normalize_first_char).to eq("は")
+    end
+
+    it "小文字は通常文字に変換から文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "ゃさい"
+
+      expect(step.normalize_first_char).to eq("や")
+    end
+  end
 end
