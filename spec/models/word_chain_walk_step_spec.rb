@@ -49,6 +49,11 @@ RSpec.describe WordChainWalkStep, type: :model do
     expect(word_chain_walk_step).to be_valid
   end
 
+  it 'wordの先頭が伸ばし棒の場合は無効であること' do
+    word_chain_walk_step = FactoryBot.build(:word_chain_walk_step, :with_image, word: 'ーあいうえお')
+    expect(word_chain_walk_step).to be_invalid
+  end
+
   it 'wordにカタカナが含まれる場合は無効であること' do
     word_chain_walk_step = FactoryBot.build(:word_chain_walk_step, :with_image, word: 'アイウエオ')
     expect(word_chain_walk_step).to be_invalid
@@ -239,5 +244,81 @@ RSpec.describe WordChainWalkStep, type: :model do
 
     expect(step).to be_invalid
     expect(step.errors[:image]).to include("はPNGまたはJPEG形式の画像にしてください")
+  end
+
+  describe "#normalize_first_char" do
+    it "通常のひらがなはそのまま先頭の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "いるか"
+      # debugger
+      expect(step.normalize_first_char).to eq("い")
+    end
+
+    it "濁音は静音に変換してから先頭の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "がくせい"
+
+      expect(step.normalize_first_char).to eq("か")
+    end
+
+    it "半濁音は清音に変換から先頭の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "ぱん"
+
+      expect(step.normalize_first_char).to eq("は")
+    end
+
+    it "小文字は通常文字に変換から先頭の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "ゃさい"
+
+      expect(step.normalize_first_char).to eq("や")
+    end
+  end
+
+  describe "#normalize_last_char" do
+    it "通常のひらがなはそのまま末尾の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "いるか"
+
+      expect(step.normalize_last_char).to eq("か")
+    end
+
+    it "濁音は静音に変換してから末尾の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "りんご"
+
+      expect(step.normalize_last_char).to eq("こ")
+    end
+
+    it "小文字は通常文字に変換から末尾の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "きゃ"
+
+      expect(step.normalize_last_char).to eq("や")
+    end
+
+    it "末尾の伸ばし棒がある場合は伸ばし棒を除去した末尾の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "こーひー"
+
+      expect(step.normalize_last_char).to eq("ひ")
+    end
+
+    it "末尾の伸ばし棒が複数ある場合も伸ばし棒を除去した末尾の文字を返すこと" do
+      step = FactoryBot.build(:word_chain_walk_step)
+
+      step.word = "こーひーー"
+
+      expect(step.normalize_last_char).to eq("ひ")
+    end
   end
 end

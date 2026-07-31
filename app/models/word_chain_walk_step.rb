@@ -1,11 +1,23 @@
 class WordChainWalkStep < ApplicationRecord
+  NORMALIZED_HIRAGANA_CHARS = {
+    "が" => "か", "ぎ" => "き", "ぐ" => "く", "げ" => "け", "ご" => "こ",
+    "ざ" => "さ", "じ" => "し", "ず" => "す", "ぜ" => "せ", "ぞ" => "そ",
+    "だ" => "た", "ぢ" => "ち", "づ" => "つ", "で" => "て", "ど" => "と",
+    "ば" => "は", "び" => "ひ", "ぶ" => "ふ", "べ" => "へ", "ぼ" => "ほ",
+    "ゔ" => "う",
+    "ぱ" => "は", "ぴ" => "ひ", "ぷ" => "ふ", "ぺ" => "へ", "ぽ" => "ほ",
+    "ぁ" => "あ", "ぃ" => "い", "ぅ" => "う", "ぇ" => "え", "ぉ" => "お",
+    "ゃ" => "や", "ゅ" => "ゆ", "ょ" => "よ", "っ" => "つ", "ゎ" => "わ",
+    "ゕ" => "か", "ゖ" => "け"
+  }.freeze
+
   belongs_to :word_chain_walk
 
   has_one_attached :image
 
   validates :word, presence: true
   validates :word, length: { maximum: 100 }
-  validates :word, format: { with: /\A[ぁ-んー]*\z/ }
+  validates :word, format: { with: /\A[ぁ-ん][ぁ-んー]*\z/ }
   validates :latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90, allow_nil: true }
   validates :longitude, numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180, allow_nil: true }
 
@@ -16,7 +28,20 @@ class WordChainWalkStep < ApplicationRecord
   validate :word_chain_walk_must_not_be_finished
   validate :latitude_and_longitude_must_be_both_present_or_blank
 
+  def normalize_first_char
+    normalize_char(word[0])
+  end
+
+  def normalize_last_char
+    removal_dash_word = word.sub(/ー+\z/, "")
+    normalize_char(removal_dash_word[-1])
+  end
+
   private
+
+  def normalize_char(char)
+    NORMALIZED_HIRAGANA_CHARS.fetch(char, char)
+  end
 
   def image_attached
     errors.add(:image, "を添付してください") unless image.attached?
@@ -41,7 +66,7 @@ class WordChainWalkStep < ApplicationRecord
     return if word.blank?
     return if word_chain_walk.blank?
 
-    return if word_chain_walk.target_char == word[0] # TODO: 本当はword[0]を正規化する必要がある
+    return if word_chain_walk.target_char == normalize_first_char
 
     errors.add(:word, "と前の文字が繋がっていません")
   end

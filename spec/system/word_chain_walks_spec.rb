@@ -62,7 +62,7 @@ RSpec.describe 'WordChainWalks', type: :system do
 
     expect(page).to have_css(
       '#word_chain_walk_target',
-      text: 'ご'
+      text: 'こ'
     )
 
     expect(page).to have_no_css(
