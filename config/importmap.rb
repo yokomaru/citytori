@@ -7,3 +7,4 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin "leaflet" # @1.9.4
 pin "leaflet-providers" # @3.0.0
+pin "compressorjs" # @1.3.0
