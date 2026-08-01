@@ -45,6 +45,11 @@ export default class extends Controller {
 
     try {
       const compressedFile = await this.compressImage(file);
+
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(compressedFile);
+      this.inputTarget.files = dataTransfer.files;
+
       this.objectUrl = URL.createObjectURL(compressedFile);
       this.imageTarget.src = this.objectUrl;
       this.previewTarget.classList.remove("hidden");
