@@ -83,6 +83,11 @@ export default class extends Controller {
   }
 
   removeImage() {
+    if (this.objectUrl) {
+      URL.revokeObjectURL(this.objectUrl);
+      this.objectUrl = null;
+    }
+
     this.inputTarget.value = "";
     this.imageTarget.src = "";
     this.previewTarget.classList.add("hidden");
