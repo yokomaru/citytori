@@ -43,34 +43,42 @@ export default class extends Controller {
       return;
     }
 
-    new Compressor(file, {
-      quality: 0.6,
+    try {
+      const compressedFile = await this.compressImage(file);
+      this.objectUrl = URL.createObjectURL(compressedFile);
+      this.imageTarget.src = this.objectUrl;
+      this.previewTarget.classList.remove("hidden");
+      this.dispatch("file-selected");
+    } catch (error) {
+      console.error("画像の圧縮に失敗しました", error);
+      alert("画像の処理に失敗しました。もう一度選択してください。");
+      this.removeImage();
+    }
+  }
 
-      success: (result) => {
-        // 開発中の確認用ログ
-        console.log("圧縮前", {
-          name: file.name,
-          type: file.type,
-          size: file.size,
-        });
+  async compressImage(file) {
+    return new Promise((resolve, reject) => {
+      new Compressor(file, {
+        quality: 0.6,
+        success(result) {
+          console.log("圧縮前", {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+          });
 
-        console.log("圧縮後", {
-          name: result.name,
-          type: result.type,
-          size: result.size,
-        });
+          console.log("圧縮後", {
+            name: result.name,
+            type: result.type,
+            size: result.size,
+          });
 
-        this.objectUrl = URL.createObjectURL(result);
-        this.imageTarget.src = this.objectUrl;
-        this.previewTarget.classList.remove("hidden");
-
-        this.dispatch("file-selected");
-      },
-      error: (error) => {
-        console.error("画像の圧縮に失敗しました", error);
-        alert("画像の処理に失敗しました。もう一度選択してください。");
-        this.removeImage();
-      },
+          resolve(result);
+        },
+        error(error) {
+          reject(error);
+        },
+      });
     });
   }
 
