@@ -1,0 +1,34 @@
+ja:
+  defaults:
+    show: 詳細
+    back: 戻る
+    delete: 削除する
+    latest_delete: 最新のステップを削除する
+    edit: 変更
+    new: 新規作成
+    cancel: キャンセル
+    save: 登録
+  views:
+    pagination:
+      first: 最初
+      last: 最後
+      previous: 前
+      next: 次
+      truncate: ...
+  layouts:
+    header:
+      login: Googleでログイン
+      logout: ログアウト
+  word_chain_walks:
+    index:
+      title: しりとり散歩一覧
+    show:
+      title: しりとり散歩詳細
+      delete_latest_confirm: 最新のステップを削除しますか？
+      complete: 散歩を完了する
+      complete_confirm: 散歩を完了しますか？
+  word_chain_walks:
+    index:
+      title: しりとり散歩一覧
+    show:
+      title: しりとり散歩詳細

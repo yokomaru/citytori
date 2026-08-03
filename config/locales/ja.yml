@@ -203,6 +203,7 @@ ja:
       word_chain_walk_step:
         word_chain_walk_id: しりとり散歩
         word: 言葉
+        image: 画像
         memo: メモ
         latitude: 緯度
         longitude: 経度
@@ -210,3 +211,22 @@ ja:
     id: ID
     created_at: 作成日
     updated_at: 更新日
+  messages:
+    already_completed: すでに散歩は完了しています
+    word_chain_walk_completed: しりとり散歩が完了しました
+  sessions:
+    login: ログインしました
+    logout: ログアウトしました
+  word_chain_walks:
+    create:
+      started: しりとり散歩を開始しました
+    completions:
+      show:
+        not_finished: まだ完了していません
+    destroy_latest:
+      finished_walk: 完了済みの散歩では1歩を削除できません
+      deleted: 最新のステップを削除しました
+  word_chain_walk_steps:
+    create:
+      created: 言葉を登録しました
+      latest_deleted: 最新のステップを削除しました
