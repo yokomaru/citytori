@@ -68,7 +68,7 @@ class WordChainWalkStep < ApplicationRecord
 
     return if word_chain_walk.target_char == normalize_first_char
 
-    errors.add(:word, "と前の文字が繋がっていません")
+    errors.add(:base, "入力した言葉と探している文字がつながっていません")
   end
 
   def word_chain_walk_must_not_be_finished
