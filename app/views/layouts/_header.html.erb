@@ -1,11 +1,12 @@
 <header>
   <% if logged_in? %>
-    <%= current_user.name %>さん
-    <%= button_to "ログアウト",
+    <%= current_user.name %>
+    さん
+    <%= button_to t(".logout"),
                   logout_path,
                   method: :post %>
   <% else %>
-    <%= button_to "Googleでログイン",
+    <%= button_to t(".login"),
                   "/auth/google_oauth2",
                   method: :post,
                   data: { turbo: false } %>

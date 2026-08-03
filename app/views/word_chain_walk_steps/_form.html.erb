@@ -27,7 +27,7 @@
 </div>
 
 <div class="my-5">
-  <%= form.label :word, "見つけた言葉" %>
+  <%= form.label :word, WordChainWalkStep.human_attribute_name(:word) %>
 
   <%= form.text_field :word,
                       class: [
@@ -40,7 +40,7 @@
 </div>
 
 <div class="my-5">
-  <%= form.label :memo, "メモ" %>
+  <%= form.label :memo, WordChainWalkStep.human_attribute_name(:memo) %>
 
   <%= form.text_area :memo,
                       rows: 4,

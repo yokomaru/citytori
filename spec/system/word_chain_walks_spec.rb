@@ -51,7 +51,7 @@ RSpec.describe 'WordChainWalks', type: :system do
       'dialog[data-modal-target="modal"][open]'
     )
 
-    fill_in '見つけた言葉', with: 'りんご'
+    fill_in '言葉', with: 'りんご'
     fill_in 'メモ', with: 'メモ'
 
     click_button '登録する'
@@ -84,7 +84,7 @@ RSpec.describe 'WordChainWalks', type: :system do
     click_button '登録する'
 
     within 'dialog[data-modal-target="modal"][open]' do
-      expect(page).to have_content("Word can't be blank")
+      expect(page).to have_content("言葉を入力してください")
     end
   end
 
@@ -98,7 +98,7 @@ RSpec.describe 'WordChainWalks', type: :system do
       make_visible: true
     )
 
-    fill_in '見つけた言葉', with: 'りんご'
+    fill_in '言葉', with: 'りんご'
     fill_in 'メモ', with: 'メモ'
 
     click_button 'キャンセル'
@@ -110,7 +110,7 @@ RSpec.describe 'WordChainWalks', type: :system do
     )
 
     within 'dialog[data-modal-target="modal"][open]' do
-      expect(find_field('見つけた言葉').value).to be_blank
+      expect(find_field('言葉').value).to be_blank
       expect(find_field('メモ').value).to be_blank
     end
   end

@@ -131,7 +131,7 @@ RSpec.describe 'Images', type: :system do
       'dialog[data-modal-target="modal"][open]'
     )
 
-    fill_in '見つけた言葉', with: 'りんご'
+    fill_in '言葉', with: 'りんご'
     fill_in 'メモ', with: 'メモ'
 
     click_button '登録する'
