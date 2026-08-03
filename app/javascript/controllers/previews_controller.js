@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
+import Compressor from "compressorjs";
 
 export default class extends Controller {
   static targets = ["input", "preview", "image"];
@@ -13,7 +14,7 @@ export default class extends Controller {
     this.inputTarget.click();
   }
 
-  preview(e) {
+  async preview(e) {
     if (this.objectUrl) {
       URL.revokeObjectURL(this.objectUrl);
       this.objectUrl = null;
@@ -42,14 +43,56 @@ export default class extends Controller {
       return;
     }
 
-    this.objectUrl = URL.createObjectURL(file);
-    this.imageTarget.src = this.objectUrl;
-    this.previewTarget.classList.remove("hidden");
+    try {
+      const compressedFile = await this.compressImage(file);
 
-    this.dispatch("file-selected");
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(compressedFile);
+      this.inputTarget.files = dataTransfer.files;
+
+      this.objectUrl = URL.createObjectURL(compressedFile);
+      this.imageTarget.src = this.objectUrl;
+      this.previewTarget.classList.remove("hidden");
+      this.dispatch("file-selected");
+    } catch (error) {
+      console.error("画像の圧縮に失敗しました", error);
+      alert("画像の処理に失敗しました。もう一度選択してください。");
+      this.removeImage();
+    }
+  }
+
+  async compressImage(file) {
+    return new Promise((resolve, reject) => {
+      new Compressor(file, {
+        quality: 0.6,
+        success(result) {
+          console.log("圧縮前", {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+          });
+
+          console.log("圧縮後", {
+            name: result.name,
+            type: result.type,
+            size: result.size,
+          });
+
+          resolve(result);
+        },
+        error(error) {
+          reject(error);
+        },
+      });
+    });
   }
 
   removeImage() {
+    if (this.objectUrl) {
+      URL.revokeObjectURL(this.objectUrl);
+      this.objectUrl = null;
+    }
+
     this.inputTarget.value = "";
     this.imageTarget.src = "";
     this.previewTarget.classList.add("hidden");
