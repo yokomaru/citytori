@@ -47,5 +47,8 @@ module Citytori
     end
 
     config.active_storage.variant_processor = :vips
+
+    config.time_zone = "Tokyo"
+    config.i18n.default_locale = :ja
   end
 end
