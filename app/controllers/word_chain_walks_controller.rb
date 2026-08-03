@@ -17,7 +17,7 @@ class WordChainWalksController < ApplicationController
     @word_chain_walk = current_user.word_chain_walks.build
 
     if @word_chain_walk.save
-      redirect_to @word_chain_walk, notice: "しりとり散歩を開始しました"
+      redirect_to @word_chain_walk, notice: t(".started")
     else
       @active_word_chain_walks = current_user.word_chain_walks.active.includes(:word_chain_walk_steps).order(id: :desc)
       @finished_word_chain_walks = current_user.word_chain_walks.finished.includes(:word_chain_walk_steps).order(id: :desc)

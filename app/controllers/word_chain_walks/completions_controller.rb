@@ -5,14 +5,14 @@ class WordChainWalks::CompletionsController < ApplicationController
   def show
     return if @word_chain_walk.finished?
 
-    redirect_to word_chain_walk_path(@word_chain_walk), alert: "まだ完了していません", status: :see_other
+    redirect_to word_chain_walk_path(@word_chain_walk), alert: t(".not_finished"), status: :see_other
   end
 
   def update
     finished_now = @word_chain_walk.finish
 
     redirect_to word_chain_walk_completion_path(@word_chain_walk),
-                notice: finished_now ? "しりとり散歩が完了しました" : "すでに散歩は完了しています",
+                notice: finished_now ? t("messages.word_chain_walk_completed") : t("messages.already_completed"),
                 status: :see_other
   end
 

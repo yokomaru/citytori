@@ -26,14 +26,14 @@ class WordChainWalkStepsController < ApplicationController
 
     if @word_chain_walk_step.word.end_with?("ん")
       @word_chain_walk.finish
-      redirect_to word_chain_walk_completion_path(@word_chain_walk), notice: "しりとり散歩が完了しました", status: :see_other
+      redirect_to word_chain_walk_completion_path(@word_chain_walk), notice: t("messages.word_chain_walk_completed"), status: :see_other
     else
       respond_to do |format|
-        flash.now.notice = "言葉を登録しました"
+        flash.now.notice = t(".created")
 
         format.turbo_stream
         format.html do
-          redirect_to word_chain_walk_path(@word_chain_walk), notice: "言葉を登録しました", status: :see_other
+          redirect_to word_chain_walk_path(@word_chain_walk), notice: t(".created"), status: :see_other
         end
       end
     end
@@ -42,7 +42,7 @@ class WordChainWalkStepsController < ApplicationController
   def destroy_latest
     if @word_chain_walk.finished?
       redirect_to word_chain_walk_path(@word_chain_walk),
-                  alert: "完了済みの散歩ではStepを削除できません",
+                  alert: t(".finished_walk"),
                   status: :see_other
       return
     end
@@ -50,7 +50,7 @@ class WordChainWalkStepsController < ApplicationController
     @word_chain_walk.latest_step&.destroy!
 
     redirect_to word_chain_walk_path(@word_chain_walk),
-                notice: "最新Stepを削除しました",
+                notice: t(".deleted"),
                 status: :see_other
   end
 
