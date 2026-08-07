@@ -10,7 +10,7 @@
 <% end %>
 
 <%= turbo_stream.replace "word_chain_walk_target" do %>
-  <%= render "word_chain_walks/target", word_chain_walk: @word_chain_walk %>
+  <%= render "word_chain_walks/active/target", word_chain_walk: @word_chain_walk %>
 <% end %>
 
 <%= turbo_stream.update "flash_messages" do %>
@@ -18,6 +18,6 @@
 <% end %>
 
 <%= turbo_stream.replace "word_chain_walk_modal_target" do %>
-  <%= render "word_chain_walks/modal_target",
+  <%= render "word_chain_walks/active/modal_target",
              word_chain_walk: @word_chain_walk %>
 <% end %>
