@@ -1,0 +1,16 @@
+<div>
+  <h2 class="font-bold text-2xl mb-4">地図</h2>
+
+  <% if locations.present? %>
+    <div
+      id="walk-map-container"
+      data-controller="walk-map"
+      data-walk-map-positions-value="<%= locations.to_json %>"
+    >
+      <div
+        data-walk-map-target="placeholder"
+        style="height: 500px; width: 100%;"
+      ></div>
+    </div>
+  <% end %>
+</div>
