@@ -3,5 +3,5 @@
 <% if @word_chain_walk.finished? %>
   <%= render "word_chain_walks/finished", word_chain_walk: @word_chain_walk, word_chain_walk_steps: @word_chain_walk_steps, locations: @locations %>
 <% else %>
-  <%= render "word_chain_walks/playing", word_chain_walk: @word_chain_walk, word_chain_walk_steps: @word_chain_walk_steps, word_chain_walk_step: @word_chain_walk_step %>
+  <%= render "word_chain_walks/active", word_chain_walk: @word_chain_walk, word_chain_walk_steps: @word_chain_walk_steps, word_chain_walk_step: @word_chain_walk_step %>
 <% end %>

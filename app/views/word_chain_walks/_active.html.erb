@@ -26,7 +26,7 @@
   </div>
 
   <div class="mb-6">
-    <%= render "word_chain_walks/playing/target", word_chain_walk: word_chain_walk %>
+    <%= render "word_chain_walks/active/target", word_chain_walk: word_chain_walk %>
 
     <div class="mt-4">
       <%= form_with(
@@ -63,7 +63,7 @@
             action: "change->previews#preview"
           } %>
 
-        <%= render "word_chain_walks/playing/modal",
+        <%= render "word_chain_walks/active/modal",
                   form: form,
                   word_chain_walk: word_chain_walk,
                   word_chain_walk_step: word_chain_walk_step %>
