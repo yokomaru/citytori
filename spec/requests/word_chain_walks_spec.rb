@@ -127,12 +127,15 @@ RSpec.describe 'WordChainWalks', type: :request do
   end
 
   describe 'DELETE /word_chain_walks/:id' do
-    it 'しりとり散歩を削除できる' do
+    it 'しりとり散歩と紐づく記録を削除できる' do
       user = FactoryBot.create(:user)
       log_in(user)
       word_chain_walk = FactoryBot.create(:word_chain_walk, user: user)
+      FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk)
+      expect { delete word_chain_walk_path(word_chain_walk) }
+        .to change(WordChainWalk, :count).by(-1)
+        .and change(WordChainWalkStep, :count).by(-1)
 
-      expect { delete word_chain_walk_path(word_chain_walk) }.to change(WordChainWalk, :count).by(-1)
       expect(response).to redirect_to(word_chain_walks_path)
       expect(response).to have_http_status(:see_other)
     end
