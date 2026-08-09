@@ -102,4 +102,27 @@ RSpec.describe 'WordChainWalks', type: :request do
       end
     end
   end
+
+  describe 'GET /word_chain_walks/:id/map' do
+    context '散歩が完了しているの場合' do
+      it '散歩全体の地図が表示できる' do
+        user = FactoryBot.create(:user)
+        log_in(user)
+        word_chain_walk = FactoryBot.create(:word_chain_walk, user: user)
+        word_chain_walk.update!(finished_at: Time.current)
+        get map_word_chain_walk_path(word_chain_walk)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context '散歩が未完了の場合' do
+      it '散歩全体の地図が表示できない' do
+        user = FactoryBot.create(:user)
+        log_in(user)
+        word_chain_walk = FactoryBot.create(:word_chain_walk, user: user)
+        get map_word_chain_walk_path(word_chain_walk)
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end

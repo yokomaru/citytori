@@ -1,0 +1,45 @@
+<div>
+  <div>
+    <%= link_to word_chain_walks_path, class: "text-sm text-gray-500" do %>
+      <span>< しりとり散歩一覧へ</span>
+    <% end %>
+  </div>
+
+  <h1 class="font-bold text-4xl mb-6">
+    <%= @word_chain_walk.start_char %>から始まったしりとり散歩の履歴
+  </h1>
+
+  <div class="grid grid-cols-2 gap-6 py-6">
+    <div class="flex items-start gap-3">
+      <div class="mt-1">
+        <!-- 時計アイコン -->
+      </div>
+
+      <div>
+        <p class="text-sm font-medium text-gray-700">
+          かかった時間
+        </p>
+
+        <p class="mt-1 text-xl font-semibold text-gray-900">
+          <%= formatted_elapsed_time(word_chain_walk.elapsed_seconds) %>
+        </p>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-3">
+      <div class="mt-1">
+        <!-- 歩くアイコン -->
+      </div>
+
+      <div>
+        <p class="text-sm font-medium text-gray-700">
+          つなげた文字の数
+        </p>
+
+        <p class="mt-1 text-xl font-semibold text-gray-900">
+          <%= word_chain_walk_steps.size %>回
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
