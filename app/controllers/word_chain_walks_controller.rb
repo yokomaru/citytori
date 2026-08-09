@@ -30,4 +30,12 @@ class WordChainWalksController < ApplicationController
       render :index, status: :unprocessable_entity
     end
   end
+
+  # DELETE /word_chain_walks/1 or /word_chain_walks/1.json
+  def destroy
+    @word_chain_walk = current_user.word_chain_walks.find(params[:id])
+    @word_chain_walk.destroy!
+
+    redirect_to word_chain_walks_path, notice: "しりとり散歩を削除しました", status: :see_other
+  end
 end
