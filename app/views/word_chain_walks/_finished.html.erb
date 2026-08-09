@@ -4,17 +4,11 @@
   </h1>
 
   <div class="inline-flex w-full items-center rounded-lg bg-gray-100 p-1">
-    <a href="#" class="w-full rounded-md bg-white px-3 py-2 text-center text-sm font-semibold text-gray-900 shadow-sm">
-      タイムライン
-    </a>
-
-    <a href="#" class="w-full rounded-md bg-transparent px-3 py-2 text-center text-sm font-semibold text-gray-500">
-      地図
-    </a>
+    <%= link_to "タイムライン", word_chain_walk_path(word_chain_walk), class: "w-full rounded-md bg-white px-3 py-2 text-center text-sm font-semibold text-gray-900 shadow-sm" %>
+    <%= link_to "地図", map_word_chain_walk_path(word_chain_walk), class: "w-full rounded-md bg-transparent px-3 py-2 text-center text-sm font-semibold text-gray-500" %>
   </div>
 
   <%= render "word_chain_walks/finished/timeline", word_chain_walk: word_chain_walk, word_chain_walk_steps: word_chain_walk_steps %>
-  <%= render "word_chain_walks/finished/map", locations: locations %>
 
   <div class="mt-6">
     <%= link_to "しりとり散歩の一覧へ戻る", word_chain_walks_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
