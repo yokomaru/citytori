@@ -139,5 +139,17 @@ RSpec.describe 'WordChainWalks', type: :request do
       expect(response).to redirect_to(word_chain_walks_path)
       expect(response).to have_http_status(:see_other)
     end
+
+    it "他のユーザーのしりとり散歩は削除できない" do
+      other_user = FactoryBot.create(:user)
+      word_chain_walk = FactoryBot.create(:word_chain_walk, user: other_user)
+      user = FactoryBot.create(:user)
+      log_in(user)
+
+      expect {
+        delete word_chain_walk_path(word_chain_walk)
+      }.not_to change(WordChainWalk, :count)
+      expect(response).to have_http_status(:not_found)
+    end
   end
 end
