@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   get "/auth/failure", to: "sessions#failure"
   post "/logout", to: "sessions#destroy"
 
-  resources :word_chain_walks, only: %i[index create show] do
+  resources :word_chain_walks, only: %i[index create show destroy] do
     get :map, on: :member
     scope module: :word_chain_walks do
       resource :completion, only: %i[show update]
