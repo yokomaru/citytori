@@ -56,7 +56,7 @@ RSpec.describe 'WordChainWalks', type: :system do
 
     click_button '登録する'
 
-    within '#word_chain_walk_steps' do
+    within '#latest_step' do
       expect(page).to have_content('りんご')
     end
 

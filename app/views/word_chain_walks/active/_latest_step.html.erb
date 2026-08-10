@@ -1,0 +1,29 @@
+<div id="latest_step" class="min-w-full divide-y divide-gray-200 space-y-5">
+  <% if word_chain_walk.latest_step.present? %>
+    <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
+      <% if word_chain_walk.latest_step.image.attached? %>
+        <%= image_tag word_chain_walk.latest_step.image.variant(resize_to_limit: [100, 100]) %>
+      <% end %>
+
+      <div>
+        <%= link_to word_chain_walk.latest_step.word,
+                    word_chain_walk_word_chain_walk_step_path(word_chain_walk, word_chain_walk.latest_step),
+                    class: "text-blue-500 hover:underline" %>
+
+        <% if word_chain_walk.latest_step.memo.present? %>
+          <p class="mt-2 text-gray-600 text-sm">
+            <%= word_chain_walk.latest_step.memo %>
+          </p>
+        <% end %>
+      </div>
+
+      <%= button_to "直前の記録を取り消す",
+                    latest_word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+                    method: :delete,
+                    class: "shrink-0 text-sm text-gray-500 underline underline-offset-4 hover:text-gray-700",
+                    data: { turbo_confirm: "登録した言葉を取り消しますか？" } %>
+    </div>
+  <% else %>
+    <p class="my-10 text-center">まだ言葉を見つけていません。</p>
+  <% end %>
+</div>
