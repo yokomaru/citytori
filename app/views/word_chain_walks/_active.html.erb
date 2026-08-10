@@ -10,76 +10,9 @@
   <h1 class="font-bold text-4xl mb-6">しりとり散歩散歩中</h1>
 
   <div class="mb-6">
-
-    <section class="mt-5 text-center">
-      <div class="mt-4">
-        <%= render "word_chain_walks/active/target", word_chain_walk: word_chain_walk %>
-      </div>
-    </section>
-
-    <section class="mt-5 text-center">
-      <div class="mt-4">
-        <%= form_with(
-          model: [word_chain_walk, word_chain_walk_step],
-          data: {
-            controller: "modal previews geolocation",
-            modal_target: "form",
-            action: "
-              previews:file-selected->modal#open
-              previews:file-selected->geolocation#fetchPosition
-              turbo:submit-end->modal#closeIfSubmitSuccess
-              modal:reset->previews#removeImage
-              modal:reset->geolocation#removeGeolocationInfo
-            "
-          }
-        ) do |form| %>
-          <button
-            type="button"
-            data-action="previews#openFileSelector"
-            class="
-              rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500
-              text-white inline-block font-medium cursor-pointer
-            "
-          >
-            写真を撮る
-          </button>
-
-          <%= form.file_field :image,
-            accept: "image/jpeg, image/png",
-            capture: "environment",
-            class: "hidden",
-            data: {
-              previews_target: "input",
-              action: "change->previews#preview"
-            } %>
-
-          <%= render "word_chain_walks/active/modal",
-                    form: form,
-                    word_chain_walk: word_chain_walk,
-                    word_chain_walk_step: word_chain_walk_step %>
-        <% end %>
-    </div>
-  </section>
-
-  <section class="mt-5 text-center">
-    <div>
-      <h2 class="font-bold text-2xl mb-4">Step一覧</h2>
-
-      <div
-        id="word_chain_walk_steps"
-        class="min-w-full divide-y divide-gray-200 space-y-5"
-      >
-        <% if word_chain_walk_steps.any? %>
-          <% latest_step_id = word_chain_walk.latest_step.id %>
-          <% word_chain_walk_steps.each do |word_chain_walk_step| %>
-            <%= render "word_chain_walk_step", word_chain_walk: word_chain_walk, word_chain_walk_step: word_chain_walk_step, latest_step_id: latest_step_id %>
-          <% end %>
-        <% else %>
-          <p class="my-10 text-center">まだ見つけていません。</p>
-        <% end %>
-      </div>
-    </div>
-  </section>
+    <%= render "word_chain_walks/active/target", word_chain_walk: word_chain_walk %>
+    <%= render "word_chain_walks/active/form", word_chain_walk: word_chain_walk, word_chain_walk_step: word_chain_walk_step%>
+    <%= render "word_chain_walks/active/steps", word_chain_walk: word_chain_walk, word_chain_walk_steps: word_chain_walk_steps %>
 
   <section class="mt-5 text-center">
     <div>
