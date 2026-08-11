@@ -15,7 +15,7 @@ class WordChainWalkStepsController < ApplicationController
           render :create_error, status: :unprocessable_entity
         end
         format.html do
-          @word_chain_walk_steps =@word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
+          @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
           @locations = @word_chain_walk.word_chain_walk_steps.where.not(latitude: nil, longitude: nil).order(id: :desc).pluck(:latitude, :longitude)
           render "word_chain_walks/show", status: :unprocessable_entity
         end
@@ -30,6 +30,7 @@ class WordChainWalkStepsController < ApplicationController
     else
       respond_to do |format|
         flash.now.notice = "言葉を登録しました"
+        @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps
 
         format.turbo_stream
         format.html do

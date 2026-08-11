@@ -65,6 +65,11 @@ RSpec.describe 'WordChainWalks', type: :system do
       text: 'こ'
     )
 
+    expect(page).to have_css(
+      '#steps_count',
+      text: '現在 1 個つながっています'
+    )
+
     expect(page).to have_no_css(
       'dialog[data-modal-target="modal"][open]'
     )

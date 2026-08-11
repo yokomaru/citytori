@@ -2,6 +2,10 @@
   <%= render "word_chain_walks/active/latest_step", word_chain_walk: @word_chain_walk %>
 <% end %>
 
+<%= turbo_stream.replace "steps_count" do %>
+  <%= render "word_chain_walks/active/count", word_chain_walk_steps: @word_chain_walk_steps %>
+<% end %>
+
 <%= turbo_stream.replace "word_chain_walk_target" do %>
   <%= render "word_chain_walks/active/target", word_chain_walk: @word_chain_walk %>
 <% end %>
