@@ -1,4 +1,5 @@
 <%= turbo_stream.update "flash_messages", "" %>
+
 <%= turbo_stream.update "word_chain_walk_step_errors" do %>
   <%= render "shared/error_messages", object: @word_chain_walk_step %>
 <% end %>
