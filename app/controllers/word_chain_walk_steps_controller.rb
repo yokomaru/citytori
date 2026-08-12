@@ -15,7 +15,7 @@ class WordChainWalkStepsController < ApplicationController
           render :create_error, status: :unprocessable_entity
         end
         format.html do
-          @word_chain_walk_steps =@word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
+          @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
           @locations = @word_chain_walk.word_chain_walk_steps.where.not(latitude: nil, longitude: nil).order(id: :desc).pluck(:latitude, :longitude)
           render "word_chain_walks/show", status: :unprocessable_entity
         end
@@ -30,6 +30,7 @@ class WordChainWalkStepsController < ApplicationController
     else
       respond_to do |format|
         flash.now.notice = "言葉を登録しました"
+        @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps
 
         format.turbo_stream
         format.html do
@@ -42,7 +43,7 @@ class WordChainWalkStepsController < ApplicationController
   def destroy_latest
     if @word_chain_walk.finished?
       redirect_to word_chain_walk_path(@word_chain_walk),
-                  alert: "完了済みの散歩ではStepを削除できません",
+                  alert: "完了済みの散歩の記録は削除できません",
                   status: :see_other
       return
     end
@@ -50,7 +51,7 @@ class WordChainWalkStepsController < ApplicationController
     @word_chain_walk.latest_step&.destroy!
 
     redirect_to word_chain_walk_path(@word_chain_walk),
-                notice: "最新Stepを削除しました",
+                notice: "直前の記録を削除しました",
                 status: :see_other
   end
 

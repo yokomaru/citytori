@@ -1,0 +1,10 @@
+<section id="steps_count" class="text-center">
+  <% if word_chain_walk_steps.any? %>
+    <p class="mt-2 text-sm text-gray-600 sm:mt-3 sm:text-base">
+      現在
+      <span class="text-lg font-bold text-blue-600 sm:text-xl"><%= word_chain_walk_steps.size %></span>
+      個つながっています
+      <i class="fa-solid fa-dove"></i>
+    </p>
+  <% end %>
+</section>
