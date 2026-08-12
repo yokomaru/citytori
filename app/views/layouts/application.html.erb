@@ -26,13 +26,16 @@
     <%= stylesheet_link_tag "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", integrity: "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=", crossorigin: "" %>
     <%= javascript_importmap_tags %>
 
-    <script src="https://kit.fontawesome.com/e8b67ce65a.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/e8b67ce65a.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
 
   <body>
     <%= render "layouts/header" %>
 
-    <main class="container mx-auto mt-28 px-5 flex">
+    <main class="container mx-auto mt-4 px-5 flex">
       <%= yield %>
     </main>
   </body>

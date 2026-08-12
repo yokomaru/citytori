@@ -1,4 +1,4 @@
-<div class="md:w-2/3 w-full">
+<div class="mx-auto w-full max-w-2xl px-4 sm:px-6">
   <div id="flash_messages">
     <%= render "shared/flash_messages" %>
   </div>
@@ -17,7 +17,7 @@
     </h1>
   </header>
 
-  <div class="mb-6">
+  <div class="mx-auto w-full max-w-3xl px-6 py-8">
     <%= render "word_chain_walks/active/count", word_chain_walk_steps: word_chain_walk_steps %>
     <%= render "word_chain_walks/active/target", word_chain_walk: word_chain_walk %>
     <%= render "word_chain_walks/active/form", word_chain_walk: word_chain_walk, word_chain_walk_step: word_chain_walk_step %>
