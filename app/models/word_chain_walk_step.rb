@@ -17,7 +17,7 @@ class WordChainWalkStep < ApplicationRecord
 
   validates :word, presence: true
   validates :word, length: { maximum: 100 }
-  validates :word, format: { with: /\A[ぁ-ん][ぁ-んー]*\z/ }
+  validates :word, format: { with: /\A[ぁ-ん][ぁ-んー]*\z/, message: "はひらがなとのばし棒(ー)で入力してください" }
   validates :latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90, allow_nil: true }
   validates :longitude, numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180, allow_nil: true }
 
