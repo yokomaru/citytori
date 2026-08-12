@@ -7,6 +7,10 @@
     <%= render "shared/error_messages", object: word_chain_walk_step %>
   </div>
 
+  <div>
+    <%= link_to "< しりとり散歩一覧へ", word_chain_walks_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+  </div>
+
   <h1 class="font-bold text-4xl mb-6">しりとり散歩中</h1>
 
   <div class="mb-6">
@@ -26,10 +30,6 @@
     <section class="mt-5 text-center">
       <div class="mt-6 text-center">
         <%= button_to "しりとり散歩をおしまいにする", word_chain_walk_completion_path(word_chain_walk), method: :patch, class: "text-sm text-gray-500 hover:text-gray-700", data: { turbo_confirm: "しりとり散歩をおしまいにしますか？" } %>
-      </div>
-
-      <div class="mt-6">
-        <%= link_to "一覧へ戻る", word_chain_walks_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
       </div>
     </section>
   </div>
