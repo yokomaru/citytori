@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<div class="my-5">
+<div class="my-5 text-left">
   <div>
     <%= form.hidden_field :latitude, data: { geolocation_target: "latitude" } %>
     <%= form.hidden_field :longitude, data: { geolocation_target: "longitude" } %>
@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<div class="my-5">
+<div class="my-5 text-left">
   <div class="flex items-baseline gap-2">
     <%= form.label :word, "見つけた言葉" %>
     <span class="text-xs text-gray-600">
@@ -45,7 +45,7 @@
                       placeholder: "こーひーしょっぷ" %>
 </div>
 
-<div class="my-5">
+<div class="my-5 text-left">
   <%= form.label :memo, "メモ" %>
 
   <%= form.text_area :memo,
