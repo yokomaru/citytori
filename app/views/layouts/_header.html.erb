@@ -1,6 +1,7 @@
 <header>
   <% if logged_in? %>
-    <%= current_user.name %>さん
+    <%= current_user.name %>
+    さん
     <%= button_to "ログアウト",
                   logout_path,
                   method: :post %>
