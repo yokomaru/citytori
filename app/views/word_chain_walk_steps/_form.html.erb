@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<div class="my-5">
+<div class="my-5 text-left">
   <div>
     <%= form.hidden_field :latitude, data: { geolocation_target: "latitude" } %>
     <%= form.hidden_field :longitude, data: { geolocation_target: "longitude" } %>
@@ -26,8 +26,13 @@
   </div>
 </div>
 
-<div class="my-5">
-  <%= form.label :word, "見つけた言葉" %>
+<div class="my-5 text-left">
+  <div class="flex items-baseline gap-2">
+    <%= form.label :word, "見つけた言葉" %>
+    <span class="text-xs text-gray-600">
+      ※ ひらがなとのばし棒(ー)のみ入力できます
+    </span>
+  </div>
 
   <%= form.text_field :word,
                       class: [
@@ -36,10 +41,11 @@
                           "border-gray-400 focus:outline-blue-600": word_chain_walk_step.errors[:word].none?,
                           "border-red-400 focus:outline-red-600": word_chain_walk_step.errors[:word].any?
                         }
-                      ] %>
+                      ] ,
+                      placeholder: "こーひーしょっぷ" %>
 </div>
 
-<div class="my-5">
+<div class="my-5 text-left">
   <%= form.label :memo, "メモ" %>
 
   <%= form.text_area :memo,
