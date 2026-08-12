@@ -1,3 +1,6 @@
-<h1>Citytori</h1>
-
-<p>Googleアカウントでログインしてしりとり散歩を記録できます。</p>
+<% content_for :title, "Citytori" %>
+<% if current_user %>
+  <%= render "logged_in" %>
+<% else %>
+  <%= render "logged_out" %>
+<% end %>
