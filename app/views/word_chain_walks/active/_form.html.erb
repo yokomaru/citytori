@@ -1,44 +1,44 @@
+<section class="mt-8 text-center">
+  <%= form_with(
+    model: [word_chain_walk, word_chain_walk_step],
+    data: {
+      controller: "modal previews geolocation",
+      modal_target: "form",
+      action: "
+        previews:file-selected->modal#open
+        previews:file-selected->geolocation#fetchPosition
+        turbo:submit-end->modal#closeIfSubmitSuccess
+        modal:reset->previews#removeImage
+        modal:reset->geolocation#removeGeolocationInfo
+      "
+    }
+  ) do |form| %>
+    <button
+      type="button"
+      data-action="previews#openFileSelector"
+      class="
+        inline-flex items-center justify-center
+        rounded-xl bg-blue-600 px-10 py-3
+        text-lg font-bold text-white
+        hover:bg-blue-500
+      "
+    >
+      <i class="fa-regular fa-camera mr-2"></i>
+      写真を撮る
+    </button>
 
-<section class="mt-5 text-center">
-  <div class="mt-4">
-    <%= form_with(
-      model: [word_chain_walk, word_chain_walk_step],
+    <%= form.file_field :image,
+      accept: "image/jpeg, image/png",
+      capture: "environment",
+      class: "hidden",
       data: {
-        controller: "modal previews geolocation",
-        modal_target: "form",
-        action: "
-          previews:file-selected->modal#open
-          previews:file-selected->geolocation#fetchPosition
-          turbo:submit-end->modal#closeIfSubmitSuccess
-          modal:reset->previews#removeImage
-          modal:reset->geolocation#removeGeolocationInfo
-        "
-      }
-    ) do |form| %>
-      <button
-        type="button"
-        data-action="previews#openFileSelector"
-        class="
-          rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500
-          text-white inline-block font-medium cursor-pointer
-        "
-      >
-        写真を撮る
-      </button>
+        previews_target: "input",
+        action: "change->previews#preview"
+      } %>
 
-      <%= form.file_field :image,
-        accept: "image/jpeg, image/png",
-        capture: "environment",
-        class: "hidden",
-        data: {
-          previews_target: "input",
-          action: "change->previews#preview"
-        } %>
-
-      <%= render "word_chain_walks/active/modal",
-                form: form,
-                word_chain_walk: word_chain_walk,
-                word_chain_walk_step: word_chain_walk_step %>
-    <% end %>
-  </div>
+    <%= render "word_chain_walks/active/modal",
+      form: form,
+      word_chain_walk: word_chain_walk,
+      word_chain_walk_step: word_chain_walk_step %>
+  <% end %>
 </section>
