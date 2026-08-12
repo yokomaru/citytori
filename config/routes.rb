@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # TODO: 一時的にログインしたらユーザー情報に飛ぶようにする
   root "home#show"
   resources :users, only: :show
 
