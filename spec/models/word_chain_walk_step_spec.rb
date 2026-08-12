@@ -57,6 +57,7 @@ RSpec.describe WordChainWalkStep, type: :model do
   it 'wordにカタカナが含まれる場合は無効であること' do
     word_chain_walk_step = FactoryBot.build(:word_chain_walk_step, :with_image, word: 'アイウエオ')
     expect(word_chain_walk_step).to be_invalid
+    expect(word_chain_walk_step.errors[:word]).to include('はひらがなとのばし棒(ー)で入力してください')
   end
 
   it '1件目のwordが散歩の開始文字から始まる場合は有効であること' do
