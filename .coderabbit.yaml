@@ -11,7 +11,7 @@ reviews:
     enabled: true
     drafts: false
     base_branches:
-      - "main"
+      - ".*"
   path_instructions:
     - path: "**/*.rb"
       instructions: |-
