@@ -27,7 +27,12 @@
 </div>
 
 <div class="my-5">
-  <%= form.label :word, "見つけた言葉" %>
+  <div class="flex items-baseline gap-2">
+    <%= form.label :word, "見つけた言葉" %>
+    <span class="text-xs text-gray-600">
+      ※ ひらがなとのばし棒(ー)のみ入力できます
+    </span>
+  </div>
 
   <%= form.text_field :word,
                       class: [
