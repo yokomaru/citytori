@@ -17,6 +17,7 @@ class WordChainWalk < ApplicationRecord
 
   # 完了済みの散歩に対してfinished_atを再設定できないようにする
   validate :finished_at_cannot_change_once_set, on: :update
+  validate :must_have_only_one_active_word_chain_walk
 
   after_initialize :assign_random_start_char, if: :new_record?
   after_initialize :assign_started_at, if: :new_record?
@@ -73,5 +74,13 @@ class WordChainWalk < ApplicationRecord
     return unless finished_at_changed? && finished_at_was.present?
 
     errors.add(:finished_at, "は既に設定されています")
+  end
+
+  def must_have_only_one_active_word_chain_walk
+    return if user.nil?
+    return if user.word_chain_walks.nil?
+    return unless user.word_chain_walks.active.where.not(id: id).exists?
+
+    errors.add(:base, "進行中の散歩があるため新しい散歩を作成できません")
   end
 end
