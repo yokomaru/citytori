@@ -46,6 +46,7 @@ module Citytori
       routing_specs: false
     end
 
+    config.time_zone = "Tokyo"
     config.active_storage.variant_processor = :vips
   end
 end
