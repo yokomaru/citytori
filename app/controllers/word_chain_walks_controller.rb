@@ -20,6 +20,13 @@ class WordChainWalksController < ApplicationController
   end
 
   def create
+    active_word_chain_walk = current_user.word_chain_walks.active.first
+
+    if active_word_chain_walk.exists?
+      redirect_to word_chain_walk_path(active_word_chain_walk), alert: "進行中の散歩があります。新しい散歩を始めるには現在の散歩を終了してください。", status: :see_other
+      return
+    end
+
     @word_chain_walk = current_user.word_chain_walks.build
 
     if @word_chain_walk.save
