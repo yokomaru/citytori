@@ -35,10 +35,6 @@
 
   <section id="active_word_chain_walk">
     <% if @active_word_chain_walk.present? %>
-      <h2 class="my-10 text-center text-xl font-bold">
-        進行中の散歩
-      </h2>
-
       <%= render "word_chain_walks/active_word_chain_walk", word_chain_walk: @active_word_chain_walk %>
     <% else %>
       <%= render "word_chain_walks/start_word_chain_walk" %>
