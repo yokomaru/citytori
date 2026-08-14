@@ -152,4 +152,21 @@ RSpec.describe WordChainWalk, type: :model do
       word_chain_walk.finish
     end.not_to change { word_chain_walk.reload.finished_at }
   end
+
+  it '進行中の散歩がない場合は進行中の散歩を作成できる' do
+    user = FactoryBot.create(:user)
+    FactoryBot.create(:word_chain_walk, user: user, finished_at: 1.day.ago)
+    word_chain_walk = FactoryBot.build(:word_chain_walk, user: user)
+
+    expect(word_chain_walk).to be_valid
+  end
+
+  it '進行中の散歩がある場合は進行中の散歩を作成できない' do
+    user = FactoryBot.create(:user)
+    FactoryBot.create(:word_chain_walk, user: user)
+    word_chain_walk = FactoryBot.build(:word_chain_walk, user: user)
+
+    expect(word_chain_walk).to be_invalid
+    expect(word_chain_walk.errors[:base]).to include('進行中の散歩があるため新しい散歩を作成できません')
+  end
 end

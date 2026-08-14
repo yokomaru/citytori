@@ -61,6 +61,37 @@ RSpec.describe 'WordChainWalks', type: :request do
           word_chain_walk_path(created_word_chain_walk)
         )
       end
+
+      it '進行中の散歩がない場合は作成できること' do
+        user = FactoryBot.create(:user)
+        log_in(user)
+        FactoryBot.create(:word_chain_walk, user: user, finished_at: Time.zone.now)
+
+        expect do
+          post word_chain_walks_path
+        end.to change(WordChainWalk, :count)
+        created_word_chain_walk = user.word_chain_walks.order(:id).last
+        expect(response).to redirect_to(
+          word_chain_walk_path(created_word_chain_walk)
+        )
+      end
+
+      it '進行中の散歩がある場合は新規作成せずに進行中の散歩にリダイレクトすること' do
+        user = FactoryBot.create(:user)
+        log_in(user)
+        FactoryBot.create(:word_chain_walk, user: user)
+
+        expect do
+          post word_chain_walks_path
+        end.not_to change(WordChainWalk, :count)
+
+        active_word_chain_walk = user.word_chain_walks.active.first
+        expect(response).to redirect_to(
+          word_chain_walk_path(active_word_chain_walk)
+        )
+
+        expect(flash[:alert]).to eq("進行中の散歩があります。新しい散歩を始めるには現在の散歩を終了してください。")
+      end
     end
 
     context 'ログインしていない場合' do
