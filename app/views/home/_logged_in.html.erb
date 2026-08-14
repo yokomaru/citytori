@@ -41,28 +41,26 @@
     <% end %>
   </section>
 
-  <section id="finished_word_chain_walks">
+  <section id="finished_word_chain_walks" class="mt-12">
     <% if @finished_word_chain_walks.any? %>
-      <h2 class="my-10 text-center text-xl font-bold">
-        過去の散歩
-      </h2>
-
-      <div
-        id="word_chain_walks"
-        class="min-w-full space-y-5 divide-y divide-gray-200"
-      >
+      <div class="mb-5 flex items-center justify-center">
+        <h2 class="my-10 text-center text-xl font-bold">
+          過去の散歩
+        </h2>
+      </div>
+      <div id="word_chain_walks" class="divide-y divide-gray-200">
         <% @finished_word_chain_walks.each do |finished_word_chain_walk| %>
           <%= render "word_chain_walks/finished_word_chain_walk", word_chain_walk: finished_word_chain_walk %>
         <% end %>
       </div>
-    <% end %>
-  </section>
-
-  <% if @active_word_chain_walks.blank? && @finished_word_chain_walks.blank? %>
-    <section id="empty_word_chain_walks">
-      <p class="my-10 text-center">
-        早速遊ぼう
+    <% else %>
+      <p class="text-sm text-gray-500">
+        まだ散歩の記録はありません
       </p>
-    </section>
-  <% end %>
+    <% end %>
+
+    <div class="mb-5 flex items-center justify-center">
+      <%= link_to "もっと見る", word_chain_walks_path, class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
+    </div>
+  </section>
 </div>
