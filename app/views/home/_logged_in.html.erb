@@ -1,3 +1,83 @@
-<section>
-  <p>ログイン後のホーム</p>
-</section>
+<% content_for :title, "しりとり散歩" %>
+
+<div class="w-full">
+  <section id="flash_messages">
+    <% if notice.present? %>
+      <p
+        class="
+          mb-5 inline-block rounded-md bg-green-50 px-3 py-2
+          font-medium text-green-500
+        "
+        id="notice"
+      >
+        <%= notice %>
+      </p>
+    <% end %>
+
+    <% if alert.present? %>
+      <p
+        class="
+          mb-5 inline-block rounded-md bg-red-50 px-3 py-2
+          font-medium text-red-500
+        "
+        id="alert"
+      >
+        <%= alert %>
+      </p>
+    <% end %>
+  </section>
+
+  <% if @word_chain_walk %>
+    <section id="word_chain_walk_errors">
+      <%= render "shared/error_messages", object: @word_chain_walk %>
+    </section>
+  <% end %>
+
+  <section id="active_word_chain_walk">
+    <% if @active_word_chain_walks.any? %>
+      <h2 class="my-10 text-center text-xl font-bold">
+        現在進行中の散歩
+      </h2>
+
+      <% @active_word_chain_walks.each do |active_word_chain_walk| %>
+        <%= render "word_chain_walks/active_word_chain_walk", word_chain_walk: active_word_chain_walk %>
+      <% end %>
+    <% else %>
+      <div class="flex items-center justify-between">
+        <h1 class="text-4xl font-bold">
+          しりとり散歩
+        </h1>
+
+        <%= button_to "始める",
+                      word_chain_walks_path,
+                      method: :post,
+                      class: "block rounded-md bg-blue-600 px-3.5 py-2.5 font-medium text-white hover:bg-blue-500" %>
+      </div>
+    <% end %>
+  </section>
+
+  <section id="finished_word_chain_walks">
+    <% if @finished_word_chain_walks.any? %>
+      <h2 class="my-10 text-center text-xl font-bold">
+        過去の散歩
+      </h2>
+
+      <div
+        id="word_chain_walks"
+        class="min-w-full space-y-5 divide-y divide-gray-200"
+      >
+        <% @finished_word_chain_walks.each do |finished_word_chain_walk| %>
+          <%= render "word_chain_walks/finished_word_chain_walk", word_chain_walk: finished_word_chain_walk %>
+        <% end %>
+      </div>
+    <% end %>
+  </section>
+
+  <% if @active_word_chain_walks.blank? && @finished_word_chain_walks.blank? %>
+    <section id="empty_word_chain_walks">
+      <p class="my-10 text-center">
+        早速遊ぼう
+      </p>
+    </section>
+  <% end %>
+</div>
