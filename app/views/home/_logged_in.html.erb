@@ -41,24 +41,26 @@
     <% end %>
   </section>
 
-  <section id="finished_word_chain_walks" class="mb-4 px-6">
+  <section id="finished_word_chain_walks" class="mb-4 px-4">
     <% if @finished_word_chain_walks.any? %>
       <div class="mx-auto max-w-2xl">
         <h2 class="mb-4 text-xl font-bold">
-          進行中の散歩
+          直近のしりとり散歩
         </h2>
-      </div>
 
-      <div id="word_chain_walks" class="mx-auto max-w-2xl">
-        <% @finished_word_chain_walks.each do |finished_word_chain_walk| %>
-          <%= render "word_chain_walks/finished_word_chain_walk", word_chain_walk: finished_word_chain_walk %>
-        <% end %>
-      </div>
+        <div id="word_chain_walks">
+          <% @finished_word_chain_walks.each do |finished_word_chain_walk| %>
+            <%= render "word_chain_walks/finished_word_chain_walk",
+                      word_chain_walk: finished_word_chain_walk %>
+          <% end %>
+        </div>
 
-      <div class="mb-5 flex items-center justify-center">
-        <%= link_to "もっと見る", word_chain_walks_path, class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
+        <div class="mb-5 mt-2 text-center">
+          <%= link_to "もっと見る",
+                      word_chain_walks_path,
+                      class: "text-sm text-gray-600" %>
+        </div>
       </div>
-
     <% else %>
       <p class="text-sm text-gray-500">
         まだ散歩の記録はありません
