@@ -41,9 +41,9 @@
 
       <div class="flex gap-10">
         <div>
-          <p>見つけた文字</p>
+          <p>つないだ言葉の数</p>
 
-          <p>
+          <p class="font-bold">
             <%= word_chain_walk.word_chain_walk_steps.size %>個
           </p>
         </div>
@@ -51,7 +51,7 @@
         <div>
           <p>経過時間</p>
 
-          <p>
+          <p class="font-bold">
             <%= formatted_elapsed_time(word_chain_walk.elapsed_seconds) %>
           </p>
         </div>
