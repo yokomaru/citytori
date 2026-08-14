@@ -1,34 +1,13 @@
-<div id="<%= dom_id word_chain_walk %>" class="mx-auto max-w-3xl py-5">
-  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-    <div>
-      <div class="mb-2">
-        <span class="text-sm text-gray-500">
-          <%= l word_chain_walk.finished_at, format: :short %>
-        </span>
-      </div>
+<div id="<%= dom_id word_chain_walk %>" class="mx-auto max-w-2xl py-1">
+  <%= link_to word_chain_walk, class: "block rounded-md border border-gray-200 p-4" do %>
+    <p class="text-sm">
+      <%= l word_chain_walk.finished_at, format: :short %>
+    </p>
 
-      <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-        <p>
-          <span class="text-gray-500"> 見つけた言葉 </span>
-
-          <strong class="ml-1 font-medium text-gray-900">
-            <%= word_chain_walk.word_chain_walk_steps.size %>個
-          </strong>
-        </p>
-
-        <p>
-          <span class="text-gray-500"> 時間 </span>
-
-          <strong class="ml-1 font-medium text-gray-900">
-            <%= formatted_elapsed_time(word_chain_walk.elapsed_seconds) %>
-          </strong>
-        </p>
-      </div>
+    <div class="mt-2 text-center">
+      <p class="text-base font-bold">
+        「<%= word_chain_walk.start_char %>」からはじまった散歩
+      </p>
     </div>
-
-    <div class="flex items-center gap-3">
-      <%= link_to "詳細", word_chain_walk, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-      <%= button_to "削除", word_chain_walk, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "本当に削除しますか？" } %>
-    </div>
-  </div>
+  <% end %>
 </div>
