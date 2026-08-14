@@ -57,10 +57,12 @@
         </div>
       </div>
 
-      <% if word_chain_walk.word_chain_walk_steps.any? %>
+      <% if latest_step %>
         <div>
-          <p>
-            直前に見つけた文字: <%= word_chain_walk.latest_step.word %>
+          <p>前回見つけた言葉</p>
+
+          <p class="font-bold">
+            <%= latest_step.word %>
           </p>
         </div>
       <% end %>
