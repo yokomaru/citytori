@@ -5,71 +5,70 @@
 
   <% latest_step = word_chain_walk.latest_step %>
 
-  <div
-    class="
-      mx-auto w-full max-w-2xl rounded-xl border border-gray-200 p-5
-      md:flex md:items-start md:gap-8 md:p-6
-    "
-  >
-    <div class="mb-6 w-full md:mb-0 md:w-2/5">
-      <% if latest_step&.image&.attached? %>
-        <%= image_tag latest_step.image, class: "aspect-square w-full rounded-md object-cover" %>
-      <% else %>
-        <div
-          class="
-            flex aspect-square w-full items-center justify-center
-            rounded-md bg-gray-100 text-sm text-gray-500
-          "
-        >
-          No Image
+  <div class="mx-auto w-full max-w-2xl rounded-xl border border-gray-200 p-5">
+    <div class="md:flex md:gap-8">
+      <div class="mb-6 w-full md:mb-0 md:w-2/5">
+        <% if latest_step&.image&.attached? %>
+          <%= image_tag latest_step.image, class: "aspect-square w-full rounded-md object-cover" %>
+        <% else %>
+          <div
+            class="
+              flex aspect-square w-full items-center justify-center
+              rounded-md bg-gray-100 text-sm text-gray-500
+            "
+          >
+            No Image
+          </div>
+        <% end %>
+      </div>
+
+      <div class="w-full space-y-5 md:w-3/5">
+        <p>
+          <%= l word_chain_walk.started_at, format: :short %> 開始
+        </p>
+
+        <div>
+          <p>探している文字</p>
+
+          <p class="text-3xl font-bold">
+            <%= word_chain_walk.target_char %>
+          </p>
         </div>
-      <% end %>
+
+        <div class="flex gap-10">
+          <div>
+            <p>つないだ言葉の数</p>
+
+            <p class="font-bold">
+              <%= word_chain_walk.word_chain_walk_steps.size %>個
+            </p>
+          </div>
+
+          <div>
+            <p>経過時間</p>
+
+            <p class="font-bold">
+              <%= formatted_elapsed_time(word_chain_walk.elapsed_seconds) %>
+            </p>
+          </div>
+        </div>
+
+        <% if latest_step %>
+          <div>
+            <p>前回見つけた言葉</p>
+
+            <p class="font-bold">
+              <%= latest_step.word %>
+            </p>
+          </div>
+        <% end %>
+      </div>
     </div>
 
-    <div class="w-full space-y-5 md:w-3/5">
-      <p>
-        <%= l word_chain_walk.started_at, format: :short %> 開始
-      </p>
-
-      <div>
-        <p>探している文字</p>
-
-        <p class="text-3xl font-bold">
-          <%= word_chain_walk.target_char %>
-        </p>
-      </div>
-
-      <div class="flex gap-10">
-        <div>
-          <p>つないだ言葉の数</p>
-
-          <p class="font-bold">
-            <%= word_chain_walk.word_chain_walk_steps.size %>個
-          </p>
-        </div>
-
-        <div>
-          <p>経過時間</p>
-
-          <p class="font-bold">
-            <%= formatted_elapsed_time(word_chain_walk.elapsed_seconds) %>
-          </p>
-        </div>
-      </div>
-
-      <% if latest_step %>
-        <div>
-          <p>前回見つけた言葉</p>
-
-          <p class="font-bold">
-            <%= latest_step.word %>
-          </p>
-        </div>
-      <% end %>
-
-      <div>
-        <%= link_to "続きから歩く", word_chain_walk, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium" %>
-      </div>
+    <div class="mt-6 text-center">
+      <%= link_to "続きから歩く",
+                  word_chain_walk,
+                  class: "inline-block w-64 bg-blue-600 py-3 text-center text-white rounded-md" %>
     </div>
   </div>
 </div>
