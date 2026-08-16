@@ -4,18 +4,18 @@
   <section id="word_chain_walks" class="mb-4 px-4">
     <div class="mx-auto max-w-2xl">
       <h1 class="font-bold text-4xl">散歩の記録</h1>
-        <% if @finished_word_chain_walks.any? %>
-          <div id="word_chain_walks">
-            <% @finished_word_chain_walks.each do |finished_word_chain_walk| %>
-              <%= render "word_chain_walks/finished_word_chain_walk",
-                        word_chain_walk: finished_word_chain_walk %>
-            <% end %>
-          </div>
-        <% else %>
-          <p class="text-sm text-gray-500">
-            まだ散歩の記録はありません
-          </p>
-        <% end %>
+
+      <% if @word_chain_walks.any? %>
+        <div id="word_chain_walks">
+          <% @word_chain_walks.each do |word_chain_walk| %>
+            <%= render "word_chain_walks/word_chain_walk", word_chain_walk: word_chain_walk %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm text-gray-500">
+          まだ散歩の記録はありません
+        </p>
+      <% end %>
     </div>
   </section>
 </div>
