@@ -29,11 +29,11 @@
           <% end %>
         </div>
 
-        <div class="mb-5 mt-2 text-center">
-          <%= link_to "もっと見る",
-                      word_chain_walks_path,
-                      class: "text-sm text-gray-600" %>
-        </div>
+        <% if current_user.word_chain_walks.finished.size > 3 %>
+          <div class="mb-5 mt-2 text-center">
+            <%= link_to "もっと見る", word_chain_walks_path, class: "text-sm text-gray-600" %>
+          </div>
+        <% end %>
       </div>
     <% else %>
       <p class="text-sm text-gray-500">
