@@ -35,6 +35,10 @@
   <body>
     <%= render "layouts/header" %>
 
+    <div id="flash_messages">
+      <%= render "shared/flash_messages" %>
+    </div>
+
     <main class="container mx-auto mt-4 px-5 flex">
       <%= yield %>
     </main>
