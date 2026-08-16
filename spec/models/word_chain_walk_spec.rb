@@ -169,4 +169,64 @@ RSpec.describe WordChainWalk, type: :model do
     expect(word_chain_walk).to be_invalid
     expect(word_chain_walk.errors[:base]).to include('進行中の散歩があるため新しい散歩を作成できません')
   end
+
+  it "正常な開始地点の緯度経度の場合は有効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, start_latitude: 35.681236, start_longitude: 139.767125)
+    expect(word_chain_walk).to be_valid
+  end
+
+  it "開始地点の緯度が範囲外の場合は無効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, start_latitude: 91, start_longitude: 139.767125)
+    expect(word_chain_walk).to be_invalid
+  end
+
+  it "開始地点の経度が範囲外の場合は無効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, start_latitude: 35.681236, start_longitude: 181)
+    expect(word_chain_walk).to be_invalid
+  end
+
+  it "開始地点の緯度と経度が両方nilの場合は有効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, start_latitude: nil, start_longitude: nil)
+    expect(word_chain_walk).to be_valid
+  end
+
+  it "開始地点の緯度だけある場合は無効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, start_latitude: 35.681236, start_longitude: nil)
+    expect(word_chain_walk).to be_invalid
+  end
+
+  it "開始地点の経度だけある場合は無効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, start_latitude: nil, start_longitude: 139.767125)
+    expect(word_chain_walk).to be_invalid
+  end
+
+  it "正常な終了地点の緯度経度の場合は有効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, finish_latitude: 35.681236, finish_longitude: 139.767125)
+    expect(word_chain_walk).to be_valid
+  end
+
+  it "終了地点の緯度が範囲外の場合は無効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, finish_latitude: 91, finish_longitude: 139.767125)
+    expect(word_chain_walk).to be_invalid
+  end
+
+  it "終了地点の経度が範囲外の場合は無効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, finish_latitude: 35.681236, finish_longitude: 181)
+    expect(word_chain_walk).to be_invalid
+  end
+
+  it "終了地点の緯度と経度が両方nilの場合は有効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, finish_latitude: nil, finish_longitude: nil)
+    expect(word_chain_walk).to be_valid
+  end
+
+  it "終了地点の緯度だけある場合は無効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, finish_latitude: 35.681236, finish_longitude: nil)
+    expect(word_chain_walk).to be_invalid
+  end
+
+  it "終了地点の経度だけある場合は無効であること" do
+    word_chain_walk = FactoryBot.build(:word_chain_walk, finish_latitude: nil, finish_longitude: 139.767125)
+    expect(word_chain_walk).to be_invalid
+  end
 end
