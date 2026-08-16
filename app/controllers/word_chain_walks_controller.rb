@@ -33,6 +33,7 @@ class WordChainWalksController < ApplicationController
     else
       @active_word_chain_walks = current_user.word_chain_walks.active.includes(:word_chain_walk_steps).order(id: :desc)
       @finished_word_chain_walks = current_user.word_chain_walks.finished.includes(:word_chain_walk_steps).order(id: :desc)
+      @word_chain_walks = current_user.word_chain_walks.includes(:word_chain_walk_steps).order(id: :desc)
       render :index, status: :unprocessable_entity
     end
   end
