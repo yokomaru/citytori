@@ -45,11 +45,11 @@
       <div class="w-2/3">
         <div class="mt-3">
           <% if word_chain_walk.finished? %>
-            <p class="text-lg font-bold">
+            <p class="text-base font-bold leading-snug md:text-lg">
               「<%= word_chain_walk.start_char %>」からはじまった散歩
             </p>
           <% else %>
-            <p class="text-lg font-bold">
+            <p class="text-base font-bold leading-snug md:text-lg">
               現在「<%= word_chain_walk.target_char %>」を探しています
             </p>
           <% end %>
