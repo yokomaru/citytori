@@ -15,9 +15,16 @@ class WordChainWalk < ApplicationRecord
   validates :started_at, presence: true
   validates :finished_at, comparison: { greater_than: :started_at }, allow_nil: true
 
+  validates :start_latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90, allow_nil: true }
+  validates :start_longitude, numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180, allow_nil: true }
+  validates :finish_latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90, allow_nil: true }
+  validates :finish_longitude, numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180, allow_nil: true }
+
   # 完了済みの散歩に対してfinished_atを再設定できないようにする
   validate :finished_at_cannot_change_once_set, on: :update
   validate :must_have_only_one_active_word_chain_walk
+  validate :start_latitude_and_start_longitude_must_be_both_present_or_blank
+  validate :finish_latitude_and_finish_longitude_must_be_both_present_or_blank
 
   after_initialize :assign_random_start_char, if: :new_record?
   after_initialize :assign_started_at, if: :new_record?
@@ -82,5 +89,19 @@ class WordChainWalk < ApplicationRecord
     return unless user.word_chain_walks.active.where.not(id: id).exists?
 
     errors.add(:base, "進行中の散歩があるため新しい散歩を作成できません")
+  end
+
+  def start_latitude_and_start_longitude_must_be_both_present_or_blank
+    return if start_latitude.blank? && start_longitude.blank?
+    return if start_latitude.present? && start_longitude.present?
+
+    errors.add(:base, "開始時の緯度と経度は両方必要です")
+  end
+
+  def finish_latitude_and_finish_longitude_must_be_both_present_or_blank
+    return if finish_latitude.blank? && finish_longitude.blank?
+    return if finish_latitude.present? && finish_longitude.present?
+
+    errors.add(:base, "完了時の緯度と経度は両方必要です")
   end
 end
