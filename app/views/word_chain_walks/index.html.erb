@@ -1,33 +1,21 @@
-<% content_for :title, "しりとり散歩" %>
+<% content_for :title, "散歩の記録" %>
 
 <div class="w-full">
-  <% if @active_word_chain_walks.any? %>
-    <p class="text-center my-10">現在進行中の散歩を表示する</p>
-    <% @active_word_chain_walks.each do |active_word_chain_walk| %>
-      <%= render 'active_word_chain_walk', word_chain_walk: active_word_chain_walk %>
-    <% end %>
-  <% else %>
-    <div class="flex justify-between items-center">
-      <h1 class="font-bold text-4xl">しりとり散歩</h1>
-
-      <%= button_to "始める", word_chain_walks_path, method: :post, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
+  <section id="word_chain_walks" class="mb-4 px-4">
+    <div class="mx-auto max-w-2xl">
+      <h1 class="font-bold text-4xl">散歩の記録</h1>
+        <% if @finished_word_chain_walks.any? %>
+          <div id="word_chain_walks">
+            <% @finished_word_chain_walks.each do |finished_word_chain_walk| %>
+              <%= render "word_chain_walks/finished_word_chain_walk",
+                        word_chain_walk: finished_word_chain_walk %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-sm text-gray-500">
+            まだ散歩の記録はありません
+          </p>
+        <% end %>
     </div>
-  <% end %>
-
-  <% if @finished_word_chain_walks.any? %>
-    <div
-      id="word_chain_walks"
-      class="min-w-full divide-y divide-gray-200 space-y-5"
-    >
-      <p class="text-center my-10">過去の散歩を表示する</p>
-
-      <% @finished_word_chain_walks.each do |finished_word_chain_walk| %>
-        <%= render 'finished_word_chain_walk', word_chain_walk: finished_word_chain_walk %>
-      <% end %>
-    </div>
-  <% end %>
-
-  <% if @active_word_chain_walks.blank? && @finished_word_chain_walks.blank? %>
-    <p class="text-center my-10">早速遊ぼう</p>
-  <% end %>
+  </section>
 </div>
