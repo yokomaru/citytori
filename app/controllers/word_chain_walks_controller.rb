@@ -3,7 +3,7 @@ class WordChainWalksController < ApplicationController
 
   def index
     @active_word_chain_walks = current_user.word_chain_walks.active.includes(:word_chain_walk_steps).order(id: :desc)
-    @finished_word_chain_walks = current_user.word_chain_walks.finished.includes(:word_chain_walk_steps).order(id: :desc)
+    @finished_word_chain_walks = current_user.word_chain_walks.finished.order(id: :desc)
   end
 
   def show
