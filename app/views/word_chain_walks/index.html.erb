@@ -1,24 +1,28 @@
 <% content_for :title, "散歩の記録" %>
 
 <div class="w-full">
-  <section id="word_chain_walks" class="mb-4 px-4">
+  <section class="mb-4 px-4">
     <div class="mx-auto max-w-2xl">
       <h1 class="font-bold text-4xl">散歩の記録</h1>
 
       <% if @word_chain_walks.any? %>
-        <div id="word_chain_walks">
+        <div>
           <% @word_chain_walks.each do |word_chain_walk| %>
             <%= render "word_chain_walks/word_chain_walk", word_chain_walk: word_chain_walk %>
           <% end %>
         </div>
       <% else %>
         <div class="mx-auto mt-6 max-w-2xl rounded-xl border border-gray-200 p-5">
-          <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div
+            class="
+              flex flex-col gap-4 sm:flex-row sm:items-center
+              sm:justify-between
+            "
+          >
             <div>
               <p class="font-bold text-gray-900">
                 まだ散歩の記録はありません
               </p>
-
             </div>
 
             <%= button_to "散歩を始める",
