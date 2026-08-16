@@ -17,6 +17,6 @@ class SessionsController < ApplicationController
 
   def failure
     Rails.logger.warn("Google OAuth failed: #{params[:message]}")
-    redirect_to root_path, alert: "Googleログインに失敗しました"
+    redirect_to root_path, alert: "Googleログインに失敗しました。もう一度お試しください。"
   end
 end

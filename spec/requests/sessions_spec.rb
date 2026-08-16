@@ -62,7 +62,7 @@ RSpec.describe "Sessions", type: :request do
       get "/auth/failure", params: { message: "invalid_credentials" }
 
       expect(response).to redirect_to(root_path)
-      expect(flash[:alert]).to eq("Googleログインに失敗しました")
+      expect(flash[:alert]).to eq("Googleログインに失敗しました。もう一度お試しください。")
     end
   end
 
