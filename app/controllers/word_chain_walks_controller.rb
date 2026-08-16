@@ -2,8 +2,7 @@ class WordChainWalksController < ApplicationController
   before_action :authenticate
 
   def index
-    @active_word_chain_walks = current_user.word_chain_walks.active.includes(:word_chain_walk_steps).order(id: :desc)
-    @finished_word_chain_walks = current_user.word_chain_walks.finished.order(id: :desc)
+    @word_chain_walks = current_user.word_chain_walks.includes(:word_chain_walk_steps).order(id: :desc)
   end
 
   def show
@@ -34,6 +33,7 @@ class WordChainWalksController < ApplicationController
     else
       @active_word_chain_walks = current_user.word_chain_walks.active.includes(:word_chain_walk_steps).order(id: :desc)
       @finished_word_chain_walks = current_user.word_chain_walks.finished.includes(:word_chain_walk_steps).order(id: :desc)
+      @word_chain_walks = current_user.word_chain_walks.includes(:word_chain_walk_steps).order(id: :desc)
       render :index, status: :unprocessable_entity
     end
   end
@@ -43,6 +43,6 @@ class WordChainWalksController < ApplicationController
     @word_chain_walk = current_user.word_chain_walks.find(params[:id])
     @word_chain_walk.destroy!
 
-    redirect_to word_chain_walks_path, notice: "しりとり散歩を削除しました", status: :see_other
+    redirect_to root_path, notice: "しりとり散歩を削除しました", status: :see_other
   end
 end

@@ -1,7 +1,7 @@
 <div>
   <div>
-    <%= link_to word_chain_walks_path, class: "text-sm text-gray-500" do %>
-      <span>< しりとり散歩一覧へ</span>
+    <%= link_to root_path, class: "text-sm text-gray-500" do %>
+      <span>< ホームへ戻る</span>
     <% end %>
   </div>
 
@@ -41,5 +41,13 @@
         </p>
       </div>
     </div>
+  </div>
+
+  <div class="flex justify-end pb-4">
+    <%= button_to "この散歩を削除する",
+                  word_chain_walk_path(word_chain_walk),
+                  method: :delete,
+                  class: "text-sm text-gray-400 underline underline-offset-4 hover:text-red-500",
+                  data: { turbo_confirm: "この散歩の記録を削除しますか？" } %>
   </div>
 </div>
