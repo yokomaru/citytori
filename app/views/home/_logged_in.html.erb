@@ -1,32 +1,6 @@
 <% content_for :title, "しりとり散歩" %>
 
 <div class="w-full">
-  <section id="flash_messages">
-    <% if notice.present? %>
-      <p
-        class="
-          mb-5 inline-block rounded-md bg-green-50 px-3 py-2 font-medium
-          text-green-500
-        "
-        id="notice"
-      >
-        <%= notice %>
-      </p>
-    <% end %>
-
-    <% if alert.present? %>
-      <p
-        class="
-          mb-5 inline-block rounded-md bg-red-50 px-3 py-2 font-medium
-          text-red-500
-        "
-        id="alert"
-      >
-        <%= alert %>
-      </p>
-    <% end %>
-  </section>
-
   <% if @word_chain_walk %>
     <section id="word_chain_walk_errors">
       <%= render "shared/error_messages", object: @word_chain_walk %>
