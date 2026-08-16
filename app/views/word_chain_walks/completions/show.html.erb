@@ -7,5 +7,5 @@
   <p>かかった時間: <%= formatted_elapsed_time(@word_chain_walk.elapsed_seconds) %></p>
 
   <%= link_to "詳細を見る", word_chain_walk_path(@word_chain_walk), class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "一覧へ戻る", word_chain_walks_path, class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <%= link_to "ホームへ戻る", root_path, class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
 </div>

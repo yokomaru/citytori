@@ -167,7 +167,7 @@ RSpec.describe 'WordChainWalks', type: :request do
         .to change(WordChainWalk, :count).by(-1)
         .and change(WordChainWalkStep, :count).by(-1)
 
-      expect(response).to redirect_to(word_chain_walks_path)
+      expect(response).to redirect_to(root_path)
       expect(response).to have_http_status(:see_other)
     end
 
