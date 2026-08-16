@@ -12,10 +12,20 @@
           <% end %>
         </div>
       <% else %>
-        <div class="py-10 text-center">
-          <p class="text-sm text-gray-500">
-            まだ散歩の記録はありません
-          </p>
+        <div class="mx-auto mt-6 max-w-2xl rounded-xl border border-gray-200 p-5">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p class="font-bold text-gray-900">
+                まだ散歩の記録はありません
+              </p>
+
+            </div>
+
+            <%= button_to "散歩を始める",
+                          word_chain_walks_path,
+                          method: :post,
+                          class: "w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500 sm:w-auto" %>
+          </div>
         </div>
       <% end %>
     </div>
