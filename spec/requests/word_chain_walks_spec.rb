@@ -50,11 +50,15 @@ RSpec.describe 'WordChainWalks', type: :request do
     context 'ログインしている場合' do
       it 'ログインユーザーに紐づく散歩を作成できること' do
         user = FactoryBot.create(:user)
+
         log_in(user)
+
         expect do
-          post word_chain_walks_path
+          post word_chain_walks_path, params: { word_chain_walk: { start_latitude: 35.681236, start_longitude: 139.767125 } }
         end.to change(user.word_chain_walks, :count).by(1)
+
         created_word_chain_walk = user.word_chain_walks.order(:id).last
+
         expect(created_word_chain_walk.start_char).to be_present
         expect(created_word_chain_walk.started_at).to be_present
         expect(response).to redirect_to(
@@ -68,7 +72,7 @@ RSpec.describe 'WordChainWalks', type: :request do
         FactoryBot.create(:word_chain_walk, user: user, finished_at: Time.zone.now)
 
         expect do
-          post word_chain_walks_path
+          post word_chain_walks_path, params: { word_chain_walk: { start_latitude: 35.681236, start_longitude: 139.767125 } }
         end.to change(WordChainWalk, :count)
         created_word_chain_walk = user.word_chain_walks.order(:id).last
         expect(response).to redirect_to(
@@ -82,7 +86,7 @@ RSpec.describe 'WordChainWalks', type: :request do
         FactoryBot.create(:word_chain_walk, user: user)
 
         expect do
-          post word_chain_walks_path
+          post word_chain_walks_path, params: { word_chain_walk: { start_latitude: 35.681236, start_longitude: 139.767125 } }
         end.not_to change(WordChainWalk, :count)
 
         active_word_chain_walk = user.word_chain_walks.active.first
@@ -97,7 +101,7 @@ RSpec.describe 'WordChainWalks', type: :request do
     context 'ログインしていない場合' do
       it '散歩を作成できないこと' do
         expect do
-          post word_chain_walks_path
+          post word_chain_walks_path, params: { word_chain_walk: { start_latitude: 35.681236, start_longitude: 139.767125 } }
         end.not_to change(WordChainWalk, :count)
         expect(response).to redirect_to(root_path)
       end
