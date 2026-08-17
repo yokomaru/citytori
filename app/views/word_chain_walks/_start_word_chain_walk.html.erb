@@ -13,12 +13,15 @@
         街を歩いて、言葉を見つけてみよう！
       </p>
 
-      <div class="mt-4">
-        <%= button_to "始める",
-                      word_chain_walks_path,
-                      method: :post,
-                      class: "rounded-md bg-blue-600 px-10 py-3 text-lg text-white" %>
-      </div>
+      <%= form_with model: word_chain_walk, data: { controller: "form", action: "geolocation:geolocation-fetched->form#submit" } do |form| %>
+        <div data-controller="geolocation" class="mt-4">
+          <%= form.hidden_field :start_latitude, data: { geolocation_target: "latitude" } %>
+          <%= form.hidden_field :start_longitude, data: { geolocation_target: "longitude" } %>
+          <%= button_tag "始める", type: "button", class: "rounded-md bg-blue-600 px-10 py-3 text-lg text-white", data: { action: "click->geolocation#fetchPositionAndSubmit" } %>
+
+          <p data-geolocation-target="position"></p>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
