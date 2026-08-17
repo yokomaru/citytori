@@ -71,4 +71,40 @@ export default class extends Controller {
     this.statusTarget.textContent = "";
     this.positionTarget.textContent = "";
   }
+
+  fetchPositionAndSubmit() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        this.latitudeTarget.value = latitude;
+        this.longitudeTarget.value = longitude;
+
+        this.showPosition(
+          this.latitudeTarget.value,
+          this.longitudeTarget.value,
+        );
+        this.dispatch("geolocation-fetched");
+      },
+      () => {
+        this.latitudeTarget.value = "";
+        this.longitudeTarget.value = "";
+        if (
+          window.confirm(
+            "位置情報を取得できませんでした。このまま開始の位置情報なしで進めますか？",
+          )
+        ) {
+          this.dispatch("geolocation-fetched");
+        } else {
+          alert("電波状況や権限を見直して再度開始ボタンを押してください");
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      },
+    );
+  }
 }
