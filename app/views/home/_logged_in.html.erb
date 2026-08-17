@@ -11,7 +11,7 @@
     <% if @active_word_chain_walk.present? %>
       <%= render "word_chain_walks/active_word_chain_walk", word_chain_walk: @active_word_chain_walk %>
     <% else %>
-      <%= render "word_chain_walks/start_word_chain_walk" %>
+      <%= render "word_chain_walks/start_word_chain_walk", word_chain_walk: @word_chain_walk %>
     <% end %>
   </section>
 
