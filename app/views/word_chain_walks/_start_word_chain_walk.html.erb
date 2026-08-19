@@ -18,8 +18,6 @@
           <%= form.hidden_field :start_latitude, data: { geolocation_target: "latitude" } %>
           <%= form.hidden_field :start_longitude, data: { geolocation_target: "longitude" } %>
           <%= button_tag "始める", type: "button", class: "rounded-md bg-blue-600 px-10 py-3 text-lg text-white", data: { action: "click->geolocation#fetchPositionAndSubmit" } %>
-
-          <p data-geolocation-target="position"></p>
         </div>
       <% end %>
     </div>
