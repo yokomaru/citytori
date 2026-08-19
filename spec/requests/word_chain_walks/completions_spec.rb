@@ -2,23 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'WordChainWalks::Completions', type: :request do
   let(:user) { FactoryBot.create(:user) }
-  let(:other_user) { FactoryBot.create(:user) }
 
   let(:word_chain_walk) do
     FactoryBot.create(:word_chain_walk, user: user, start_char: 'り')
-  end
-
-  let(:other_word_chain_walk) do
-    FactoryBot.create(:word_chain_walk, user: other_user, start_char: 'り')
-  end
-
-  let(:finished_word_chain_walk) do
-    FactoryBot.create(
-      :word_chain_walk,
-      user: user,
-      start_char: 'り',
-      finished_at: Time.current
-    )
   end
 
   def log_in(user)
@@ -37,64 +23,73 @@ RSpec.describe 'WordChainWalks::Completions', type: :request do
   end
 
   describe 'PATCH /word_chain_walks/:word_chain_walk_id/completion' do
-    it '進行中の散歩を任意完了できること' do
+    it '進行中の散歩を完了した後に完了画面へリダイレクトすること' do
       log_in(user)
+
       expect do
-        patch word_chain_walk_completion_path(word_chain_walk)
+        patch word_chain_walk_completion_path(word_chain_walk),
+                params: { word_chain_walk: { finish_latitude: 35.681236, finish_longitude: 139.767125 } }
       end.to change { word_chain_walk.reload.finished? }.from(false).to(true)
+      expect(word_chain_walk.finished_at).to be_present
+      expect(response).to redirect_to(word_chain_walk_completion_path(word_chain_walk))
     end
 
-    it '任意完了するとfinished_atが保存されること' do
+    it '他人の散歩は完了できず404エラーになること' do
       log_in(user)
-      patch word_chain_walk_completion_path(word_chain_walk)
-      expect(word_chain_walk.reload.finished_at).to be_present
-    end
 
-    it '任意完了後に完了画面へリダイレクトされること' do
-      log_in(user)
-      patch word_chain_walk_completion_path(word_chain_walk)
-      expect(response).to redirect_to(
-        word_chain_walk_completion_path(word_chain_walk)
-      )
-    end
+      other_user = FactoryBot.create(:user)
+      other_word_chain_walk = FactoryBot.create(:word_chain_walk, user: other_user, start_char: 'り')
 
-    it '他人の散歩を任意完了できないこと' do
-      log_in(user)
       expect do
-        patch word_chain_walk_completion_path(other_word_chain_walk)
+        patch word_chain_walk_completion_path(other_word_chain_walk),
+                params: { word_chain_walk: { finish_latitude: 35.681236, finish_longitude: 139.767125 } }
       end.not_to change { other_word_chain_walk.reload.finished_at }
-    end
 
-    it '他人の散歩を任意完了しようとすると404になること' do
-      log_in(user)
-      patch word_chain_walk_completion_path(other_word_chain_walk)
       expect(response).to have_http_status(:not_found)
     end
 
-    it '未ログインでは任意完了できないこと' do
-      patch word_chain_walk_completion_path(word_chain_walk)
+    it '未ログインでは散歩を完了できないこと' do
+      patch word_chain_walk_completion_path(word_chain_walk),
+              params: { word_chain_walk: { finish_latitude: 35.681236, finish_longitude: 139.767125 } }
       expect(response).to redirect_to(root_path)
     end
 
-    it '完了済みの散歩に再完了リクエストしても完了状態のままであること' do
+    it '完了済みの散歩に再度完了リクエストした場合は更新せず、ホームへリダイレクトして完了済みメッセージを表示すること' do
       log_in(user)
-      patch word_chain_walk_completion_path(finished_word_chain_walk)
-      expect(finished_word_chain_walk.reload.finished?).to be true
+      finished_word_chain_walk = FactoryBot.create(:word_chain_walk, user: user, start_char: 'り', finished_at: Time.current)
+
+      expect do
+        patch word_chain_walk_completion_path(finished_word_chain_walk),
+                params: { word_chain_walk: { finish_latitude: 35.681236, finish_longitude: 139.767125 } }
+      end.not_to change { finished_word_chain_walk.reload.finished_at }
+
+      expect(response).to redirect_to(root_path)
+      expect(flash[:notice]).to eq('すでに散歩は完了しています')
     end
 
-    it '完了済みの散歩に再度完了リクエストした場合は完了済みメッセージを表示すること' do
+    it '進行中の散歩の完了が失敗した場合は進行中の画面にエラーメッセージを表示すること' do
       log_in(user)
 
-      finished_word_chain_walk =
-        FactoryBot.create(
-          :word_chain_walk,
-          user: user,
-          finished_at: 1.day.ago
-        )
+      expect do
+        patch word_chain_walk_completion_path(word_chain_walk),
+                params: { word_chain_walk: { finish_latitude: 35.681236, finish_longitude: nil } }
+      end.not_to change { word_chain_walk.reload.finished? }.from(false)
 
-      patch word_chain_walk_completion_path(finished_word_chain_walk)
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include('しりとり散歩中')
+      expect(flash[:alert]).to eq('しりとり散歩を完了できませんでした')
+    end
 
-      expect(flash[:notice]).to eq('すでに散歩は完了しています')
+    it '完了時点の位置情報はnilでも保存できること' do
+      log_in(user)
+
+      expect do
+        patch word_chain_walk_completion_path(word_chain_walk),
+                params: { word_chain_walk: { finish_latitude: nil, finish_longitude: nil } }
+      end.to change { word_chain_walk.reload.finished? }.from(false).to(true)
+
+      expect(word_chain_walk.finish_latitude).to be_nil
+      expect(word_chain_walk.finish_longitude).to be_nil
     end
   end
 end
