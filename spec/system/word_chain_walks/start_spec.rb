@@ -75,13 +75,14 @@ RSpec.describe 'Start', type: :system do
     begin
       set_failure_browser_geolocation
 
+      expect do
         accept_alert("電波状況や権限を見直して再度ボタンを押してください") do
           dismiss_confirm("位置情報を取得できませんでした。このまま位置情報なしで進めますか？") do
             click_button '始める'
           end
         end
-
-      expect(user.word_chain_walks.count).to eq(0)
+        expect(page).to have_content('しりとり散歩を始めよう')
+      end.not_to change { user.word_chain_walks.count }.from(0)
     ensure
       page.driver.browser.execute_cdp('Emulation.clearGeolocationOverride')
     end
