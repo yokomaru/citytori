@@ -92,12 +92,12 @@ export default class extends Controller {
         this.longitudeTarget.value = "";
         if (
           window.confirm(
-            "位置情報を取得できませんでした。このまま開始の位置情報なしで進めますか？",
+            "位置情報を取得できませんでした。このまま位置情報なしで進めますか？",
           )
         ) {
           this.dispatch("geolocation-fetched");
         } else {
-          alert("電波状況や権限を見直して再度開始ボタンを押してください");
+          alert("電波状況や権限を見直して再度ボタンを押してください");
         }
       },
       {

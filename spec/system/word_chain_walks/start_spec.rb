@@ -51,7 +51,7 @@ RSpec.describe 'Start', type: :system do
     begin
       set_failure_browser_geolocation
 
-      accept_confirm("位置情報を取得できませんでした。このまま開始の位置情報なしで進めますか？") do
+      accept_confirm("位置情報を取得できませんでした。このまま位置情報なしで進めますか？") do
         click_button '始める'
       end
 
@@ -75,13 +75,11 @@ RSpec.describe 'Start', type: :system do
     begin
       set_failure_browser_geolocation
 
-
-      accept_alert("電波状況や権限を見直して再度開始ボタンを押してください") do
-        dismiss_confirm("位置情報を取得できませんでした。このまま開始の位置情報なしで進めますか？") do
-          click_button '始める'
+        accept_alert("電波状況や権限を見直して再度ボタンを押してください") do
+          dismiss_confirm("位置情報を取得できませんでした。このまま位置情報なしで進めますか？") do
+            click_button '始める'
+          end
         end
-      end
-
 
       expect(user.word_chain_walks.count).to eq(0)
     ensure
