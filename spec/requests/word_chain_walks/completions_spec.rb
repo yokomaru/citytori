@@ -56,7 +56,7 @@ RSpec.describe 'WordChainWalks::Completions', type: :request do
 
     it '完了済みの散歩に再度完了リクエストした場合は更新せず、ホームへリダイレクトして完了済みメッセージを表示すること' do
       log_in(user)
-      finished_word_chain_walk = FactoryBot.create( :word_chain_walk, user: user, start_char: 'り', finished_at: Time.current)
+      finished_word_chain_walk = FactoryBot.create(:word_chain_walk, user: user, start_char: 'り', finished_at: Time.current)
 
       expect do
         patch word_chain_walk_completion_path(finished_word_chain_walk),
@@ -65,6 +65,31 @@ RSpec.describe 'WordChainWalks::Completions', type: :request do
 
       expect(response).to redirect_to(root_path)
       expect(flash[:notice]).to eq('すでに散歩は完了しています')
+    end
+
+    it '進行中の散歩の完了が失敗した場合は進行中の画面にエラーメッセージを表示すること' do
+      log_in(user)
+
+      expect do
+        patch word_chain_walk_completion_path(word_chain_walk),
+                params: { word_chain_walk: { finish_latitude: 35.681236, finish_longitude: nil } }
+      end.not_to change { word_chain_walk.reload.finished? }.from(false)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include('しりとり散歩中')
+      expect(flash[:alert]).to eq('しりとり散歩を完了できませんでした')
+    end
+
+    it '完了時点の位置情報はnilでも保存できること' do
+      log_in(user)
+
+      expect do
+        patch word_chain_walk_completion_path(word_chain_walk),
+                params: { word_chain_walk: { finish_latitude: nil, finish_longitude: nil } }
+      end.to change { word_chain_walk.reload.finished? }.from(false).to(true)
+
+      expect(word_chain_walk.finish_latitude).to be_nil
+      expect(word_chain_walk.finish_longitude).to be_nil
     end
   end
 end
