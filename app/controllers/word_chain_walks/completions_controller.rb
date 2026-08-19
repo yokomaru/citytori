@@ -17,7 +17,8 @@ class WordChainWalks::CompletionsController < ApplicationController
       return
     end
 
-    if @word_chain_walk.update(word_chain_walk_completion_params.merge(finished_at: Time.current))
+    if @word_chain_walk.update(word_chain_walk_completion_params)
+      @word_chain_walk.update!(finished_at: Time.current)
       redirect_to word_chain_walk_completion_path(@word_chain_walk), notice: "しりとり散歩が完了しました",  status: :see_other
     else
       @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.order(id: :desc)
