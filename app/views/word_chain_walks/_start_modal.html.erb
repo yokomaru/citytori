@@ -16,12 +16,43 @@
         ×
       </button>
 
-      <div class="mt-4">
+      <h2 class="text-center text-xl font-bold">
+        位置情報について
+      </h2>
+
+      <div class="mt-6 space-y-4 text-sm text-gray-700">
+        <p class="flex gap-2">
+          <i class="fa-solid fa-check"></i>
+          <span>見つけた言葉と写真を登録するときに、位置情報も一緒に保存します</span>
+        </p>
+
+        <p class="flex gap-2">
+          <i class="fa-solid fa-check"></i>
+          <span>位置情報を取得しなくても、言葉と写真は登録できます</span>
+        </p>
+
+        <p class="flex gap-2">
+          <i class="fa-solid fa-check"></i>
+          <span>位置情報の許可は、途中でもブラウザの設定から変更できます</span>
+        </p>
+      </div>
+
+      <div class="mt-6 text-center">
+        <%= link_to "位置情報の設定方法を見る",
+                    "#",
+                    class: "text-sm text-blue-600 underline" %>
+      </div>
+
+      <div class="mt-6">
         <%= button_to "散歩を始める",
                       word_chain_walks_path,
                       method: :post,
-                      class: "rounded-md bg-blue-600 px-10 py-3 text-lg text-white" %>
+                      class: "w-full rounded-md bg-blue-600 px-4 py-3 text-lg text-white" %>
       </div>
+
+      <p class="mt-4 text-xs text-gray-500">
+        ※位置情報の設定を変更した場合は、このモーダルを一度閉じてもう一度「始める」を押してください。
+      </p>
     </div>
   </div>
 </dialog>
