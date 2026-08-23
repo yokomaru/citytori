@@ -20,6 +20,14 @@
         位置情報について
       </h2>
 
+      <div class="mt-6 flex items-center justify-center gap-2">
+        <i data-walk-start-target="spinner" class="fa-solid fa-spinner fa-spin"></i>
+
+        <p data-walk-start-target="status">
+          位置情報を取得しています…
+        </p>
+      </div>
+
       <div class="mt-6 space-y-4 text-sm text-gray-700">
         <p class="flex gap-2">
           <i class="fa-solid fa-check"></i>
@@ -47,7 +55,8 @@
         <%= button_to "散歩を始める",
                       word_chain_walks_path,
                       method: :post,
-                      class: "w-full rounded-md bg-blue-600 px-4 py-3 text-lg text-white" %>
+                      disabled: true,
+                      class: "mt-6 w-full rounded-md bg-blue-600 px-4 py-3 text-lg text-white disabled:cursor-not-allowed disabled:bg-gray-400" %>
       </div>
 
       <p class="mt-4 text-xs text-gray-500">
