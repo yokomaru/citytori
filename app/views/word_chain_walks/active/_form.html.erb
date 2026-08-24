@@ -2,7 +2,7 @@
   <%= form_with(
     model: [word_chain_walk, word_chain_walk_step],
     data: {
-      controller: "modal previews geolocation",
+      controller: "modal previews geolocation form",
       modal_target: "form",
       action: "
         previews:file-selected->modal#open
@@ -10,6 +10,7 @@
         turbo:submit-end->modal#closeIfSubmitSuccess
         modal:reset->previews#removeImage
         modal:reset->geolocation#removeGeolocationInfo
+        submit->form#finishConfirmEndWithN
       "
     }
   ) do |form| %>
