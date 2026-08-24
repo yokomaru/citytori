@@ -1,19 +1,21 @@
 import { Controller } from "@hotwired/stimulus";
 
-// Connects to data-controller="geolocation"
 export default class extends Controller {
   static targets = [
-    "latitude",
-    "longitude",
+    "modal",
     "loadingStatus",
     "successStatus",
     "failedStatus",
+    "startButton",
   ];
 
-  connect() {
-    if (this.latitudeTarget.value && this.longitudeTarget.value) {
-      this.showSuccess();
-    }
+  open() {
+    this.modalTarget.showModal();
+    this.fetchPosition();
+  }
+
+  close() {
+    this.modalTarget.close();
   }
 
   fetchPosition() {
@@ -25,20 +27,14 @@ export default class extends Controller {
     }
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.latitudeTarget.value = position.coords.latitude;
-        this.longitudeTarget.value = position.coords.longitude;
-
-        this.showSuccess();
+      () => {
+        this.showSucceeded();
       },
       () => {
-        this.latitudeTarget.value = "";
-        this.longitudeTarget.value = "";
-
         this.showFailed();
       },
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 10000,
         maximumAge: 0,
       },
@@ -49,24 +45,23 @@ export default class extends Controller {
     this.loadingStatusTarget.hidden = false;
     this.successStatusTarget.hidden = true;
     this.failedStatusTarget.hidden = true;
+    this.startButtonTarget.disabled = true;
+    this.startButtonTarget.textContent = "散歩を始める";
   }
 
-  showSuccess() {
+  showSucceeded() {
     this.loadingStatusTarget.hidden = true;
     this.successStatusTarget.hidden = false;
     this.failedStatusTarget.hidden = true;
+    this.startButtonTarget.disabled = false;
+    this.startButtonTarget.textContent = "散歩を始める";
   }
 
   showFailed() {
     this.loadingStatusTarget.hidden = true;
     this.successStatusTarget.hidden = true;
     this.failedStatusTarget.hidden = false;
-  }
-
-  removeGeolocationInfo() {
-    this.latitudeTarget.value = "";
-    this.longitudeTarget.value = "";
-
-    this.showLoading();
+    this.startButtonTarget.disabled = false;
+    this.startButtonTarget.textContent = "位置情報なしで散歩を始める";
   }
 }

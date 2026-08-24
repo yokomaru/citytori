@@ -197,7 +197,7 @@ RSpec.describe 'WordChainWalks', type: :system do
       within 'dialog[data-modal-target="modal"][open]' do
         expect(page).to have_field('word_chain_walk_step_latitude', with: '35.6586', type: 'hidden')
         expect(page).to have_field('word_chain_walk_step_longitude', with: '139.7454', type: 'hidden')
-        expect(page).to have_content('位置情報を取得しました。')
+        expect(page).to have_content('位置情報を取得できました')
       end
 
       click_button 'キャンセル'
@@ -213,7 +213,7 @@ RSpec.describe 'WordChainWalks', type: :system do
       within 'dialog[data-modal-target="modal"][open]' do
         expect(page).to have_field('word_chain_walk_step_latitude', with: '34.6525', type: 'hidden')
         expect(page).to have_field('word_chain_walk_step_longitude', with: '135.5063', type: 'hidden')
-        expect(page).to have_content('位置情報を取得しました。')
+        expect(page).to have_content('位置情報を取得できました')
       end
     ensure
       page.driver.browser.execute_cdp('Emulation.clearGeolocationOverride')

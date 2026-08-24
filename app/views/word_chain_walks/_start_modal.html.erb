@@ -1,0 +1,94 @@
+<dialog
+  data-walk-start-target="modal"
+  class="
+    fixed inset-0 size-auto max-h-none max-w-none bg-transparent p-0
+    backdrop:bg-black/70
+  "
+>
+  <div class="flex min-h-full items-center justify-center p-4">
+    <div class="relative w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
+      <button
+        type="button"
+        data-action="walk-start#close"
+        aria-label="閉じる"
+        class="absolute right-4 top-4 text-xl text-gray-500"
+      >
+        ×
+      </button>
+
+      <h2 class="text-center text-xl font-bold">
+        位置情報について
+      </h2>
+
+      <div data-walk-start-target="loadingStatus">
+        <div
+          class="
+            mt-6 flex items-center justify-center gap-2 rounded-md border
+            border-amber-300 bg-amber-100 px-4 py-4 text-amber-700
+          "
+        >
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <p>位置情報を取得しています…</p>
+        </div>
+      </div>
+
+      <div data-walk-start-target="successStatus" hidden>
+        <div
+          class="
+            mt-6 flex items-center justify-center gap-2 rounded-md border
+            border-green-300 bg-green-100 px-4 py-4 text-green-700
+          "
+        >
+          <i class="fa-solid fa-circle-check"></i>
+          <p>位置情報を取得できました</p>
+        </div>
+      </div>
+
+      <div data-walk-start-target="failedStatus" hidden>
+        <div
+          class="
+            mt-6 flex items-center justify-center gap-2 rounded-md border
+            border-gray-300 bg-gray-100 px-4 py-4 text-gray-700
+          "
+        >
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <p>位置情報を取得できませんでした</p>
+        </div>
+      </div>
+
+      <div class="mt-6 space-y-4 text-sm text-gray-700">
+        <p class="flex gap-2">
+          <i class="fa-solid fa-check"></i>
+          <span>見つけた言葉と写真を登録するときに、位置情報も一緒に保存します</span>
+        </p>
+
+        <p class="flex gap-2">
+          <i class="fa-solid fa-check"></i>
+          <span>位置情報を取得しなくても、言葉と写真は登録できます</span>
+        </p>
+
+        <p class="flex gap-2">
+          <i class="fa-solid fa-check"></i>
+          <span>位置情報の許可は、途中でもブラウザの設定から変更できます</span>
+        </p>
+      </div>
+
+      <div class="mt-5 text-center">
+        <%= link_to "位置情報の設定方法を見る",
+                    "#",
+                    class: "text-sm text-blue-600 underline" %>
+      </div>
+
+      <%= button_to "散歩を始める",
+                    word_chain_walks_path,
+                    method: :post,
+                    disabled: true,
+                    data: { walk_start_target: "startButton" },
+                    class: "mt-5 w-full rounded-md bg-blue-600 px-4 py-3 text-lg text-white disabled:cursor-not-allowed disabled:bg-gray-400" %>
+
+      <p class="mt-4 text-xs text-gray-500">
+        ※位置情報の設定を変更した場合は、このモーダルを一度閉じてもう一度「始める」を押してください。
+      </p>
+    </div>
+  </div>
+</dialog>
