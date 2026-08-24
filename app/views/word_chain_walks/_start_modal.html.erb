@@ -20,28 +20,40 @@
         位置情報について
       </h2>
 
-      <div
-        data-walk-start-target="statusBox"
-        class="
-          mt-6 flex items-center justify-center gap-2 rounded-md border
-          border-amber-300 bg-amber-100 px-4 py-4 text-amber-700
-        "
-      >
-        <span data-walk-start-target="loadingIcon">
+      <div data-walk-start-target="loadingStatus">
+        <div
+          class="
+            mt-6 flex items-center justify-center gap-2 rounded-md border
+            border-amber-300 bg-amber-100 px-4 py-4 text-amber-700
+          "
+        >
           <i class="fa-solid fa-spinner fa-spin"></i>
-        </span>
+          <p>位置情報を取得しています…</p>
+        </div>
+      </div>
 
-        <span data-walk-start-target="successIcon" class="hidden">
+      <div data-walk-start-target="successStatus" hidden>
+        <div
+          class="
+            mt-6 flex items-center justify-center gap-2 rounded-md border
+            border-green-300 bg-green-100 px-4 py-4 text-green-700
+          "
+        >
           <i class="fa-solid fa-circle-check"></i>
-        </span>
+          <p>位置情報を取得できました</p>
+        </div>
+      </div>
 
-        <span data-walk-start-target="failedIcon" class="hidden">
+      <div data-walk-start-target="failedStatus" hidden>
+        <div
+          class="
+            mt-6 flex items-center justify-center gap-2 rounded-md border
+            border-gray-300 bg-gray-100 px-4 py-4 text-gray-700
+          "
+        >
           <i class="fa-solid fa-circle-exclamation"></i>
-        </span>
-
-        <p data-walk-start-target="status">
-          位置情報を取得しています…
-        </p>
+          <p>位置情報を取得できませんでした</p>
+        </div>
       </div>
 
       <div class="mt-6 space-y-4 text-sm text-gray-700">
@@ -68,11 +80,11 @@
       </div>
 
       <%= button_to "散歩を始める",
-                      word_chain_walks_path,
-                      method: :post,
-                      disabled: true,
-                      data: { walk_start_target: "startButton" },
-                      class: "mt-5 w-full rounded-md bg-blue-600 px-4 py-3 text-lg text-white disabled:cursor-not-allowed disabled:bg-gray-400" %>
+                    word_chain_walks_path,
+                    method: :post,
+                    disabled: true,
+                    data: { walk_start_target: "startButton" },
+                    class: "mt-5 w-full rounded-md bg-blue-600 px-4 py-3 text-lg text-white disabled:cursor-not-allowed disabled:bg-gray-400" %>
 
       <p class="mt-4 text-xs text-gray-500">
         ※位置情報の設定を変更した場合は、このモーダルを一度閉じてもう一度「始める」を押してください。
