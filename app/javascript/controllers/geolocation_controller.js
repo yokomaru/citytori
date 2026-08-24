@@ -2,11 +2,10 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="geolocation"
 export default class extends Controller {
-  static targets = ["latitude", "longitude", "status", "position"];
+  static targets = ["latitude", "longitude", "status"];
 
   connect() {
     if (this.latitudeTarget.value && this.longitudeTarget.value) {
-      this.showPosition(this.latitudeTarget.value, this.longitudeTarget.value);
       this.showStatus("位置情報を取得済みです。");
     }
   }
@@ -28,7 +27,6 @@ export default class extends Controller {
         this.longitudeTarget.value = longitude;
 
         this.showStatus("位置情報を取得しました。");
-        this.showPosition(latitude, longitude);
       },
       () => {
         this.latitudeTarget.value = "";
@@ -37,7 +35,6 @@ export default class extends Controller {
         this.showStatus(
           "位置情報を取得できませんでした。位置情報なしで登録できます。",
         );
-        this.clearPosition();
       },
       {
         enableHighAccuracy: true,
@@ -53,22 +50,9 @@ export default class extends Controller {
     }
   }
 
-  showPosition(latitude, longitude) {
-    if (this.hasPositionTarget) {
-      this.positionTarget.textContent = `緯度: ${latitude}, 経度: ${longitude}`;
-    }
-  }
-
-  clearPosition() {
-    if (this.hasPositionTarget) {
-      this.positionTarget.textContent = "";
-    }
-  }
-
   removeGeolocationInfo() {
     this.latitudeTarget.value = "";
     this.longitudeTarget.value = "";
     this.statusTarget.textContent = "";
-    this.positionTarget.textContent = "";
   }
 }
