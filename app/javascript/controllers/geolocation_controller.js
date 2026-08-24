@@ -2,39 +2,40 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="geolocation"
 export default class extends Controller {
-  static targets = ["latitude", "longitude", "status"];
+  static targets = [
+    "latitude",
+    "longitude",
+    "loadingStatus",
+    "successStatus",
+    "failedStatus",
+  ];
 
   connect() {
     if (this.latitudeTarget.value && this.longitudeTarget.value) {
-      this.showStatus("位置情報を取得済みです。");
+      this.showSuccess();
     }
   }
 
   fetchPosition() {
+    this.showLoading();
+
     if (!navigator.geolocation) {
-      this.showStatus("このブラウザでは位置情報を取得できません。");
+      this.showFailed();
       return;
     }
 
-    this.showStatus("位置情報を取得しています...");
-
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
+        this.latitudeTarget.value = position.coords.latitude;
+        this.longitudeTarget.value = position.coords.longitude;
 
-        this.latitudeTarget.value = latitude;
-        this.longitudeTarget.value = longitude;
-
-        this.showStatus("位置情報を取得しました。");
+        this.showSuccess();
       },
       () => {
         this.latitudeTarget.value = "";
         this.longitudeTarget.value = "";
 
-        this.showStatus(
-          "位置情報を取得できませんでした。位置情報なしで登録できます。",
-        );
+        this.showFailed();
       },
       {
         enableHighAccuracy: true,
@@ -44,15 +45,28 @@ export default class extends Controller {
     );
   }
 
-  showStatus(message) {
-    if (this.hasStatusTarget) {
-      this.statusTarget.textContent = message;
-    }
+  showLoading() {
+    this.loadingStatusTarget.hidden = false;
+    this.successStatusTarget.hidden = true;
+    this.failedStatusTarget.hidden = true;
+  }
+
+  showSuccess() {
+    this.loadingStatusTarget.hidden = true;
+    this.successStatusTarget.hidden = false;
+    this.failedStatusTarget.hidden = true;
+  }
+
+  showFailed() {
+    this.loadingStatusTarget.hidden = true;
+    this.successStatusTarget.hidden = true;
+    this.failedStatusTarget.hidden = false;
   }
 
   removeGeolocationInfo() {
     this.latitudeTarget.value = "";
     this.longitudeTarget.value = "";
-    this.statusTarget.textContent = "";
+
+    this.showLoading();
   }
 }
