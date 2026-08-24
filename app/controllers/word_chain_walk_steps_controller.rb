@@ -24,7 +24,7 @@ class WordChainWalkStepsController < ApplicationController
       return
     end
 
-    if @word_chain_walk_step.word.end_with?("ん")
+    if @word_chain_walk_step.normalize_last_char == "ん"
       @word_chain_walk.finish
       redirect_to word_chain_walk_completion_path(@word_chain_walk), notice: "しりとり散歩が完了しました", status: :see_other
     else
