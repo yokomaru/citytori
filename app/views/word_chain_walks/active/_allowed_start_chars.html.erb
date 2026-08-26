@@ -1,0 +1,24 @@
+<% allowed_start_chars = word_chain_walk.allowed_start_chars %>
+
+<% if allowed_start_chars.any? %>
+  <div
+    class="
+      mt-3 mx-auto flex max-w-md items-center gap-3 rounded-2xl bg-blue-50
+      px-4 py-3
+    "
+  >
+    <div
+      class="
+        flex h-9 w-9 shrink-0 items-center justify-center rounded-full
+        bg-blue-600 text-white
+      "
+    >
+      <i class="fa-solid fa-check"></i>
+    </div>
+
+    <p class="text-sm text-slate-800">
+      <span class="font-medium text-blue-600"><%= formatted_allowed_start_chars(allowed_start_chars) %></span>
+      から始まる言葉でもOKです
+    </p>
+  </div>
+<% end %>

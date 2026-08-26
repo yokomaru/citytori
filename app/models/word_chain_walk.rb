@@ -55,6 +55,11 @@ class WordChainWalk < ApplicationRecord
     latest_step.normalize_last_char
   end
 
+  def allowed_start_chars
+    char = target_char
+    WordChainWalkStep::NORMALIZED_HIRAGANA_CHARS.select { |k, v| v == char }.keys
+  end
+
   private
 
   def assign_random_start_char

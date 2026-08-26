@@ -169,4 +169,18 @@ RSpec.describe WordChainWalk, type: :model do
     expect(word_chain_walk).to be_invalid
     expect(word_chain_walk.errors[:base]).to include('進行中の散歩があるため新しい散歩を作成できません')
   end
+
+  it '通常のひらがな1文字の場合は空の配列が返ってくること' do
+    user = FactoryBot.create(:user)
+    word_chain_walk = FactoryBot.create(:word_chain_walk, user: user, start_char: "ま")
+
+    expect(word_chain_walk.allowed_start_chars).to eq []
+  end
+
+  it '複数の文字に紐づく文字の場合は複数の要素の配列が返ってくること' do
+    user = FactoryBot.create(:user)
+    word_chain_walk = FactoryBot.create(:word_chain_walk, user: user, start_char: "は")
+
+    expect(word_chain_walk.allowed_start_chars).to eq [ "ば", "ぱ" ]
+  end
 end
