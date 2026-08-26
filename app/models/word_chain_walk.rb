@@ -56,7 +56,8 @@ class WordChainWalk < ApplicationRecord
   end
 
   def allowed_start_chars
-     WordChainWalkStep::NORMALIZED_HIRAGANA_CHARS.select { |k, v| v == target_char }.keys
+    char = target_char
+    WordChainWalkStep::NORMALIZED_HIRAGANA_CHARS.select { |k, v| v == char }.keys
   end
 
   private
