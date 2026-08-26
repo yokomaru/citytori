@@ -1,11 +1,152 @@
-<div>
-  <h1 class="font-bold text-4xl">しりとり散歩が完了しました</h1>
+<div class="mx-auto w-full max-w-xl px-4 py-6 sm:px-6 sm:py-10">
+  <div class="text-center">
+    <div class="mx-auto max-w-lg">
+      <%= image_tag "citytoti-completion.png", class: "w-full" %>
+    </div>
 
-  <p>見つけたワードの数: <%= @word_chain_walk.word_chain_walk_steps.size %></p>
-  <p>開始日時: <%= @word_chain_walk.started_at.strftime("%Y/%m/%d %H:%M") %></p>
-  <p>完了日時: <%= @word_chain_walk.finished_at.strftime("%Y/%m/%d %H:%M") %></p>
-  <p>かかった時間: <%= formatted_elapsed_time(@word_chain_walk.elapsed_seconds) %></p>
+    <h1 class="mt-4 text-2xl font-bold leading-tight sm:text-3xl">
+      しりとり散歩
+      <br>
+      おつかれさまでした！
+    </h1>
 
-  <%= link_to "詳細を見る", word_chain_walk_path(@word_chain_walk), class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "ホームへ戻る", root_path, class: "rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+    <p class="mt-3 text-sm leading-relaxed text-gray-600 sm:text-base">
+      <% if @word_chain_walk_steps.empty? %>
+        今回は言葉は見つかりませんでした
+      <% elsif @last_step.normalize_last_char == "ん" %>
+        んで終わる言葉を見つけて終了しました
+      <% else %>
+        街でたくさんの言葉を見つけました
+      <% end %>
+    </p>
+  </div>
+
+  <div class="mt-6 rounded-2xl border border-gray-300 px-4 py-4 text-center sm:mt-8">
+    <p class="text-sm text-gray-500">
+      最初の文字
+    </p>
+
+    <p class="mt-1 text-3xl sm:text-4xl">
+      <%= @word_chain_walk.start_char %>
+    </p>
+  </div>
+
+  <div
+    class="
+      mt-3 grid grid-cols-2 divide-x divide-gray-300 rounded-2xl border
+      border-gray-300 py-4 text-center
+    "
+  >
+    <div class="min-w-0 px-2 sm:px-6">
+      <p class="text-sm text-gray-500">
+        つないだ言葉の数
+      </p>
+
+      <p class="mt-1 text-2xl font-medium sm:text-3xl">
+        <%= @word_chain_walk_steps.count %><span class="text-base">個</span>
+      </p>
+    </div>
+
+    <div class="min-w-0 px-2 sm:px-6">
+      <p class="whitespace-nowrap text-sm text-gray-500">
+        かかった時間
+      </p>
+
+      <p class="mt-1 whitespace-nowrap text-xl font-medium sm:text-2xl">
+        <%= formatted_elapsed_time(@word_chain_walk.elapsed_seconds) %>
+      </p>
+    </div>
+  </div>
+
+  <% if @word_chain_walk_steps.any? %>
+    <div class="mt-3 rounded-2xl border border-gray-300 px-3 py-4 sm:px-6">
+      <div
+        class="
+          grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-end gap-2
+          sm:gap-4
+        "
+      >
+        <div class="min-w-0 text-center">
+          <p class="text-sm text-gray-500">最初の言葉</p>
+
+          <p
+            class="
+              mt-2 break-all rounded-full border border-gray-300 px-2 py-1.5
+              text-sm
+            "
+          >
+            <%= @first_step.word %>
+          </p>
+        </div>
+
+        <div class="h-5 w-10 sm:w-20">
+          <svg
+            class="h-full w-full text-slate-500"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 120 20"
+            preserveAspectRatio="none"
+          >
+            <path stroke-dasharray="1 5" stroke-linecap="round" d="M0 10h108" />
+
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M101 4l7 6-7 6"
+            />
+          </svg>
+        </div>
+
+        <div class="min-w-0 text-center">
+          <p class="text-sm text-gray-500">最後の言葉</p>
+
+          <p
+            class="
+              mt-2 break-all rounded-full border border-gray-300 px-2 py-1.5
+              text-sm
+            "
+          >
+            <%= @last_step.word %>
+          </p>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="mt-3 rounded-2xl border border-gray-300 px-4 py-6 text-center">
+      <p class="text-sm text-gray-500">
+        登録した言葉はありませんでした
+      </p>
+    </div>
+  <% end %>
+
+  <div class="mt-3 rounded-2xl border border-gray-300 px-4 py-5 sm:px-6">
+    <% word_chain_walk_steps_images = @word_chain_walk_steps.select { |step| step.image.attached? } %>
+
+    <% if word_chain_walk_steps_images.any? %>
+      <p class="text-center text-sm text-gray-500">
+        散歩中の記録（ランダムにピックアップしています）
+      </p>
+      <div class="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+        <% word_chain_walk_steps_images.sample(3).each do |word_chain_walk_step| %>
+          <%= image_tag word_chain_walk_step.image, class: "aspect-square w-full rounded-lg object-cover" %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="py-3 text-center">
+        <p class="text-sm text-gray-500">
+          今回は写真の記録はありません
+        </p>
+
+        <div class="mx-auto mt-4 w-28 sm:w-32 md:w-36">
+          <%= image_tag "citytori-nothing-images.png", class: "w-full opacity-60" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-6 sm:mt-8">
+    <%= link_to "今回の散歩を振り返る", word_chain_walk_path(@word_chain_walk), class: "block w-full rounded-xl border border-gray-400 px-4 py-3 text-center text-sm font-medium transition hover:bg-gray-50" %>
+    <%= link_to "ホームに戻る", root_path, class: "mt-4 block text-center text-sm text-blue-600 underline underline-offset-4 hover:text-blue-500" %>
+  </div>
 </div>
