@@ -6,4 +6,8 @@ module WordChainWalksHelper
 
     format("%d時間 %02d分 %02d秒", hours, minutes, seconds)
   end
+
+  def formatted_allowed_start_chars(chars)
+    chars.map { |char| "「#{char}」" }.join
+  end
 end
