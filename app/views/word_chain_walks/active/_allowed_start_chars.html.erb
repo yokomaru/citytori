@@ -1,10 +1,10 @@
-<%= allowed_start_chars = word_chain_walk.allowed_start_chars %>
+<% allowed_start_chars = word_chain_walk.allowed_start_chars %>
 
-<% if @allowed_start_chars.any? %>
+<% if allowed_start_chars.any? %>
   <div
     class="
-      mx-auto flex max-w-md items-center gap-3 rounded-2xl bg-blue-50 px-4
-      py-3
+      mt-3 mx-auto flex max-w-md items-center gap-3 rounded-2xl bg-blue-50
+      px-4 py-3
     "
   >
     <div
