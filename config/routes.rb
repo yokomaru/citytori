@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#show"
   resources :users, only: :show
+  delete "/user", to: "users#destroy", as: :withdraw_user
 
   get "/auth/:provider/callback", to: "sessions#create"
   get "/auth/failure", to: "sessions#failure"
