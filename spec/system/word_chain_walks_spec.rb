@@ -220,6 +220,61 @@ RSpec.describe 'WordChainWalks', type: :system do
     end
   end
 
+  scenario 'んで終わる単語を登録した場合、confirmにyesと答えると散歩が終了すること' do
+    log_in(user)
+
+    visit word_chain_walk_path(word_chain_walk)
+
+    attach_file(
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
+    )
+
+    expect(page).to have_css(
+      'dialog[data-modal-target="modal"][open]'
+    )
+
+    fill_in '見つけた言葉', with: 'りんーー'
+
+    accept_confirm('しりとり散歩をおしまいにしますか？') do
+      click_button '登録する'
+    end
+
+    expect(page).to have_content('しりとり散歩が完了しました')
+    expect(word_chain_walk.reload.finished?).to be true
+    expect(word_chain_walk.word_chain_walk_steps.count).to eq(1)
+  end
+
+  scenario 'んで終わる単語を登録した場合、confirmにnoと答えると散歩が終了しないこと' do
+    log_in(user)
+
+    visit word_chain_walk_path(word_chain_walk)
+
+    attach_file(
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
+    )
+
+    expect(page).to have_css(
+      'dialog[data-modal-target="modal"][open]'
+    )
+
+    fill_in '見つけた言葉', with: 'りんーー'
+
+    dismiss_confirm('しりとり散歩をおしまいにしますか？') do
+      click_button '登録する'
+    end
+
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(page).to have_content('「り」から始まる言葉')
+    end
+
+    expect(word_chain_walk.reload.finished?).to be false
+    expect(word_chain_walk.word_chain_walk_steps.count).to eq(0)
+  end
+
   def set_browser_geolocation(latitude, longitude, accuracy: 100)
     page.driver.browser.execute_cdp(
       'Emulation.setGeolocationOverride',
