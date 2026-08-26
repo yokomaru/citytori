@@ -1,36 +1,45 @@
-<div class="mx-auto w-full max-w-2xl px-4 sm:px-6">
+<div class="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6">
   <div id="word_chain_walk_errors">
     <%= render "shared/error_messages", object: word_chain_walk_step %>
   </div>
 
-  <div>
-    <%= link_to "< ホームへ戻る", root_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
-  </div>
+  <%= link_to "< ホームへ戻る", root_path, class: "text-sm text-gray-500" %>
 
-  <header class="mt-4 text-center">
-    <h1 class="text-3xl font-bold">
-      しりとり散歩中
-    </h1>
-  </header>
+  <h1 class="mt-5 text-center text-3xl font-bold">
+    しりとり散歩中
+  </h1>
 
-  <div class="mx-auto w-full max-w-3xl px-6 py-8">
+  <div class="mt-5">
     <%= render "word_chain_walks/active/count", word_chain_walk_steps: word_chain_walk_steps %>
     <%= render "word_chain_walks/active/target", word_chain_walk: word_chain_walk %>
     <%= render "word_chain_walks/active/form", word_chain_walk: word_chain_walk, word_chain_walk_step: word_chain_walk_step %>
 
-    <section class="mx-auto mt-6 max-w-xl">
-      <h2 class="text-base font-bold text-gray-900">
+    <section class="mt-6">
+      <h2 class="font-bold">
         <i class="fa-regular fa-clock"></i>
         直前の記録
       </h2>
 
-      <%= render "word_chain_walks/active/latest_step", word_chain_walk: word_chain_walk, word_chain_walk_steps: word_chain_walk_steps %>
+      <%= render "word_chain_walks/active/latest_step",
+                 word_chain_walk: word_chain_walk,
+                 word_chain_walk_steps: word_chain_walk_steps %>
     </section>
 
-    <section class="mt-5 text-center">
-      <div class="mt-6 text-center">
-        <%= button_to "しりとり散歩をおしまいにする", word_chain_walk_completion_path(word_chain_walk), method: :patch, class: "text-sm text-gray-500 underline underline-offset-4 hover:text-gray-700", data: { turbo_confirm: "しりとり散歩をおしまいにしますか？" } %>
-      </div>
-    </section>
+    <div class="mt-6 text-center">
+      <%= link_to "#", class: "text-sm text-blue-600 underline" do %>
+        <i class="fa-regular fa-circle-question"></i>
+        遊び方を見る
+      <% end %>
+    </div>
+
+    <div class="mt-6 text-center">
+      <%= button_to "しりとり散歩をおしまいにする",
+                    word_chain_walk_completion_path(word_chain_walk),
+                    method: :patch,
+                    class: "text-sm text-gray-500 underline",
+                    data: {
+                      turbo_confirm: "しりとり散歩をおしまいにしますか？"
+                    } %>
+    </div>
   </div>
 </div>
