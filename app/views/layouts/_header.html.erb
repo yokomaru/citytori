@@ -2,9 +2,8 @@
   <% if logged_in? %>
     <%= current_user.name %>
     さん
-    <%= button_to "ログアウト",
-                  logout_path,
-                  method: :post %>
+    <%= button_to "ログアウト", logout_path, method: :post %>
+    <%= button_to "退会", withdraw_user_path, method: :delete, data: { turbo_confirm: "退会するとこれまでの散歩の記録はすべて削除されます。退会してよろしいですか？" } %>
   <% else %>
     <%= button_to "Googleでログイン",
                   "/auth/google_oauth2",
