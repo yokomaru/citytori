@@ -16,6 +16,7 @@
           <div>
             <%= link_to word_chain_walk_step.word,
                         word_chain_walk_word_chain_walk_step_path(word_chain_walk, word_chain_walk_step),
+                        data: { turbo_frame: "_top" },
                         class: "text-blue-500 hover:underline" %>
 
             <% if word_chain_walk_step.memo.present? %>
