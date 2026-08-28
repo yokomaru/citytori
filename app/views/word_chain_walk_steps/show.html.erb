@@ -34,12 +34,19 @@
     </h1>
 
 
-    <p class="mt-2 text-xs text-gray-400">
-      <%= @word_chain_walk_step.created_at.strftime("%Y/%m/%d %H:%M") %>
-    </p>
   </header>
 
-  <div class="space-y-7">
+  <div class="space-y-5">
+    <section class="rounded-xl border border-slate-200 bg-white px-4 py-3">
+      <h2 class="text-sm font-bold text-slate-700">
+        撮った日時
+      </h2>
+
+      <p class="mt-2 text-sm text-slate-600">
+        <%= @word_chain_walk_step.created_at.strftime("%Y年%-m月%-d日 %H:%M") %>
+      </p>
+    </section>
+
     <% if @word_chain_walk_step.image.attached? %>
       <section>
         <h2 class="mb-3 text-sm font-bold text-gray-700">
