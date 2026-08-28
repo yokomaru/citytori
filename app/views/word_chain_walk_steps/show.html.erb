@@ -1,17 +1,38 @@
 <% content_for :title, "Step詳細" %>
 
-<div class="mx-auto w-full max-w-xl px-4 py-6 sm:px-6">
-  <div class="mb-8">
-    <%= link_to word_chain_walk_path(@word_chain_walk), class: "inline-flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900" do %>
-      <span>< </span>
+<div class="mx-auto w-full max-w-xl px-5 py-6 sm:px-6">
+  <div class="mb-5">
+    <%= link_to word_chain_walk_path(@word_chain_walk), class: "inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-slate-900" do %>
+      <span><</span>
       <span>しりとり散歩に戻る</span>
     <% end %>
   </div>
 
-  <header class="mb-8 text-center">
-    <h1 class="text-2xl font-bold text-gray-900">
+  <header class="mb-7 text-center">
+    <div class="relative mx-auto h-44 w-full">
+      <div class="absolute inset-x-0 bottom-0 flex justify-center">
+        <%= image_tag "citytori-street-line.png", class: "w-full opacity-90" %>
+      </div>
+
+      <div
+        class="
+          absolute left-1/2 top-[46%] z-10
+          flex h-28 w-28
+          -translate-x-1/2 -translate-y-1/2
+          items-center justify-center
+          rounded-2xl border border-slate-300 bg-white
+        "
+      >
+        <span class="text-5xl font-bold text-slate-900">
+          <%= @word_chain_walk_step.word.first %>
+        </span>
+      </div>
+    </div>
+
+    <h1 class="mt-2 text-xl font-bold text-slate-800">
       <%= @word_chain_walk_step.word %>
     </h1>
+
 
     <p class="mt-2 text-xs text-gray-400">
       <%= @word_chain_walk_step.created_at.strftime("%Y/%m/%d %H:%M") %>
