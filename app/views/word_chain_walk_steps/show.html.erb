@@ -3,13 +3,13 @@
 <div class="mx-auto w-full max-w-xl px-5 py-6 sm:px-6">
   <div class="mb-5">
     <%= link_to word_chain_walk_path(@word_chain_walk), class: "inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-slate-900" do %>
-      <span><</span>
+      <span>&lt;</span>
       <span>しりとり散歩に戻る</span>
     <% end %>
   </div>
 
-  <header class="mb-7 text-center">
-    <div class="relative mx-auto h-44 w-full">
+  <header class="mb-3 text-center">
+    <div class="relative mx-auto h-36 w-full">
       <div class="absolute inset-x-0 bottom-0 flex justify-center">
         <%= image_tag "citytori-street-line.png", class: "w-full opacity-90" %>
       </div>
@@ -29,11 +29,9 @@
       </div>
     </div>
 
-    <h1 class="mt-2 text-xl font-bold text-slate-800">
+    <h1 class="mt-1 text-xl font-bold text-slate-800">
       <%= @word_chain_walk_step.word %>
     </h1>
-
-
   </header>
 
   <div class="space-y-5">
@@ -49,22 +47,22 @@
 
     <% if @word_chain_walk_step.image.attached? %>
       <section>
-        <h2 class="mb-3 text-sm font-bold text-gray-700">
+        <h2 class="mb-2 text-sm font-bold text-slate-700">
           撮った写真
         </h2>
 
-        <%= image_tag @word_chain_walk_step.image.variant(resize_to_limit: [800, 800]), class: "w-full rounded-xl object-cover" %>
+        <%= image_tag @word_chain_walk_step.image.variant(resize_to_limit: [800, 800]), class: "aspect-[3/2] w-full rounded-xl object-cover" %>
       </section>
     <% end %>
 
     <% if @word_chain_walk_step.memo.present? %>
-      <section>
-        <h2 class="mb-3 text-sm font-bold text-gray-700">
+      <section class="rounded-xl border border-slate-200 bg-white px-3 pt-3 pb-5">
+        <h2 class="mb-2 text-sm font-bold text-slate-700">
           メモ
         </h2>
 
-        <div class="rounded-xl border border-gray-200 bg-white p-4">
-          <p class="text-sm leading-relaxed text-gray-700">
+        <div class="rounded-lg border border-slate-200 px-4 py-3">
+          <p class="text-sm leading-relaxed text-slate-700">
             <%= @word_chain_walk_step.memo %>
           </p>
         </div>
@@ -73,7 +71,7 @@
 
     <% if @word_chain_walk_step.latitude.present? && @word_chain_walk_step.longitude.present? %>
       <section>
-        <h2 class="mb-3 text-sm font-bold text-gray-700">
+        <h2 class="mb-2 text-sm font-bold text-slate-700">
           見つけた場所
         </h2>
 
@@ -82,15 +80,9 @@
           data-step-map-latitude-value="<%= @word_chain_walk_step.latitude %>"
           data-step-map-longitude-value="<%= @word_chain_walk_step.longitude %>"
           data-step-map-word-value="<%= @word_chain_walk_step.word %>"
-          class="h-64 w-full overflow-hidden rounded-xl"
+          class="h-40 w-full overflow-hidden rounded-xl"
         ></div>
       </section>
     <% end %>
-  </div>
-
-  <div class="mt-10 border-t border-gray-200 pt-5 text-center">
-    <%= link_to "← しりとり散歩に戻る",
-                word_chain_walk_path(@word_chain_walk),
-                class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
   </div>
 </div>
