@@ -19,10 +19,32 @@ export default class extends Controller {
       attribution: "&copy; OpenStreetMap contributors",
     }).addTo(this.map);
 
-    const bounds = L.latLngBounds(this.positionsValue);
+    const bounds = L.latLngBounds(
+      this.positionsValue.map((pos) => [pos.latitude, pos.longitude]),
+    );
 
     for (const pos of this.positionsValue) {
-      L.marker([pos[0], pos[1]]).addTo(this.map);
+      const icon = L.divIcon({
+        className: "",
+        html: `
+          <div
+            class="
+              h-14 w-14 overflow-hidden
+              rounded-full border-4 border-white
+              bg-white shadow-md
+            "
+          >
+            <img
+              src="${pos.image}"
+              alt=""
+              class="h-full w-full rounded-full object-cover"
+            >
+          </div>
+        `,
+        iconSize: [56, 56],
+        iconAnchor: [28, 28],
+      });
+      L.marker([pos.latitude, pos.longitude], { icon }).addTo(this.map);
     }
 
     this.map.fitBounds(bounds, { maxZoom: 18 });
