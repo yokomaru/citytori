@@ -13,7 +13,14 @@ class WordChainWalksController < ApplicationController
 
   def map
     @word_chain_walk = current_user.word_chain_walks.finished.find(params[:id])
+
     @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.order(id: :desc)
+
+    if @word_chain_walk_steps.none? { |step| step.latitude.present? && step.longitude.present? }
+      redirect_to @word_chain_walk, alert: "位置情報が一件も登録されていないので地図を表示できません"
+      return
+    end
+
     @locations = @word_chain_walk_steps.filter_map do |step|
       next unless step.latitude.present? && step.longitude.present?
       {
