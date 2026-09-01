@@ -7,7 +7,7 @@ class WordChainWalksController < ApplicationController
 
   def show
     @word_chain_walk = current_user.word_chain_walks.find(params[:id])
-    @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.order(id: :desc)
+    @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.order(id: :asc)
     @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build
   end
 
