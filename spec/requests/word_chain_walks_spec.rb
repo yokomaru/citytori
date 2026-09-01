@@ -164,7 +164,7 @@ RSpec.describe 'WordChainWalks', type: :request do
         word_chain_walk = FactoryBot.create(:word_chain_walk, user: user)
         word_chain_walk.update!(finished_at: Time.current)
         get map_word_chain_walk_path(word_chain_walk)
-        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(word_chain_walk_path(word_chain_walk))
       end
     end
   end
