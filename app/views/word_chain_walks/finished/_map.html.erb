@@ -1,5 +1,8 @@
 <div class="mt-4">
   <% if locations.present? %>
+    <% word_chain_walk_steps.each do |step| %>
+      <%= link_to "各Stepを表示", word_chain_walk_word_chain_walk_step_path(step.word_chain_walk, step), data: { turbo_frame: "selected_walk_step" } %>
+    <% end %>
     <div
       id="walk-map-container"
       data-controller="walk-map"
@@ -10,11 +13,18 @@
         class="h-96 w-full overflow-hidden rounded-xl sm:h-[500px]"
       ></div>
     </div>
-
     <%= turbo_frame_tag "selected_walk_step" do %>
-      <div class="mt-4 flex min-h-32 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-8">
+      <div
+        class="
+          mt-4 flex min-h-32 items-center justify-center rounded-xl border
+          border-slate-200 bg-white px-6 py-8
+        "
+      >
         <div class="text-center">
-          <i class="fa-regular fa-hand-pointer text-2xl text-slate-400" aria-hidden="true"></i>
+          <i
+            class="fa-regular fa-hand-pointer text-2xl text-slate-400"
+            aria-hidden="true"
+          ></i>
 
           <p class="mt-3 text-sm font-medium leading-relaxed text-slate-600">
             地図上のマーカーをタップすると
@@ -24,7 +34,6 @@
         </div>
       </div>
     <% end %>
-
     <p class="mt-3 text-center text-xs text-slate-400">
       地図をドラッグして移動できます
     </p>

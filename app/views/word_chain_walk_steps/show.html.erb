@@ -97,3 +97,7 @@
     <% end %>
   </div>
 </div>
+
+<%= turbo_frame_tag "selected_walk_step" do %>
+  <%= render "word_chain_walks/finished/map_card", word_chain_walk_step: @word_chain_walk_step %>
+<% end %>
