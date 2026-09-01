@@ -27,9 +27,11 @@ export default class extends Controller {
       const icon = L.divIcon({
         className: "",
         html: `
-          <div
+          <a
+            href="${pos.url}"
+            data-turbo-frame="selected_walk_step"
             class="
-              h-14 w-14 overflow-hidden
+              block h-14 w-14 overflow-hidden
               rounded-full border-4 border-white
               bg-white shadow-md
             "
@@ -39,11 +41,12 @@ export default class extends Controller {
               alt=""
               class="h-full w-full rounded-full object-cover"
             >
-          </div>
+          </a>
         `,
         iconSize: [56, 56],
         iconAnchor: [28, 28],
       });
+
       L.marker([pos.latitude, pos.longitude], { icon }).addTo(this.map);
     }
 

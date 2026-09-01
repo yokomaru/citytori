@@ -1,8 +1,5 @@
 <div class="mt-4">
   <% if locations.present? %>
-    <% word_chain_walk_steps.each do |step| %>
-      <%= link_to "各Stepを表示", word_chain_walk_word_chain_walk_step_path(step.word_chain_walk, step), data: { turbo_frame: "selected_walk_step" } %>
-    <% end %>
     <div
       id="walk-map-container"
       data-controller="walk-map"

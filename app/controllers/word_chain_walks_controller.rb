@@ -27,7 +27,8 @@ class WordChainWalksController < ApplicationController
         latitude: step.latitude,
         longitude: step.longitude,
         image: url_for(step.image),
-        id: step.id
+        id: step.id,
+        url: word_chain_walk_word_chain_walk_step_path(@word_chain_walk, step)
       }
     end
   end
