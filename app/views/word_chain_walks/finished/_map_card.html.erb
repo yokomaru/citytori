@@ -1,10 +1,39 @@
-<%= turbo_frame_tag "selected_walk_step" do %>
-  <div class="rounded-xl border border-slate-200 bg-white p-4">
-    <div class="mt-4 border-t border-slate-100 pt-3">
-      <%= link_to word_chain_walk_step.word,
-                  word_chain_walk_word_chain_walk_step_path(word_chain_walk_step.word_chain_walk, word_chain_walk_step),
-                  data: { turbo_frame: "_top" },
-                  class: "inline-flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-slate-900" %>
+<%= link_to word_chain_walk_word_chain_walk_step_path(word_chain_walk_step.word_chain_walk,word_chain_walk_step),
+            data: { turbo_frame: "_top" },
+            class: "block rounded-xl border border-slate-200 bg-white p-4 transition hover:bg-slate-50" do %>
+  <div class="flex items-center gap-4">
+    <% if word_chain_walk_step.image.attached? %>
+      <%= image_tag(word_chain_walk_step.image.variant(resize_to_fill: [160, 160]), class: "h-20 w-20 shrink-0 rounded-lg object-cover") %>
+    <% else %>
+      <div
+        class="
+          flex h-20 w-20 shrink-0 items-center justify-center rounded-lg
+          bg-slate-100 text-xs text-slate-400
+        "
+      >
+        No Image
+      </div>
+    <% end %>
+
+    <div class="min-w-0 flex-1">
+      <p class="text-lg font-bold text-slate-900">
+        <%= word_chain_walk_step.word %>
+      </p>
+
+      <p class="mt-1 text-sm text-slate-400">
+        <%= word_chain_walk_step.created_at.strftime("%H:%M") %>
+      </p>
+
+      <% if word_chain_walk_step.memo.present? %>
+        <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600">
+          <%= word_chain_walk_step.memo %>
+        </p>
+      <% end %>
     </div>
+
+    <i
+      class="fa-solid fa-chevron-right shrink-0 text-sm text-slate-400"
+      aria-hidden="true"
+    ></i>
   </div>
 <% end %>
