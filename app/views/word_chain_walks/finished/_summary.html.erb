@@ -1,53 +1,68 @@
 <div>
-  <div>
-    <%= link_to root_path, class: "text-sm text-gray-500" do %>
-      <span>< ホームへ戻る</span>
-    <% end %>
-  </div>
+  <%= link_to root_path, class: "inline-flex items-center text-sm text-slate-500 hover:text-slate-700" do %>
+    <span>＜ ホームへ戻る</span>
+  <% end %>
 
-  <h1 class="font-bold text-4xl mb-6">
-    <%= @word_chain_walk.start_char %>から始まったしりとり散歩の履歴
+  <h1
+    class="
+      mt-2 text-center text-xl font-bold leading-tight text-slate-900
+      sm:text-4xl
+    "
+  >
+    <%= @word_chain_walk.start_char %>から始まったしりとり散歩
   </h1>
 
-  <div class="grid grid-cols-2 gap-6 py-6">
-    <div class="flex items-start gap-3">
-      <div class="mt-1">
-        <i class="fa-regular fa-clock"></i>
+  <div class="grid grid-cols-2 gap-3 py-6 sm:gap-4">
+    <div
+      class="
+        flex items-center gap-3 rounded-xl border border-slate-200 bg-white
+        px-4 py-3
+      "
+    >
+      <div class="flex h-9 w-9 shrink-0 items-center justify-center text-slate-700">
+        <i class="fa-regular fa-clock text-lg" aria-hidden="true"></i>
       </div>
 
-      <div>
-        <p class="text-sm font-medium text-gray-700">
+      <div class="min-w-0">
+        <p class="text-xs font-medium text-slate-600 sm:text-sm">
           かかった時間
         </p>
 
-        <p class="mt-1 text-xl font-semibold text-gray-900">
+        <p
+          class="
+            mt-1 text-base font-semibold leading-tight text-slate-900
+            sm:text-xl
+          "
+        >
           <%= formatted_elapsed_time(word_chain_walk.elapsed_seconds) %>
         </p>
       </div>
     </div>
 
-    <div class="flex items-start gap-3">
-      <div class="mt-1">
-        <i class="fa-solid fa-person-walking"></i>
+    <div
+      class="
+        flex items-center gap-3 rounded-xl border border-slate-200 bg-white
+        px-4 py-3
+      "
+    >
+      <div class="flex h-9 w-9 shrink-0 items-center justify-center text-slate-700">
+        <i class="fa-solid fa-person-walking text-lg" aria-hidden="true"></i>
       </div>
 
-      <div>
-        <p class="text-sm font-medium text-gray-700">
+      <div class="min-w-0">
+        <p class="text-xs font-medium text-slate-600 sm:text-sm">
           つなげた文字の数
         </p>
 
-        <p class="mt-1 text-xl font-semibold text-gray-900">
+        <p
+          class="
+            mt-1 text-base font-semibold leading-tight text-slate-900
+            sm:text-xl
+          "
+        >
           <%= word_chain_walk_steps.size %>回
         </p>
       </div>
     </div>
-  </div>
-
-  <div class="flex justify-end pb-4">
-    <%= button_to "この散歩を削除する",
-                  word_chain_walk_path(word_chain_walk),
-                  method: :delete,
-                  class: "text-sm text-gray-400 underline underline-offset-4 hover:text-red-500",
-                  data: { turbo_confirm: "この散歩の記録を削除しますか？" } %>
   </div>
 </div>

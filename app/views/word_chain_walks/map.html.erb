@@ -1,12 +1,29 @@
-<div class="md:w-2/3 w-full">
+<div class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6">
   <%= render "word_chain_walks/finished/summary", word_chain_walk: @word_chain_walk, word_chain_walk_steps: @word_chain_walk_steps %>
 
   <%= turbo_frame_tag "finished_walk_view" do %>
-    <div class="inline-flex w-full items-center rounded-lg bg-gray-100 p-1">
-      <%= link_to "タイムライン", word_chain_walk_path(@word_chain_walk), data: { turbo_frame: "finished_walk_view" }, class: "w-full rounded-md bg-transparent px-3 py-2 text-center text-sm font-semibold text-gray-500" %>
-      <%= link_to "地図", map_word_chain_walk_path(@word_chain_walk), data: { turbo_frame: "finished_walk_view" }, class: "w-full rounded-md bg-white px-3 py-2 text-center text-sm font-semibold text-gray-900 shadow-sm" %>
+    <div class="mt-4 inline-flex w-full items-center rounded-lg bg-slate-100 p-1">
+      <%= link_to word_chain_walk_path(@word_chain_walk), data: { turbo_frame: "finished_walk_view" }, class: "flex w-full items-center justify-center gap-2 rounded-md bg-transparent px-3 py-2 text-center text-sm font-semibold text-slate-500" do %>
+        <i class="fa-solid fa-list" aria-hidden="true"></i>
+        <span>タイムライン</span>
+      <% end %>
+
+      <%= link_to map_word_chain_walk_path(@word_chain_walk), data: { turbo_frame: "finished_walk_view" }, class: "flex w-full items-center justify-center gap-2 rounded-md bg-white px-3 py-2 text-center text-sm font-semibold text-slate-900 shadow-sm" do %>
+        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+        <span>地図</span>
+      <% end %>
     </div>
 
-    <%= render "word_chain_walks/finished/map", locations: @locations %>
+    <%= render "word_chain_walks/finished/map", word_chain_walk_steps: @word_chain_walk_steps, locations: @locations %>
   <% end %>
+
+  <div class="mt-12 border-t border-slate-200 pt-6 text-center">
+    <%= link_to "この散歩を削除する",
+                word_chain_walk_path(@word_chain_walk),
+                data: {
+                  turbo_method: :delete,
+                  turbo_confirm: "この散歩を削除しますか？"
+                },
+                class: "text-sm text-slate-500 underline hover:text-red-600" %>
+  </div>
 </div>

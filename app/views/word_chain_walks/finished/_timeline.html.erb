@@ -1,36 +1,107 @@
-<div>
-  <h2 class="font-bold text-2xl mb-4">タイムライン</h2>
+<div class="mt-6">
+  <div class="relative">
+    <div class="absolute bottom-4 left-3 top-4 w-px bg-slate-300"></div>
 
-  <div
-    id="word_chain_walk_steps"
-    class="min-w-full divide-y divide-gray-200 space-y-5"
-  >
-    <% if word_chain_walk_steps.any? %>
+    <div class="relative flex items-center gap-4 pb-4">
+      <div
+        class="
+          relative z-10 flex h-6 w-6 shrink-0
+          items-center justify-center rounded-full
+          bg-emerald-500 text-white
+        "
+      >
+        <i class="fa-solid fa-flag text-xs" aria-hidden="true"></i>
+      </div>
+
+      <div class="flex items-baseline gap-3">
+        <span class="text-sm font-bold text-emerald-600"> START </span>
+
+        <span class="text-sm text-slate-500">
+          <%= word_chain_walk.started_at.strftime("%Y/%m/%d %H:%M") %>
+        </span>
+
+        <span class="text-sm font-medium text-slate-700">
+          「<%= word_chain_walk.start_char %>」からスタート
+        </span>
+      </div>
+    </div>
+
+    <div id="word_chain_walk_steps" class="space-y-3">
       <% word_chain_walk_steps.each do |word_chain_walk_step| %>
-        <div
-          class="
-            flex flex-col sm:flex-row justify-between items-center pb-5
-            sm:pb-0
-          "
-        >
-          <div>
-            <%= link_to word_chain_walk_step.word,
-                        word_chain_walk_word_chain_walk_step_path(word_chain_walk, word_chain_walk_step),
-                        data: { turbo_frame: "_top" },
-                        class: "text-blue-500 hover:underline" %>
-
-            <% if word_chain_walk_step.memo.present? %>
-              <p class="mt-2 text-gray-600">
-                <%= word_chain_walk_step.memo %>
-              </p>
-            <% end %>
+        <div class="relative flex items-center gap-4">
+          <div class="relative z-10 flex w-6 shrink-0 justify-center">
+            <span class="h-3 w-3 rounded-full border-2 border-slate-500 bg-white"></span>
           </div>
 
-          <% if word_chain_walk_step.image.attached? %>
-            <%= image_tag word_chain_walk_step.image.variant(resize_to_limit: [200, 200]) %>
+          <%= link_to word_chain_walk_word_chain_walk_step_path(
+                        word_chain_walk,
+                        word_chain_walk_step
+                      ),
+                      data: { turbo_frame: "_top" },
+                      class: "
+                        flex min-w-0 flex-1 items-center gap-3
+                        rounded-xl border border-slate-200
+                        bg-white p-3
+                        hover:bg-slate-50
+                      " do %>
+            <div
+              class="
+                flex h-12 w-12 shrink-0
+                items-center justify-center
+                rounded-full bg-slate-100
+                text-2xl font-bold text-slate-700
+              "
+            >
+              <%= word_chain_walk_step.normalize_first_char %>
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <p class="font-bold text-slate-800">
+                <%= word_chain_walk_step.word %>
+              </p>
+
+              <% if word_chain_walk_step.memo.present? %>
+                <p class="mt-1 truncate text-sm text-slate-500">
+                  <%= word_chain_walk_step.memo %>
+                </p>
+              <% end %>
+
+              <p class="mt-1 text-xs text-slate-400">
+                <%= word_chain_walk_step.created_at.strftime("%Y/%m/%d %H:%M") %>
+              </p>
+            </div>
+
+            <%= image_tag(
+                  word_chain_walk_step.image.variant(resize_to_fill: [160, 120]),
+                  class: "h-16 w-20 shrink-0 rounded-lg object-cover"
+                ) %>
           <% end %>
         </div>
       <% end %>
-    <% end %>
+    </div>
+
+    <div class="relative flex items-center gap-4 pt-4">
+      <div
+        class="
+          relative z-10 flex h-6 w-6 shrink-0
+          items-center justify-center rounded-full
+          bg-rose-500 text-white
+        "
+      >
+        <i class="fa-solid fa-flag-checkered text-xs" aria-hidden="true"></i>
+      </div>
+
+      <div class="flex items-baseline gap-3">
+        <span class="text-sm font-bold text-rose-500"> GOAL </span>
+
+        <% if word_chain_walk.finished_at.present? %>
+          <span class="text-sm text-slate-500">
+            <%= word_chain_walk.finished_at.strftime("%Y/%m/%d %H:%M") %>
+          </span>
+        <% end %>
+
+        <span class="text-sm font-medium text-slate-700"> しりとり散歩完了 </span>
+      </div>
+    </div>
   </div>
 </div>

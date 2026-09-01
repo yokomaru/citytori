@@ -140,6 +140,7 @@ RSpec.describe 'WordChainWalks', type: :request do
         user = FactoryBot.create(:user)
         log_in(user)
         word_chain_walk = FactoryBot.create(:word_chain_walk, user: user)
+        FactoryBot.create(:word_chain_walk_step, :with_image, word_chain_walk:, latitude: 35.681236, longitude: 139.767125)
         word_chain_walk.update!(finished_at: Time.current)
         get map_word_chain_walk_path(word_chain_walk)
         expect(response).to have_http_status(:ok)
@@ -153,6 +154,17 @@ RSpec.describe 'WordChainWalks', type: :request do
         word_chain_walk = FactoryBot.create(:word_chain_walk, user: user)
         get map_word_chain_walk_path(word_chain_walk)
         expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context '位置情報の登録がない場合' do
+      it '散歩全体の地図が表示できない' do
+        user = FactoryBot.create(:user)
+        log_in(user)
+        word_chain_walk = FactoryBot.create(:word_chain_walk, user: user)
+        word_chain_walk.update!(finished_at: Time.current)
+        get map_word_chain_walk_path(word_chain_walk)
+        expect(response).to redirect_to(word_chain_walk_path(word_chain_walk))
       end
     end
   end
