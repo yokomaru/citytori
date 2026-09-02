@@ -14,18 +14,25 @@
 
         <ul
           data-header-target="menu"
-          class="absolute right-0 top-full z-50 hidden w-56 border border-gray-200 bg-white"
+          class="
+            absolute right-0 top-full z-50 hidden w-56 border
+            border-gray-200 bg-white
+          "
         >
           <li class="px-4 py-2">
             つかいかた
           </li>
 
-          <li class="px-4 py-2">
-            散歩中に戻る
-          </li>
+          <% active_walk = current_user.word_chain_walks.active.first %>
 
-          <li class="px-4 py-2">
-            今までの散歩を見る
+          <% if active_walk.present? %>
+            <li>
+              <%= link_to "散歩中に戻る", word_chain_walk_path(active_walk), class: "block px-4 py-2" %>
+            </li>
+          <% end %>
+
+          <li>
+            <%= link_to "今までの散歩を見る", word_chain_walks_path, class: "block px-4 py-2" %>
           </li>
 
           <li>
@@ -48,12 +55,6 @@
           </li>
         </ul>
       </nav>
-    <% else %>
-      <%= button_to "Googleでログイン",
-                    "/auth/google_oauth2",
-                    method: :post,
-                    class: "cursor-pointer",
-                    data: { turbo: false } %>
     <% end %>
   </div>
 </header>
