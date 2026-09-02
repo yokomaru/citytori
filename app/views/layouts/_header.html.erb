@@ -5,17 +5,26 @@
     </div>
 
     <% if logged_in? %>
-      <nav>
-        <button type="button" class="flex h-10 w-10 items-center justify-center rounded-md text-slate-800 hover:bg-gray-100">
+      <nav data-controller="header">
+        <%= button_tag type: "button", data: { action: "header#toggle" }, class: "cursor-pointer flex h-10 w-10 items-center justify-center rounded-md text-slate-800 hover:bg-gray-100" do %>
           <i class="fa-solid fa-bars text-2xl"></i>
-        </button>
+        <% end %>
 
-        <ul>
+        <ul data-header-target="menu" class="hidden">
           <li>つかいかた</li>
           <li>散歩中に戻る</li>
           <li>今までの散歩を見る</li>
-          <li><%= button_to "ログアウト", logout_path, method: :post %> </li>
-          <li><%= button_to "退会", withdraw_user_path, method: :delete, data: { turbo_confirm: "退会するとこれまでの散歩の記録はすべて削除されます。退会してよろしいですか？" } %></li>
+          <li>
+            <%= button_to "ログアウト", logout_path, method: :post %>
+          </li>
+          <li>
+            <%= button_to "退会",
+                          withdraw_user_path,
+                          method: :delete,
+                          data: {
+                            turbo_confirm: "退会するとこれまでの散歩の記録はすべて削除されます。退会してよろしいですか？"
+                          } %>
+          </li>
         </ul>
       </nav>
     <% else %>
