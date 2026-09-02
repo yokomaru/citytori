@@ -33,7 +33,9 @@
   </head>
 
   <body>
-    <%= render "layouts/header" %>
+    <% if logged_in? %>
+      <%= render "layouts/header" %>
+    <% end %>
 
     <div id="flash_messages" class="flex justify-center px-5">
       <%= render "shared/flash_messages" %>

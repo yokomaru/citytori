@@ -48,12 +48,5 @@
           </li>
         </ul>
       </nav>
-    <% else %>
-      <%= button_to "Googleでログイン",
-                    "/auth/google_oauth2",
-                    method: :post,
-                    class: "cursor-pointer",
-                    data: { turbo: false } %>
-    <% end %>
   </div>
 </header>
