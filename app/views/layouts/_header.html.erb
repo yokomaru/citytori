@@ -1,13 +1,58 @@
-<header>
-  <% if logged_in? %>
-    <%= current_user.name %>
-    さん
-    <%= button_to "ログアウト", logout_path, method: :post %>
-    <%= button_to "退会", withdraw_user_path, method: :delete, data: { turbo_confirm: "退会するとこれまでの散歩の記録はすべて削除されます。退会してよろしいですか？" } %>
-  <% else %>
-    <%= button_to "Googleでログイン",
-                  "/auth/google_oauth2",
-                  method: :post,
-                  data: { turbo: false } %>
-  <% end %>
+<header class="border-b border-gray-200 bg-white">
+  <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
+    <%= link_to root_path, class: "cursor-pointer" do %>
+      <%= image_tag "citytori-logo.png", alt: "Citytori", class: "h-10 w-auto" %>
+    <% end %>
+
+    <% if logged_in? %>
+      <nav data-controller="header" class="relative">
+        <%= button_tag type: "button", data: { action: "header#toggle" }, aria: { label: "メニュー" }, class: "flex h-10 w-10 cursor-pointer items-center justify-center" do %>
+          <i class="fa-solid fa-bars text-2xl" aria-hidden="true"></i>
+        <% end %>
+
+        <ul
+          data-header-target="menu"
+          class="
+            absolute right-0 top-full z-50 hidden w-56 border
+            border-gray-200 bg-white
+          "
+        >
+          <li class="px-4 py-2">
+            つかいかた
+          </li>
+
+          <% active_walk = current_user.word_chain_walks.active.first %>
+
+          <% if active_walk.present? %>
+            <li>
+              <%= link_to "散歩中に戻る", word_chain_walk_path(active_walk), class: "block px-4 py-2" %>
+            </li>
+          <% end %>
+
+          <li>
+            <%= link_to "今までの散歩を見る", word_chain_walks_path, class: "block px-4 py-2" %>
+          </li>
+
+          <li class="border-t border-gray-200">
+            <%= button_to "ログアウト",
+                          logout_path,
+                          method: :post,
+                          form_class: "w-full",
+                          class: "w-full cursor-pointer px-4 py-2 text-left" %>
+          </li>
+
+          <li>
+            <%= button_to "退会",
+                          withdraw_user_path,
+                          method: :delete,
+                          form_class: "w-full",
+                          class: "w-full cursor-pointer px-4 py-2 text-left",
+                          data: {
+                            turbo_confirm: "退会するとこれまでの散歩の記録はすべて削除されます。退会してよろしいですか？"
+                          } %>
+          </li>
+        </ul>
+      </nav>
+    <% end %>
+  </div>
 </header>
