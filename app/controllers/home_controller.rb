@@ -7,4 +7,6 @@ class HomeController < ApplicationController
       @finished_word_chain_walks = current_user.word_chain_walks.finished.order(id: :desc).take(3)
     end
   end
+
+  def privacy;end
 end
