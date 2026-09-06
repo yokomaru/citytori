@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  skip_before_action :authenticate, only: :show
+  skip_before_action :authenticate
 
   def show
     if logged_in?
