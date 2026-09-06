@@ -33,9 +33,7 @@
   </head>
 
   <body>
-    <% if logged_in? %>
-      <%= render "layouts/header" %>
-    <% end %>
+    <%= render "layouts/header" %>
 
     <div id="flash_messages" class="flex justify-center px-5">
       <%= render "shared/flash_messages" %>
@@ -44,5 +42,7 @@
     <main class="container mx-auto mt-4 px-5 flex">
       <%= yield %>
     </main>
+
+    <%= render "layouts/footer" %>
   </body>
 </html>

@@ -20,14 +20,17 @@
       </p>
 
       <div class="mt-8">
-        <%= button_to "しりとり散歩をはじめる",
-                      "/auth/google_oauth2",
-                      method: :post,
-                      data: { turbo: false },
-                      class: "inline-flex items-center justify-center rounded-md bg-blue-600 px-8 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-500" %>
+        <%= button_to "しりとり散歩をはじめる", "/auth/google_oauth2", method: :post, data: { turbo: false }, class: "inline-flex items-center justify-center rounded-md bg-blue-600 px-8 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-500" %>
 
         <p class="mt-2 text-sm text-gray-500">
           Googleアカウントでログインできます
+        </p>
+
+        <p class="mt-1 text-sm leading-6 text-gray-500">
+          <%= link_to "利用規約", terms_path, class: "cursor-pointer underline underline-offset-4" %>
+          ・
+          <%= link_to "プライバシーポリシー", privacy_path, class: "cursor-pointer underline underline-offset-4" %>
+          に同意した上でログインしてください
         </p>
       </div>
     </div>
