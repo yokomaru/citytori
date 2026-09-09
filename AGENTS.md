@@ -7,7 +7,7 @@
 
 ## 技術構成
 
-```
+```text
 Ruby (4.0.5)
 Ruby on Rails (8.1.3.1)
 Hotwire
