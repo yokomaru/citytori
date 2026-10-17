@@ -22,7 +22,7 @@
       </p>
 
       <p class="mt-2 text-xs text-[#303B3C]">
-        <%= word_chain_walk_step.created_at.strftime("%H:%M") %>
+        <%= l(word_chain_walk_step.created_at, format: :time_only) %>
       </p>
 
       <% if word_chain_walk_step.memo.present? %>

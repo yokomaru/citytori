@@ -9,7 +9,7 @@
 
       <div class="min-w-0 pt-1">
         <p class="text-xs font-bold tracking-[0.08em] text-[#204D49]">START</p>
-        <p class="mt-1 text-sm text-[#303B3C]"><%= word_chain_walk.started_at.strftime("%Y/%m/%d %H:%M") %></p>
+        <p class="mt-1 text-sm text-[#303B3C]"><%= l(word_chain_walk.started_at, format: :long) %></p>
         <p class="mt-1 text-sm font-medium text-[#204D49]">「<%= word_chain_walk.start_char %>」からスタート</p>
       </div>
     </div>
@@ -42,7 +42,7 @@
                 </p>
 
                 <p class="mt-2 text-xs text-[#303B3C]">
-                  <%= word_chain_walk_step.created_at.strftime("%H:%M") %>
+                  <%= l(word_chain_walk_step.created_at, format: :time_only) %>
                 </p>
 
                 <% if word_chain_walk_step.memo.present? %>
@@ -72,7 +72,7 @@
       <div class="min-w-0 pt-1">
         <p class="text-xs font-bold tracking-[0.08em] text-[#F16B36]">GOAL</p>
         <% if word_chain_walk.finished_at.present? %>
-          <p class="mt-1 text-sm text-[#303B3C]"><%= word_chain_walk.finished_at.strftime("%Y/%m/%d %H:%M") %></p>
+          <p class="mt-1 text-sm text-[#303B3C]"><%= l(word_chain_walk.finished_at, format: :long) %></p>
         <% end %>
         <p class="mt-1 text-sm font-medium text-[#204D49]">しりとり散歩完了</p>
       </div>

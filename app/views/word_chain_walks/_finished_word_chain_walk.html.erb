@@ -26,10 +26,7 @@
       <div>
         <dt class="sr-only">日付</dt>
 
-        <dd>
-          <%= word_chain_walk.finished_at.month %>月
-          <%= word_chain_walk.finished_at.day %>日
-        </dd>
+        <dd><%= l(word_chain_walk.finished_at, format: :walk_date) %></dd>
       </div>
 
       <div>

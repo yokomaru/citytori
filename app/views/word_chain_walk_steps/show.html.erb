@@ -33,7 +33,7 @@
         <p class="mt-3 inline-flex items-center gap-2 rounded-full bg-[#E8F4F5] px-3 py-1.5 text-sm text-[#303B3C]">
           <i class="fa-regular fa-calendar" aria-hidden="true"></i>
           <time datetime="<%= @word_chain_walk_step.created_at.iso8601 %>">
-            <%= @word_chain_walk_step.created_at.strftime("%Y年%-m月%-d日 %H:%M") %>
+            <%= l(@word_chain_walk_step.created_at, format: :recorded_at) %>
           </time>
         </p>
       </header>

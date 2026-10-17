@@ -1,0 +1,24 @@
+ja:
+  activerecord:
+    models:
+      word_chain_walk: しりとり散歩
+      word_chain_walk_step: 記録
+
+    attributes:
+      word_chain_walk:
+        start_char: 開始文字
+        started_at: 開始日時
+        finished_at: 終了日時
+
+      word_chain_walk_step:
+        word: 見つけたことば
+        memo: メモ
+        image: 写真
+        latitude: 緯度
+        longitude: 経度
+
+  time:
+    formats:
+      recorded_at: "%Y年%-m月%-d日 %H:%M"
+      time_only: "%H:%M"
+      walk_date: "%-m月%-d日"
