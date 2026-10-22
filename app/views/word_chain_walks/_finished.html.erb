@@ -3,16 +3,9 @@
 
   <%= turbo_frame_tag "finished_walk_view" do %>
     <% if @word_chain_walk_steps.any? { |step| step.latitude.present? && step.longitude.present? } %>
-      <nav class="mt-5 grid w-full grid-cols-2 overflow-hidden rounded-xl border border-[#C9DBD7] bg-[#F2F5F3]" aria-label="散歩の表示切り替え">
-        <%= link_to "記録", word_chain_walk_path(word_chain_walk),
-                    data: { turbo_frame: "finished_walk_view" },
-                    class: "relative flex min-h-11 items-center justify-center bg-white px-3 text-center text-sm font-semibold text-[#204D49] shadow-[0_1px_2px_rgba(32,77,73,0.08)] after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:bg-[#F16B36] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#204D49]" %>
-
-        <%= link_to "地図", map_word_chain_walk_path(word_chain_walk),
-                    data: { turbo_frame: "finished_walk_view" },
-                    class: "flex min-h-11 items-center justify-center px-3 text-center text-sm font-medium text-[#303B3C] transition-colors hover:bg-white/60 hover:text-[#204D49] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#204D49]" %>
-      </nav>
+      <%= render "word_chain_walks/finished/tabs", word_chain_walk: word_chain_walk, active_tab: :timeline %>
     <% end %>
+
     <%= render "word_chain_walks/finished/timeline", word_chain_walk: word_chain_walk, word_chain_walk_steps: word_chain_walk_steps %>
   <% end %>
 
