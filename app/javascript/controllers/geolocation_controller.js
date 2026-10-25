@@ -18,6 +18,9 @@ export default class extends Controller {
   }
 
   fetchPosition() {
+    this.positionRequestId = (this.positionRequestId ?? 0) + 1;
+    const requestId = this.positionRequestId;
+
     this.showLoading();
 
     if (!navigator.geolocation) {
@@ -27,12 +30,16 @@ export default class extends Controller {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        if (requestId !== this.positionRequestId) return;
+
         this.latitudeTarget.value = position.coords.latitude;
         this.longitudeTarget.value = position.coords.longitude;
 
         this.showSuccess();
       },
       () => {
+        if (requestId !== this.positionRequestId) return;
+
         this.latitudeTarget.value = "";
         this.longitudeTarget.value = "";
 
@@ -68,6 +75,8 @@ export default class extends Controller {
   }
 
   removeGeolocationInfo() {
+    this.positionRequestId = (this.positionRequestId ?? 0) + 1;
+
     this.latitudeTarget.value = "";
     this.longitudeTarget.value = "";
 
