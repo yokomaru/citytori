@@ -18,19 +18,31 @@ export default class extends Controller {
   }
 
   fetchPosition() {
+    this.clearPositionWaitTimeout();
     this.positionRequestId = (this.positionRequestId ?? 0) + 1;
     const requestId = this.positionRequestId;
 
     this.showLoading();
+    this.latitudeTarget.value = "";
+    this.longitudeTarget.value = "";
 
     if (!navigator.geolocation) {
       this.showFailed();
       return;
     }
 
+    this.positionWaitTimeout = setTimeout(() => {
+      if (requestId !== this.positionRequestId) return;
+
+      this.clearPositionWaitTimeout();
+      this.positionRequestId += 1;
+      this.showFailed();
+    }, 10000);
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         if (requestId !== this.positionRequestId) return;
+        this.clearPositionWaitTimeout();
 
         this.latitudeTarget.value = position.coords.latitude;
         this.longitudeTarget.value = position.coords.longitude;
@@ -39,6 +51,7 @@ export default class extends Controller {
       },
       () => {
         if (requestId !== this.positionRequestId) return;
+        this.clearPositionWaitTimeout();
 
         this.latitudeTarget.value = "";
         this.longitudeTarget.value = "";
@@ -75,11 +88,22 @@ export default class extends Controller {
   }
 
   removeGeolocationInfo() {
+    this.clearPositionWaitTimeout();
     this.positionRequestId = (this.positionRequestId ?? 0) + 1;
 
     this.latitudeTarget.value = "";
     this.longitudeTarget.value = "";
 
     this.showLoading();
+  }
+
+  disconnect() {
+    this.clearPositionWaitTimeout();
+    this.positionRequestId = (this.positionRequestId ?? 0) + 1;
+  }
+
+  clearPositionWaitTimeout() {
+    clearTimeout(this.positionWaitTimeout);
+    this.positionWaitTimeout = null;
   }
 }
