@@ -1,24 +1,34 @@
 # Citytori
 
-CityToriは、街で見つけたものの名前を使って、しりとり形式で言葉をつないでいくゲーム形式の移動ログサービスです。
+CityToriは、街で見つけたものでしりとりをしながら歩き、しりとり形式で言葉をつないでいくゲーム形式の移動ログサービスです。
 
-ランダムで提示された最初の文字をもとに、街にある看板や草花、ものを撮影し、その名前をひらがなで入力して次の文字につなげます。写真から文字を自動認識するサービスではありません。
+ランダムで提示された最初の文字をもとに、街にある看板や草花、ものを撮影し、その名前をひらがなで入力して次の文字につなげます。
+写真から文字を自動認識するサービスではありません。
 
-写真を撮りながら遊ぶため、スマートフォンでの利用をおすすめします。記録した散歩はPCからも閲覧できます。
+いつもの散歩や移動に「ことばを探す」という遊びを加えることで、普段なら見過ごしていたものに目を向けるきっかけをつくります。
+
+写真を撮りながら遊ぶため、スマートフォンでの利用をおすすめします。
+記録した散歩はPCからも閲覧できます。
 
 ## サービスURL
 
-[Citytori](https://citytori.com)
+https://citytori.com
+
+## スクリーンショット
+
+<!-- スクリーンショットを追加 -->
 
 ## 使い方
 
-1. Googleアカウントでログインし、しりとり散歩を始めます。
+1. Googleアカウントでログインして、しりとり散歩を始めます。
 2. 表示された文字から始まるものを街で探し、写真とひらがなのことばを記録します。メモも残せます。
-3. 次の文字でしりとりを続け、散歩のあとに写真やことばを振り返ります。
+3. 次の文字でしりとりを続け、散歩のあとに写真やことばを振り返ることができます。
 
-例えば、花を撮って「はな」と記録すると、次に探す文字は「な」です。
+例えば、花を撮って「はな」と記録すると、次に探す文字は「な」になります。
+
 散歩は好きなタイミング、または「ん」で終わることばの記録で終了します。
-位置情報は任意で取得でき、記録した場所は地図でも振り返れます。
+
+ブラウザで位置情報の利用を許可すると、取得できた場所も記録し、地図で振り返れます。位置情報なしでも利用できます。
 
 詳しくは[遊び方](https://citytori.com/how-to-play)をご覧ください。
 
@@ -52,7 +62,8 @@ CityToriは、街で見つけたものの名前を使って、しりとり形式
 ### 前提条件
 
 Ruby（[.ruby-version](.ruby-version)参照）、Bundler、PostgreSQL 18、libvips、Node.js・npmが必要です。
-PostgreSQLを起動し、開発用・テスト用DBを作成できるロールを用意してください。
+
+PostgreSQLを起動し、開発用とテスト用DBを作成できるロールを用意してください。
 
 ### 1. リポジトリの取得
 
@@ -63,26 +74,43 @@ bundle install
 npm ci
 ```
 
-### 2. Googleログインの設定
+### 2. 開発用credentialsの準備
 
-Google CloudでOAuthクライアントIDとクライアントシークレットを取得し、開発用のRails credentialsに設定します。
-既存のcredentialsを編集するには、対応する`config/credentials/development.key`が必要です。鍵の準備については管理者に確認してください。
+Googleログインの認証情報はRails credentialsで管理しています。
+
+`bin/setup`を実行する前に、以下の開発環境用ファイルを準備してください。
+
+- `config/credentials/development.yml.enc`：暗号化された認証情報
+- `config/credentials/development.key`：復号するための鍵
+
+リポジトリには `development.yml.enc` が含まれていますが、復号用の鍵は含まれていません。
+
+Google CloudでOAuthクライアントを「ウェブ アプリケーション」として作成し、自分のクライアントIDとクライアントシークレットを取得してください。
+
+初回clone後は、既存の暗号化ファイルを退避し、自分用の開発credentialsを作成します。`development.key`がない場合は、鍵も自動生成されます。
 
 ```sh
+mv config/credentials/development.yml.enc config/credentials/development.yml.enc.bak
 EDITOR="vi" bin/rails credentials:edit --environment development
 ```
 
+開いたエディタに以下の認証情報を設定して保存してください。
+
 ```yaml
 google:
-  client_id: "取得したクライアントID"
-  client_secret: "取得したクライアントシークレット"
+  client_id: "Google OAuthのクライアントID"
+  client_secret: "Google OAuthのクライアントシークレット"
 ```
 
-Google Cloudの承認済みリダイレクトURIに、以下を登録してください。
+また、Google Cloudの「承認済みのリダイレクトURI」に以下を登録してください。
 
 ```text
 http://localhost:3000/auth/google_oauth2/callback
 ```
+
+※ この準備は初回のみ必要です。別の環境用の`RAILS_MASTER_KEY`を設定している場合は、作成前に`unset RAILS_MASTER_KEY`で解除してください。
+
+※ 退避した`.bak`ファイル、`development.key`、認証情報の平文、自分用に生成した`development.yml.enc`はGitにコミットしないでください。
 
 ### 3. セットアップ・起動
 
@@ -91,7 +119,8 @@ bin/setup
 ```
 
 DBの準備後、RailsサーバーとTailwind CSSの監視ビルドが起動します。
-起動後、[http://localhost:3000](http://localhost:3000)にアクセスします。
+
+起動後、http://localhost:3000 にアクセスします。
 
 次回以降は以下で起動できます。
 
@@ -101,15 +130,44 @@ bin/dev
 
 ## テスト
 
-テストにはGoogle Chromeとテスト用credentialsの復号鍵が必要です。
-`DATABASE_URL`を指定する場合はテスト専用DBを使い、`RAILS_MASTER_KEY`もテスト用の鍵を指定してください。
+システムテストにはGoogle Chromeが必要です。初回のみ、開発用と同様にテスト用credentialsを作成してください（鍵やファイルの取り扱いも同様です）。
+
+```sh
+mv config/credentials/test.yml.enc config/credentials/test.yml.enc.bak
+EDITOR="vi" bin/rails credentials:edit --environment test
+```
+
+Google認証はモックするため、以下のダミー値を設定します。
+
+```yaml
+google:
+  client_id: dummy-client-id
+  client_secret: dummy-client-secret
+```
+
+初回はDBとCSSを準備します。
+
+```sh
+RAILS_ENV=test bin/rails db:prepare
+RAILS_ENV=test bin/rails tailwindcss:build
+```
+
+テストを実行します。
 
 ```sh
 bundle exec rspec
 ```
 
+※ `DATABASE_URL`を指定する場合はテスト専用DBを使用し、開発用の`RAILS_MASTER_KEY`は解除してください。
+
 ## Lint
 
 ```sh
 bin/lint
+```
+
+## Formatter
+
+```sh
+bin/format
 ```
