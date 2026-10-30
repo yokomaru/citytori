@@ -172,6 +172,34 @@ RSpec.describe 'WordChainWalks', type: :system do
     end
   end
 
+  scenario 'Escキーでモーダルを閉じて再度開くと入力内容がリセットされる' do
+    log_in(user)
+    visit word_chain_walk_path(word_chain_walk)
+
+    attach_file(
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
+    )
+
+    fill_in '見つけたことば', with: 'りんご'
+    fill_in 'メモ', with: 'メモ'
+
+    find_field('見つけたことば').send_keys(:escape)
+    expect(page).to have_no_css('dialog[data-modal-target="modal"][open]')
+
+    attach_file(
+      'word_chain_walk_step_image',
+      Rails.root.join('spec/fixtures/files/480x320.png'),
+      make_visible: true
+    )
+
+    within 'dialog[data-modal-target="modal"][open]' do
+      expect(find_field('見つけたことば').value).to be_blank
+      expect(find_field('メモ').value).to be_blank
+    end
+  end
+
   scenario 'モーダルを閉じて再度開くとエラー表示がリセットされる' do
     log_in(user)
     visit word_chain_walk_path(word_chain_walk)

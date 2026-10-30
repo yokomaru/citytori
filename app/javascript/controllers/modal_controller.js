@@ -9,9 +9,12 @@ export default class extends Controller {
   }
 
   close() {
+    this.modalTarget.close();
+  }
+
+  reset() {
     this.formTarget.reset();
     this.errorsTarget.replaceChildren();
-    this.modalTarget.close();
     this.dispatch("reset");
     this.returnFocus?.focus();
   }
