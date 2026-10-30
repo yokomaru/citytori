@@ -9,18 +9,27 @@
       <div class="walk-step-detail-heading">
         <div class="walk-step-detail-back">
           <%= link_to @back_path, class: "inline-flex min-h-11 items-center gap-2 rounded-lg border border-[#204D49] bg-transparent px-4 py-2 text-sm font-medium text-[#204D49] transition-colors hover:bg-[#E8F4F5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#204D49]" do %>
-            <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+            <span class="material-symbols-outlined" aria-hidden="true">
+              chevron_left
+            </span>
+
             <span>戻る</span>
           <% end %>
         </div>
 
         <header class="text-center">
-          <h1 class="break-words text-2xl font-bold tracking-tight text-[#204D49] sm:text-3xl">
+          <h1
+            class="
+              break-words text-2xl font-bold tracking-tight text-[#204D49]
+              sm:text-3xl
+            "
+          >
             <%= @word_chain_walk_step.word %>
           </h1>
 
           <p class="mt-3 inline-flex items-center gap-2 text-sm text-[#303B3C]">
             <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+
             <time datetime="<%= @word_chain_walk_step.created_at.iso8601 %>">
               <%= l(@word_chain_walk_step.created_at, format: :recorded_at) %>
             </time>
@@ -62,7 +71,10 @@
               data-step-map-latitude-value="<%= @word_chain_walk_step.latitude %>"
               data-step-map-longitude-value="<%= @word_chain_walk_step.longitude %>"
               data-step-map-word-value="<%= @word_chain_walk_step.word %>"
-              class="mt-3 h-56 w-full overflow-hidden rounded-xl border border-[#204D49]/10 sm:h-64"
+              class="
+                mt-3 h-56 w-full overflow-hidden rounded-xl border
+                border-[#204D49]/10 sm:h-64
+              "
             ></div>
           </section>
         <% end %>

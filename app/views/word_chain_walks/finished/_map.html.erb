@@ -1,8 +1,23 @@
 <% if locations.present? %>
   <% selected_step = local_assigns[:selected_step] %>
-  <div class="mt-5" data-controller="walk-map" data-walk-map-positions-value="<%= locations.to_json %>" data-walk-map-selected-id-value="<%= selected_step&.id %>">
+  <div
+    class="mt-5"
+    data-controller="walk-map"
+    data-walk-map-positions-value="<%= locations.to_json %>"
+    data-walk-map-selected-id-value="<%= selected_step&.id %>"
+  >
     <p class="mb-3 text-sm text-[#52645F]">写真や下のことばを選ぶと記録を表示します。番号は散歩の記録順です。</p>
-    <div id="walk-map-container" data-walk-map-target="placeholder" class="h-96 w-full overflow-hidden rounded-xl border border-[#C9DBD7] sm:h-[500px]" aria-label="見つけた場所の地図"></div>
+
+    <div
+      id="walk-map-container"
+      data-walk-map-target="placeholder"
+      class="
+        h-96 w-full overflow-hidden rounded-xl border border-[#C9DBD7]
+        sm:h-[500px]
+      "
+      aria-label="見つけた場所の地図"
+    ></div>
+
     <nav class="mt-4 mb-6" aria-label="場所のある記録">
       <ol class="flex flex-wrap gap-2">
         <% locations.each do |location| %>
@@ -12,11 +27,14 @@
         <% end %>
       </ol>
     </nav>
+
     <%= turbo_frame_tag "selected_walk_step", tabindex: -1, data: { walk_map_target: "selection", action: "turbo:frame-load->walk-map#revealSelection" }, aria: { label: "選んだ記録" } do %>
       <% if selected_step %>
         <%= render "word_chain_walks/finished/map_card", word_chain_walk_step: selected_step %>
       <% else %>
-        <p class="mt-4 rounded-xl bg-[#E8F4F5] p-4 text-sm text-[#204D49]">見つけた場所から、散歩を振り返ってみましょう。</p>
+        <p class="mt-4 rounded-xl bg-[#E8F4F5] p-4 text-sm text-[#204D49]">
+          見つけた場所から、散歩を振り返ってみましょう。
+        </p>
       <% end %>
     <% end %>
   </div>

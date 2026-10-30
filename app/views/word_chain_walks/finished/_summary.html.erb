@@ -2,14 +2,26 @@
   <div class="walk-summary-overview">
     <div class="walk-summary-heading">
       <h1 class="text-2xl font-bold leading-snug sm:text-3xl">散歩の記録</h1>
+
       <p class="mt-2 text-base">
-        <time datetime="<%= word_chain_walk.started_at.iso8601 %>"><%= word_chain_walk.started_at.strftime("%Y年%-m月%-d日 %H:%M") %></time>
+        <time datetime="<%= word_chain_walk.started_at.iso8601 %>">
+          <%= word_chain_walk.started_at.strftime("%Y年%-m月%-d日 %H:%M") %>
+        </time>
+
         <span class="inline-block">「<%= word_chain_walk.start_char %>」から</span>
       </p>
     </div>
+
     <dl class="walk-summary-stats">
-      <div class="walk-summary-stat"><dt>つないだことば</dt><dd><%= word_chain_walk_steps.size %>個</dd></div>
-      <div class="walk-summary-stat"><dt>かかった時間</dt><dd><%= formatted_elapsed_time(word_chain_walk.elapsed_seconds) %></dd></div>
+      <div class="walk-summary-stat">
+        <dt>つないだことば</dt>
+        <dd><%= word_chain_walk_steps.size %>個</dd>
+      </div>
+
+      <div class="walk-summary-stat">
+        <dt>かかった時間</dt>
+        <dd><%= formatted_elapsed_time(word_chain_walk.elapsed_seconds) %></dd>
+      </div>
     </dl>
   </div>
 </header>

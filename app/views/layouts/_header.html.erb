@@ -5,7 +5,12 @@
     <% end %>
 
     <% if logged_in? %>
-      <nav aria-label="メインメニュー" data-controller="header" data-action="keydown.esc->header#close click@window->header#close" class="relative">
+      <nav
+        aria-label="メインメニュー"
+        data-controller="header"
+        data-action="keydown.esc->header#close click@window->header#close"
+        class="relative"
+      >
         <%= button_tag type: "button", data: { action: "header#toggle", header_target: "button" }, aria: { label: "メニュー", expanded: false, controls: "header-menu" }, class: "flex h-10 w-10 cursor-pointer items-center justify-center rounded text-[#FCF9EF] hover:bg-[#E8F4F5]/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCF9EF]" do %>
           <i class="fa-solid fa-bars text-2xl" aria-hidden="true"></i>
         <% end %>

@@ -1,8 +1,14 @@
 <% latest_step = word_chain_walk.word_chain_walk_steps.max_by(&:id) %>
 
-<article id="<%= dom_id word_chain_walk %>" aria-labelledby="<%= dom_id(word_chain_walk, :title) %>">
+<article
+  id="<%= dom_id word_chain_walk %>"
+  aria-labelledby="<%= dom_id(word_chain_walk, :title) %>"
+>
   <%= link_to word_chain_walk, class: "home-recent-card" do %>
-    <span class="home-recent-start-char">「<%= word_chain_walk.start_char %>」から</span>
+    <span class="home-recent-start-char">
+      「<%= word_chain_walk.start_char %>」から
+    </span>
+
     <% if latest_step %>
       <%= image_tag latest_step.image.variant(resize_to_fill: [240, 180]),
                     alt: "「#{word_chain_walk.start_char}」から始まった散歩の写真",
