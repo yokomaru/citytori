@@ -8,8 +8,8 @@
 ## 技術構成
 
 ```text
-Ruby (4.0.5)
-Ruby on Rails (8.1.3.1)
+Ruby (4.0.9)
+Ruby on Rails (8.1.4)
 Hotwire
 Stimulus
 Tailwind CSS
