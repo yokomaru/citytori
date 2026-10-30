@@ -356,4 +356,66 @@ RSpec.describe WordChainWalkStep, type: :model do
       expect(step.normalize_last_char).to eq("ひ")
     end
   end
+
+  describe "variant定義のExif情報削除オプション(saver: { strip: true })" do
+    let(:word_chain_walk_step) do
+      FactoryBot.create(
+          :word_chain_walk_step,
+          word_chain_walk: word_chain_walk,
+          word: 'りんご',
+          image: fixture_file_upload(
+            Rails.root.join("spec/fixtures/files/test_with_exif.jpeg"),
+            "image/jpeg"
+          )
+        )
+    end
+
+    context "variantを使用しない" do
+      it "Exif情報(GPS情報)があること" do
+        image = Vips::Image.new_from_buffer(word_chain_walk_step.image.download, "")
+
+        expect(image.get_typeof("exif-data")).not_to eq(0)
+        expect(image.get_fields.grep(/gps/i)).not_to be_empty
+      end
+    end
+
+    context "thumbnail" do
+      it "Exif情報(GPS情報)が削除されていること" do
+        variant = word_chain_walk_step.image.variant(:thumbnail).processed
+        image = Vips::Image.new_from_buffer(variant.download, "")
+
+        expect(image.get_typeof("exif-data")).to eq(0)
+        expect(image.get_fields.grep(/gps/i)).to be_empty
+      end
+    end
+
+    context "card" do
+      it "Exif情報(GPS情報)が削除されていること" do
+        variant = word_chain_walk_step.image.variant(:card).processed
+        image = Vips::Image.new_from_buffer(variant.download, "")
+
+        expect(image.get_typeof("exif-data")).to eq(0)
+        expect(image.get_fields.grep(/gps/i)).to be_empty
+      end
+    end
+
+    context "detail" do
+      it "Exif情報(GPS情報)が削除されていること" do
+        variant = word_chain_walk_step.image.variant(:detail).processed
+        image = Vips::Image.new_from_buffer(variant.download, "")
+
+        expect(image.get_typeof("exif-data")).to eq(0)
+        expect(image.get_fields.grep(/gps/i)).to be_empty
+      end
+    end
+
+    context "summary" do
+      it "Exif情報(GPS情報)が削除されていること" do
+          variant = word_chain_walk_step.image.variant(:summary).processed
+          image = Vips::Image.new_from_buffer(variant.download, "")
+
+          expect(image.get_typeof("exif-data")).to eq(0)
+      end
+    end
+  end
 end
