@@ -356,4 +356,72 @@ RSpec.describe WordChainWalkStep, type: :model do
       expect(step.normalize_last_char).to eq("ひ")
     end
   end
+
+  describe 'variant定義のExif情報削除オプション(saver: { keep: "icc" })' do
+    let(:word_chain_walk_step) do
+      FactoryBot.create(
+          :word_chain_walk_step,
+          word_chain_walk: word_chain_walk,
+          word: 'りんご',
+          image: fixture_file_upload(
+            Rails.root.join("spec/fixtures/files/test_metadata.jpg"),
+            "image/jpeg"
+          )
+        )
+    end
+
+    context "variantを使用しない" do
+      it "Exif・GPS情報とICCプロファイルが含まれていること" do
+        image = Vips::Image.new_from_buffer(word_chain_walk_step.image.download, "")
+
+        expect(image.get_fields.grep(/gps/i)).not_to be_empty
+        expect(image.get_fields.grep(/exif/i)).not_to be_empty
+        expect(image.get_fields).to include("icc-profile-data")
+      end
+    end
+
+    context "thumbnail" do
+      it "Exif・GPS情報が削除され、ICCプロファイルが保持されていること" do
+        variant = word_chain_walk_step.image.variant(:thumbnail).processed
+        image = Vips::Image.new_from_buffer(variant.download, "")
+
+        expect(image.get_fields.grep(/gps/i)).to be_empty
+        expect(image.get_fields.grep(/exif/i)).to be_empty
+        expect(image.get_fields).to include("icc-profile-data")
+      end
+    end
+
+    context "card" do
+      it "Exif・GPS情報が削除され、ICCプロファイルが保持されていること" do
+        variant = word_chain_walk_step.image.variant(:card).processed
+        image = Vips::Image.new_from_buffer(variant.download, "")
+
+        expect(image.get_fields.grep(/gps/i)).to be_empty
+        expect(image.get_fields.grep(/exif/i)).to be_empty
+        expect(image.get_fields).to include("icc-profile-data")
+      end
+    end
+
+    context "detail" do
+      it "Exif・GPS情報が削除され、ICCプロファイルが保持されていること" do
+        variant = word_chain_walk_step.image.variant(:detail).processed
+        image = Vips::Image.new_from_buffer(variant.download, "")
+
+        expect(image.get_fields.grep(/gps/i)).to be_empty
+        expect(image.get_fields.grep(/exif/i)).to be_empty
+        expect(image.get_fields).to include("icc-profile-data")
+      end
+    end
+
+    context "summary" do
+      it "Exif・GPS情報が削除され、ICCプロファイルが保持されていること" do
+        variant = word_chain_walk_step.image.variant(:summary).processed
+        image = Vips::Image.new_from_buffer(variant.download, "")
+
+        expect(image.get_fields.grep(/gps/i)).to be_empty
+        expect(image.get_fields.grep(/exif/i)).to be_empty
+        expect(image.get_fields).to include("icc-profile-data")
+      end
+    end
+  end
 end

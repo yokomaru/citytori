@@ -13,7 +13,12 @@ class WordChainWalkStep < ApplicationRecord
 
   belongs_to :word_chain_walk
 
-  has_one_attached :image
+  has_one_attached :image do |attachable|
+    attachable.variant :thumbnail, resize_to_fill: [ 112, 112 ], saver: { keep: "icc" }
+    attachable.variant :card, resize_to_fill: [ 240, 180 ], saver: { keep: "icc" }
+    attachable.variant :detail, resize_to_limit: [ 800, 800 ], saver: { keep: "icc" }
+    attachable.variant :summary, resize_to_limit: [ 600, 600 ], saver: { keep: "icc" }
+  end
 
   validates :word, presence: true
   validates :word, length: { maximum: 100 }

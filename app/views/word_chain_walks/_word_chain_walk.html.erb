@@ -11,7 +11,7 @@
     </span>
 
     <% if latest_step&.image&.attached? %>
-      <%= image_tag latest_step.image.variant(resize_to_fill: [240, 180]),
+      <%= image_tag latest_step.image.variant(:card),
                     alt: "「#{word_chain_walk.start_char}」から始まった散歩の写真",
                     class: "walk-index-card-image" %>
     <% else %>
@@ -56,7 +56,7 @@
       <% if photo_steps.any? %>
         <div class="walk-index-thumbnails" role="group" aria-label="散歩で撮った写真">
           <% photo_steps.first(6).each do |step| %>
-            <%= image_tag step.image.variant(resize_to_fill: [112, 112]), alt: "#{step.word}の写真", width: 56, height: 56, loading: "lazy", class: "walk-index-thumbnail" %>
+            <%= image_tag step.image.variant(:thumbnail), alt: "#{step.word}の写真", width: 56, height: 56, loading: "lazy", class: "walk-index-thumbnail" %>
           <% end %>
         </div>
       <% end %>

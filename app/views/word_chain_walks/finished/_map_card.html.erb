@@ -10,7 +10,7 @@
   <div class="flex items-start gap-3 sm:gap-4">
     <% if word_chain_walk_step.image.attached? %>
       <%= image_tag(
-            word_chain_walk_step.image.variant(resize_to_fill: [240, 180]),
+            word_chain_walk_step.image.variant(:card),
             alt: "「#{word_chain_walk_step.word}」の写真",
             class: "h-24 w-24 shrink-0 rounded-lg object-cover sm:h-28 sm:w-28"
           ) %>
