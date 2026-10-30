@@ -49,7 +49,7 @@
 
             <div class="flex items-center justify-between gap-4">
               <h2 class="text-lg font-bold text-[#204D49]">メモ</h2>
-              <%= link_to(@word_chain_walk_step.memo.present? ? "編集" : "追加",
+              <%= link_to(@word_chain_walk_step.memo.present? ? "メモを編集" : "メモを追加",
                           edit_word_chain_walk_word_chain_walk_step_path(@word_chain_walk, @word_chain_walk_step),
                           class: "inline-flex min-h-11 shrink-0 items-center px-2 text-sm font-medium text-[#52645F] underline underline-offset-4 hover:text-[#204D49] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#204D49]") %>
             </div>
