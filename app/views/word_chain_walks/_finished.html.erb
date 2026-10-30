@@ -2,7 +2,7 @@
   <%= render "word_chain_walks/finished/summary", word_chain_walk: word_chain_walk, word_chain_walk_steps: word_chain_walk_steps %>
 
   <%= turbo_frame_tag "finished_walk_view" do %>
-    <% if @word_chain_walk_steps.any? { |step| step.latitude.present? && step.longitude.present? } %>
+    <% if word_chain_walk_steps.any? { |step| step.latitude.present? && step.longitude.present? } %>
       <%= render "word_chain_walks/finished/tabs", word_chain_walk: word_chain_walk, active_tab: :timeline %>
     <% end %>
 
