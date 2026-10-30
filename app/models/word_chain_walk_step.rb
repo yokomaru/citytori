@@ -16,8 +16,8 @@ class WordChainWalkStep < ApplicationRecord
   has_one_attached :image do |attachable|
     attachable.variant :thumbnail, resize_to_fill: [ 112, 112 ], saver: { strip: true }
     attachable.variant :card, resize_to_fill: [ 240, 180 ], saver: { strip: true }
-    attachable.variant :detail, resize_to_fill: [ 800, 800 ], saver: { strip: true }
-    attachable.variant :summary, resize_to_fill: [ 600, 600 ], saver: { strip: true }
+    attachable.variant :detail, resize_to_limit: [ 800, 800 ], saver: { strip: true }
+    attachable.variant :summary, resize_to_limit: [ 600, 600 ], saver: { strip: true }
   end
 
   validates :word, presence: true
