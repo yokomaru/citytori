@@ -31,6 +31,7 @@ RSpec.describe 'WordChainWalkSteps', type: :system do
     click_button 'メモを更新する'
 
     expect(page).to have_content('メモを更新した')
+    expect(page).to have_css('#flash_messages .notice-toast', text: 'メモを更新しました')
     expect(page).to have_current_path word_chain_walk_word_chain_walk_step_path(word_chain_walk, word_chain_walk_step)
   end
 

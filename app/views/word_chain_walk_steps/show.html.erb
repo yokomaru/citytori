@@ -43,6 +43,12 @@
           <h2 class="text-lg font-bold text-[#204D49]">メモ</h2>
 
           <%= turbo_frame_tag dom_id(@word_chain_walk_step, :memo) do %>
+            <% if turbo_frame_request_id == dom_id(@word_chain_walk_step, :memo) %>
+              <%= turbo_stream.update "flash_messages" do %>
+                <%= render "shared/flash_messages" %>
+              <% end %>
+            <% end %>
+
             <% if @word_chain_walk_step.memo.present? %>
               <%= simple_format @word_chain_walk_step.memo, class: "mt-3 break-words text-[0.9375rem] leading-relaxed text-[#303B3C]" %>
             <% else %>
