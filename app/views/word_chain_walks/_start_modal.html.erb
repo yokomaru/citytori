@@ -1,20 +1,36 @@
 <dialog
   data-walk-start-target="modal"
   aria-labelledby="walk-start-modal-title"
-  class="fixed inset-0 size-auto max-h-none max-w-none bg-transparent p-0 backdrop:bg-[#303B3C]/60"
+  class="
+    fixed inset-0 size-auto max-h-none max-w-none bg-transparent p-0
+    backdrop:bg-[#303B3C]/60
+  "
 >
   <div class="flex min-h-full items-center justify-center p-4">
-    <div class="relative w-full max-w-lg rounded-2xl border border-[#204D49]/10 bg-white p-6 shadow-sm sm:p-8">
+    <div
+      class="
+        relative w-full max-w-lg rounded-2xl border border-[#204D49]/10
+        bg-white p-6 shadow-sm sm:p-8
+      "
+    >
       <button
         type="button"
         data-action="walk-start#close"
         aria-label="閉じる"
-        class="absolute right-4 top-4 grid size-9 place-items-center rounded-full text-2xl leading-none text-[#52645F] hover:bg-[#E8F4F5] hover:text-[#204D49] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#204D49]"
+        class="
+          absolute right-4 top-4 grid size-9 place-items-center rounded-full
+          text-2xl leading-none text-[#52645F] hover:bg-[#E8F4F5]
+          hover:text-[#204D49] focus-visible:outline-2
+          focus-visible:outline-offset-2 focus-visible:outline-[#204D49]
+        "
       >
         ×
       </button>
 
-      <h2 id="walk-start-modal-title" class="pr-8 text-center text-2xl font-bold tracking-tight text-[#204D49]">
+      <h2
+        id="walk-start-modal-title"
+        class="pr-8 text-center text-2xl font-bold tracking-tight text-[#204D49]"
+      >
         位置情報について
       </h2>
 
@@ -23,7 +39,9 @@
                    variant: :processing,
                    title: "位置情報を取得しています…",
                    message: "散歩の記録に場所を添えられます。" %>
+
         <%= button_to "待たずに散歩を始める", word_chain_walks_path, method: :post, class: "mt-3 min-h-11 w-full rounded-lg border border-[#204D49] px-4 py-2 font-bold text-[#204D49]" %>
+
         <p class="mt-2 text-sm text-[#52645F]">場所は写真を記録するときにも確認します。</p>
       </div>
 
@@ -42,8 +60,7 @@
       </div>
 
       <p class="mt-5 text-base leading-relaxed text-[#303B3C]">
-        位置情報は任意です。許可すると、見つけた場所も地図に残せます。
-        許可しなくても、写真とことばは記録できます。
+        位置情報は任意です。許可すると、見つけた場所も地図に残せます。 許可しなくても、写真とことばは記録できます。
       </p>
 
       <%= button_to "散歩を始める",

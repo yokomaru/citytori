@@ -1,9 +1,15 @@
 <% latest_step = word_chain_walk.word_chain_walk_steps.max_by(&:id) %>
 <% finished = word_chain_walk.finished? %>
 
-<article id="<%= dom_id word_chain_walk %>" aria-labelledby="<%= dom_id(word_chain_walk, :title) %>">
+<article
+  id="<%= dom_id word_chain_walk %>"
+  aria-labelledby="<%= dom_id(word_chain_walk, :title) %>"
+>
   <%= link_to word_chain_walk, class: ["walk-index-card", (finished ? "walk-index-card-finished" : "walk-index-card-active")] do %>
-    <span class="walk-index-start-char">「<%= word_chain_walk.start_char %>」から</span>
+    <span class="walk-index-start-char">
+      「<%= word_chain_walk.start_char %>」から
+    </span>
+
     <% if latest_step&.image&.attached? %>
       <%= image_tag latest_step.image.variant(resize_to_fill: [240, 180]),
                     alt: "「#{word_chain_walk.start_char}」から始まった散歩の写真",
@@ -23,7 +29,10 @@
         <%= finished ? "完了" : "進行中" %>
       </span>
 
-      <h3 id="<%= dom_id(word_chain_walk, :title) %>" class="walk-index-card-title">
+      <h3
+        id="<%= dom_id(word_chain_walk, :title) %>"
+        class="walk-index-card-title"
+      >
         <time datetime="<%= word_chain_walk.started_at.iso8601 %>"><%= word_chain_walk.started_at.strftime("%Y年%-m月%-d日 %H:%M") %></time>の散歩
       </h3>
 
@@ -43,6 +52,7 @@
       </dl>
 
       <% photo_steps = word_chain_walk.word_chain_walk_steps.sort_by(&:id).select { |step| step.image.attached? } %>
+
       <% if photo_steps.any? %>
         <div class="walk-index-thumbnails" role="group" aria-label="散歩で撮った写真">
           <% photo_steps.first(6).each do |step| %>
@@ -53,7 +63,8 @@
 
       <% unless finished %>
         <p class="walk-index-resume">
-          続きから歩く <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+          続きから歩く
+          <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
         </p>
       <% end %>
     </div>

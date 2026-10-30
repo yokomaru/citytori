@@ -2,8 +2,7 @@
   <%= render "word_chain_walks/finished/summary", word_chain_walk: word_chain_walk, word_chain_walk_steps: word_chain_walk_steps %>
 
   <%= turbo_frame_tag "finished_walk_view" do %>
-
-    <% if @word_chain_walk_steps.any? { |step| step.latitude.present? && step.longitude.present? } %>
+    <% if word_chain_walk_steps.any? { |step| step.latitude.present? && step.longitude.present? } %>
       <%= render "word_chain_walks/finished/tabs", word_chain_walk: word_chain_walk, active_tab: :timeline %>
     <% end %>
 
@@ -13,7 +12,10 @@
   <div class="mt-6 text-center">
     <%= link_to word_chain_walks_path,
                 class: "walk-history-button" do %>
-      <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+      <span class="material-symbols-outlined" aria-hidden="true">
+        chevron_left
+      </span>
+
       <span>これまでの散歩を見る</span>
     <% end %>
   </div>

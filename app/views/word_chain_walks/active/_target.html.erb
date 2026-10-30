@@ -4,9 +4,14 @@
     <%= render "word_chain_walks/active/count", word_chain_walk_steps: word_chain_walk.word_chain_walk_steps %>
   </h2>
 
-  <div class="active-walk-target-visual" style="background-image: url('<%= asset_path "背景.png" %>');">
+  <div
+    class="active-walk-target-visual"
+    style="background-image: url('<%= asset_path "背景.png" %>');"
+  >
     <div class="active-walk-target-char-card">
-      <span class="active-walk-target-char"><%= word_chain_walk.target_char %></span>
+      <span class="active-walk-target-char">
+        <%= word_chain_walk.target_char %>
+      </span>
     </div>
   </div>
 

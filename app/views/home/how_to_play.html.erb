@@ -3,22 +3,23 @@
 <div class="how-to-play-page">
   <%= render "home/how_to_play_content" %>
 
+  <div class="mt-8 text-center">
+    <% active_walk = current_user.word_chain_walks.active.first if logged_in? %>
 
-    <div class="mt-8 text-center">
-      <% active_walk = current_user.word_chain_walks.active.first if logged_in? %>
-      <% if active_walk %>
-        <%= link_to "散歩を再開する", word_chain_walk_path(active_walk), class: "landing-cta landing-cta--secondary max-w-xs" %>
+    <% if active_walk %>
+      <%= link_to "散歩を再開する", word_chain_walk_path(active_walk), class: "landing-cta landing-cta--secondary max-w-xs" %>
+    <% else %>
+      <%= link_to "ホームに戻って始める", root_path, class: "landing-cta landing-cta--secondary max-w-xs" %>
+    <% end %>
+
+    <p class="mt-3 text-sm text-[#52645F]">
+      <% if !logged_in? %>
+        ホームからGoogleアカウントでログインして、散歩を始められます。
+      <% elsif active_walk %>
+        進行中の散歩があります。続きから再開できます。
       <% else %>
-        <%= link_to "ホームに戻って始める", root_path, class: "landing-cta landing-cta--secondary max-w-xs" %>
+        ホームから新しい散歩を始められます。
       <% end %>
-      <p class="mt-3 text-sm text-[#52645F]">
-        <% if !logged_in? %>
-          ホームからGoogleアカウントでログインして、散歩を始められます。
-        <% elsif active_walk %>
-          進行中の散歩があります。続きから再開できます。
-        <% else %>
-          ホームから新しい散歩を始められます。
-        <% end %>
-      </p>
-    </div>
+    </p>
+  </div>
 </div>

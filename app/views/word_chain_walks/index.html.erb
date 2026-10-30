@@ -1,5 +1,4 @@
 <% set_meta_tags title: "散歩の記録", description: "Citytoriで記録したしりとり散歩の一覧です。進行中の散歩と完了した散歩を確認できます。", noindex: true %> <%# herb:disable erb-no-unused-expressions %>
-
 <% finished_word_chain_walks, active_word_chain_walks = @word_chain_walks.partition(&:finished?) %>
 
 <div class="walk-index-page">
@@ -24,7 +23,9 @@
 
         <ul class="walk-index-list" role="list">
           <% active_word_chain_walks.each do |word_chain_walk| %>
-            <li><%= render "word_chain_walks/word_chain_walk", word_chain_walk: %></li>
+            <li>
+              <%= render "word_chain_walks/word_chain_walk", word_chain_walk: %>
+            </li>
           <% end %>
         </ul>
       </section>
@@ -36,13 +37,18 @@
         aria-labelledby="finished-walks-heading"
       >
         <h2 id="finished-walks-heading" class="walk-index-heading">
-          <span class="material-symbols-outlined walk-index-heading-icon walk-index-heading-icon-finished" aria-hidden="true">description</span>
+          <span class="
+            material-symbols-outlined walk-index-heading-icon
+            walk-index-heading-icon-finished
+          " aria-hidden="true">description</span>
           これまでの散歩
         </h2>
 
         <ul class="walk-index-list" role="list">
           <% finished_word_chain_walks.each do |word_chain_walk| %>
-            <li><%= render "word_chain_walks/word_chain_walk", word_chain_walk: %></li>
+            <li>
+              <%= render "word_chain_walks/word_chain_walk", word_chain_walk: %>
+            </li>
           <% end %>
         </ul>
       </section>
@@ -52,12 +58,14 @@
         aria-labelledby="finished-walks-heading"
       >
         <h2 id="finished-walks-heading" class="walk-index-heading">
-          <span class="material-symbols-outlined walk-index-heading-icon walk-index-heading-icon-finished" aria-hidden="true">description</span>
+          <span class="
+            material-symbols-outlined walk-index-heading-icon
+            walk-index-heading-icon-finished
+          " aria-hidden="true">description</span>
           これまでの散歩
         </h2>
 
         <p>まだ散歩の記録はありません。</p>
-
       </section>
     <% end %>
 
@@ -71,6 +79,7 @@
         <%= button_tag "しりとり散歩をはじめる", type: "button",
                        class: "home-primary-cta walk-start-cta",
                        data: { action: "walk-start#open" } %>
+
         <%= render "word_chain_walks/start_modal" %>
       </div>
     <% end %>
