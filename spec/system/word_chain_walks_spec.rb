@@ -248,25 +248,19 @@ RSpec.describe 'WordChainWalks', type: :system do
     )
 
     within 'dialog[data-modal-target="modal"][open]' do
-      expect(
-        find('[data-previews-target="image"]')[:src]
-      ).to start_with('blob:')
+      expect(page).to have_css('[data-previews-target="image"][src^="blob:"]')
     end
 
     click_button 'キャンセル'
 
-    expect(
-      find('[data-previews-target="input"]', visible: :all).value
-    ).to be_blank
+    expect(page).to have_field('word_chain_walk_step_image', type: 'file', with: '', visible: :all)
 
     expect(page).to have_css(
       '[data-previews-target="preview"].hidden',
       visible: :all
     )
 
-    expect(
-      find('[data-previews-target="image"]', visible: :all)[:src]
-    ).to be_blank
+    expect(page).to have_css('[data-previews-target="image"][src=""]', visible: :all)
   end
 
   scenario 'モーダルを再度開くと位置情報を再取得する' do
