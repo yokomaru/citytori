@@ -1,4 +1,4 @@
-# Citytori
+<img src="app/assets/images/top-logo.png" alt="logo" width="600">
 
 CityToriは、街で見つけたものでしりとりをしながら歩き、しりとり形式で言葉をつないでいくゲーム形式の移動ログサービスです。
 
@@ -129,22 +129,6 @@ bin/dev
 ```
 
 ## テスト
-
-システムテストにはGoogle Chromeが必要です。初回のみ、開発用と同様にテスト用credentialsを作成してください（鍵やファイルの取り扱いも同様です）。
-
-```sh
-mv config/credentials/test.yml.enc config/credentials/test.yml.enc.bak
-EDITOR="vi" bin/rails credentials:edit --environment test
-```
-
-Google認証はモックするため、以下のダミー値を設定します。
-
-```yaml
-google:
-  client_id: dummy-client-id
-  client_secret: dummy-client-secret
-```
-
 初回はDBとCSSを準備します。
 
 ```sh
