@@ -30,7 +30,7 @@ export default class extends Controller {
     const maxSizeOfBytes = 10 * 1024 * 1024; // 画像の最大サイズは10MB
 
     if (file.size > maxSizeOfBytes) {
-      alert("画像のサイズは10MB以下にしてください");
+      alert("画像のサイズは10MB以下にしてください。");
       this.removeImage();
       return;
     }
@@ -38,7 +38,7 @@ export default class extends Controller {
     const allowedMimeType = ["image/jpeg", "image/png"];
 
     if (!allowedMimeType.includes(file.type)) {
-      alert("PNGまたはJPEG形式のファイルを選択してください");
+      alert("PNGまたはJPEG形式のファイルを選択してください。");
       this.removeImage();
       return;
     }

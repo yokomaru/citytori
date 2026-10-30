@@ -1,7 +1,7 @@
 <% if @word_chain_walk.finished? %>
-  <% set_meta_tags title: "完了したしりとり散歩", description: "Citytoriで記録した、#{@word_chain_walk.start_char}から始まるしりとり散歩を振り返れます。", noindex: true %>
+  <% set_meta_tags title: "完了したしりとり散歩", description: "Citytoriで記録した、#{@word_chain_walk.start_char}から始まるしりとり散歩を振り返れます。", noindex: true %> <%# herb:disable erb-no-unused-expressions %>
   <%= render "word_chain_walks/finished", word_chain_walk: @word_chain_walk, word_chain_walk_steps: @word_chain_walk_steps, locations: @locations %>
 <% else %>
-  <% set_meta_tags title: "しりとり散歩中", description: "Citytoriでしりとり散歩を続けています。次にさがす文字から始まるものを、街で見つけて記録しましょう。", noindex: true %>
+  <% set_meta_tags title: "しりとり散歩中", description: "Citytoriでしりとり散歩を続けています。次にさがす文字から始まるものを、街で見つけて記録しましょう。", noindex: true %> <%# herb:disable erb-no-unused-expressions %>
   <%= render "word_chain_walks/active", word_chain_walk: @word_chain_walk, word_chain_walk_steps: @word_chain_walk_steps, word_chain_walk_step: @word_chain_walk_step %>
 <% end %>

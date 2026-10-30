@@ -1,61 +1,24 @@
-<% set_meta_tags title: "Citytoriの遊び方", description: "Citytoriでしりとり散歩を楽しむ、文字をさがす・写真とことばを記録する・記録した散歩を振り返るという3つの流れを紹介します。" %>
+<% set_meta_tags title: "Citytoriの遊び方", description: "Citytoriでしりとり散歩を楽しむ、文字をさがす・写真とことばを記録する・記録した散歩を振り返るという3つの流れを紹介します。" %> <%# herb:disable erb-no-unused-expressions %>
 
 <div class="how-to-play-page">
-  <article class="how-to-play-sheet">
-    <header class="text-center">
-      <h1 class="landing-section-title landing-rule-title">Citytoriの遊び方</h1>
-      <p class="mt-5 text-base leading-8 text-[#303B3C]">
-        しりとりをしながら<br>
-        街で見つけたものを写真とことばで残していきます
+  <%= render "home/how_to_play_content" %>
+
+
+    <div class="mt-8 text-center">
+      <% active_walk = current_user.word_chain_walks.active.first if logged_in? %>
+      <% if active_walk %>
+        <%= link_to "散歩を再開する", word_chain_walk_path(active_walk), class: "landing-cta landing-cta--secondary max-w-xs" %>
+      <% else %>
+        <%= link_to "ホームに戻って始める", root_path, class: "landing-cta landing-cta--secondary max-w-xs" %>
+      <% end %>
+      <p class="mt-3 text-sm text-[#52645F]">
+        <% if !logged_in? %>
+          ホームからGoogleアカウントでログインして、散歩を始められます。
+        <% elsif active_walk %>
+          進行中の散歩があります。続きから再開できます。
+        <% else %>
+          ホームから新しい散歩を始められます。
+        <% end %>
       </p>
-    </header>
-
-    <ol class="mt-10 divide-y divide-[#204D49]/10 border-y border-[#204D49]/10">
-      <li class="grid grid-cols-[3.5rem_1fr] gap-3 py-7 sm:grid-cols-[5rem_1fr] sm:gap-6">
-        <p class="text-2xl font-bold tabular-nums text-[#F16B36]" aria-hidden="true">01</p>
-        <div>
-          <h2 class="text-xl font-bold text-[#204D49]">文字をさがす</h2>
-          <p class="mt-3 text-base leading-8 text-[#303B3C]">
-            次にさがす文字から始まるものを<br>
-            街の中で見つけます
-          </p>
-        </div>
-      </li>
-
-      <li class="grid grid-cols-[3.5rem_1fr] gap-3 py-7 sm:grid-cols-[5rem_1fr] sm:gap-6">
-        <p class="text-2xl font-bold tabular-nums text-[#F16B36]" aria-hidden="true">02</p>
-        <div>
-          <h2 class="text-xl font-bold text-[#204D49]">写真とことばを記録する</h2>
-          <p class="mt-3 text-base leading-8 text-[#303B3C]">
-            見つけたものを写真に撮って<br>
-            ことばを記録します
-          </p>
-          <p class="mt-3 text-base leading-8 text-[#303B3C]">気づいたことはメモにも残せます</p>
-          <p class="mt-3 text-base leading-8 text-[#303B3C]">記録すると、次にさがす文字が決まります</p>
-        </div>
-      </li>
-
-      <li class="grid grid-cols-[3.5rem_1fr] gap-3 py-7 sm:grid-cols-[5rem_1fr] sm:gap-6">
-        <p class="text-2xl font-bold tabular-nums text-[#F16B36]" aria-hidden="true">03</p>
-        <div>
-          <h2 class="text-xl font-bold text-[#204D49]">散歩を振り返る</h2>
-          <p class="mt-3 text-base leading-8 text-[#303B3C]">
-            散歩が終わったら、写真とことばの記録を振り返れます
-          </p>
-          <p class="mt-3 text-base leading-8 text-[#303B3C]">
-            位置情報を記録している場合は、見つけた場所を地図でも見ることができます
-          </p>
-        </div>
-      </li>
-    </ol>
-
-    <section id="location-information" class="mt-10 rounded-2xl border border-[#C9E4E5] bg-[#E8F4F5] px-5 py-6 sm:px-7" aria-labelledby="location-information-heading">
-      <h2 id="location-information-heading" class="text-xl font-bold text-[#204D49]">位置情報について</h2>
-      <div class="mt-4 space-y-3 text-base leading-8 text-[#303B3C]">
-        <p>位置情報を許可すると、見つけた場所も一緒に記録できます</p>
-        <p>位置情報を許可しなくても、写真・ことば・メモは記録できます</p>
-        <p>位置情報をうまく取得できない場合は、ブラウザまたは端末の設定から位置情報の利用を許可してください</p>
-      </div>
-    </section>
-  </article>
+    </div>
 </div>

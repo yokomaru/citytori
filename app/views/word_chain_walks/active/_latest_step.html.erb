@@ -1,35 +1,42 @@
 <div id="latest_step">
   <% if word_chain_walk.latest_step.present? %>
     <% latest_step = word_chain_walk.latest_step %>
-    <div class="active-walk-latest-card">
-      <div class="flex items-center gap-3">
-        <%= image_tag latest_step.image.variant(resize_to_fill: [ 144, 144 ]),
-                      alt: "前回見つけた「#{latest_step.word}」の写真",
-                      class: "active-walk-latest-image" %>
+    <article class="active-walk-latest-card walk-record-card flex min-w-0 items-start gap-3 rounded-xl bg-white p-3 transition-colors sm:gap-4 sm:p-4">
+      <span class="walk-record-char" aria-hidden="true"><%= latest_step.word.first %></span>
+      <%= image_tag latest_step.image.variant(resize_to_fill: [240, 180]),
+                    alt: "「#{latest_step.word}」の写真",
+                    class: "h-20 w-20 shrink-0 rounded-lg object-cover sm:h-28 sm:w-28" %>
 
-        <div class="flex-1">
-          <%= link_to word_chain_walk_word_chain_walk_step_path(word_chain_walk, latest_step),
-                      class: "active-walk-latest-word" do %>
-            <%= latest_step.word %>
-          <% end %>
+      <div class="active-walk-latest-body min-w-0 flex-1 pt-0.5">
+        <h3 class="break-words text-lg font-bold leading-tight text-[#204D49] sm:text-xl">
+          <%= link_to latest_step.word,
+                      word_chain_walk_word_chain_walk_step_path(word_chain_walk, latest_step),
+                      class: "active-walk-latest-link",
+                      aria: { label: "「#{latest_step.word}」の記録を見る" } %>
+        </h3>
 
-          <% if latest_step.memo.present? %>
-            <p class="active-walk-latest-memo">
-              <%= latest_step.memo %>
-            </p>
-          <% end %>
-        </div>
+        <p class="mt-2 text-xs text-[#303B3C]">
+          <time datetime="<%= latest_step.created_at.iso8601 %>"><%= latest_step.created_at.strftime("%H:%M") %></time>
+        </p>
 
-        <%= button_to "取り消す",
-                      latest_word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
-                      method: :delete,
-                      class: "active-walk-latest-cancel",
-                      data: { turbo_confirm: "記録したことばを取り消しますか？" } %>
+        <% if latest_step.memo.present? %>
+          <p class="mt-2 line-clamp-2 break-words text-sm leading-relaxed text-[#303B3C]">
+            <%= latest_step.memo %>
+          </p>
+        <% end %>
+
       </div>
+    </article>
+    <div class="active-walk-latest-actions">
+      <%= button_to "取り消す",
+                    latest_word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+                    method: :delete,
+                    class: "active-walk-latest-cancel",
+                    data: { turbo_confirm: "記録したことばを取り消しますか？" } %>
     </div>
   <% else %>
     <p class="active-walk-latest-empty">
-      まだことばを見つけていません。
+      まだ記録はありません。
     </p>
   <% end %>
 </div>

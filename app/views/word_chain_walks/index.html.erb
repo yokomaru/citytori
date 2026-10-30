@@ -1,10 +1,10 @@
-<% set_meta_tags title: "散歩一覧", description: "Citytoriで記録したしりとり散歩の一覧です。進行中の散歩と完了した散歩を確認できます。", noindex: true %>
+<% set_meta_tags title: "散歩の記録", description: "Citytoriで記録したしりとり散歩の一覧です。進行中の散歩と完了した散歩を確認できます。", noindex: true %> <%# herb:disable erb-no-unused-expressions %>
 
 <% finished_word_chain_walks, active_word_chain_walks = @word_chain_walks.partition(&:finished?) %>
 
-<main class="walk-index-page">
+<div class="walk-index-page">
   <div class="walk-index-content">
-    <h1 class="walk-index-title">散歩一覧</h1>
+    <h1 class="walk-index-title">散歩の記録</h1>
 
     <% if active_word_chain_walks.any? %>
       <section
@@ -22,11 +22,11 @@
           進行中の散歩
         </h2>
 
-        <div class="walk-index-list">
+        <ul class="walk-index-list" role="list">
           <% active_word_chain_walks.each do |word_chain_walk| %>
-            <%= render "word_chain_walks/word_chain_walk", word_chain_walk: %>
+            <li><%= render "word_chain_walks/word_chain_walk", word_chain_walk: %></li>
           <% end %>
-        </div>
+        </ul>
       </section>
     <% end %>
 
@@ -36,21 +36,15 @@
         aria-labelledby="finished-walks-heading"
       >
         <h2 id="finished-walks-heading" class="walk-index-heading">
-          <i
-            class="
-              fa-solid fa-book-open walk-index-heading-icon
-              walk-index-heading-icon-finished
-            "
-            aria-hidden="true"
-          ></i>
+          <span class="material-symbols-outlined walk-index-heading-icon walk-index-heading-icon-finished" aria-hidden="true">description</span>
           これまでの散歩
         </h2>
 
-        <div class="walk-index-list">
+        <ul class="walk-index-list" role="list">
           <% finished_word_chain_walks.each do |word_chain_walk| %>
-            <%= render "word_chain_walks/word_chain_walk", word_chain_walk: %>
+            <li><%= render "word_chain_walks/word_chain_walk", word_chain_walk: %></li>
           <% end %>
-        </div>
+        </ul>
       </section>
     <% elsif active_word_chain_walks.empty? %>
       <section
@@ -58,23 +52,27 @@
         aria-labelledby="finished-walks-heading"
       >
         <h2 id="finished-walks-heading" class="walk-index-heading">
-          <i
-            class="
-              fa-solid fa-book-open walk-index-heading-icon
-              walk-index-heading-icon-finished
-            "
-            aria-hidden="true"
-          ></i>
+          <span class="material-symbols-outlined walk-index-heading-icon walk-index-heading-icon-finished" aria-hidden="true">description</span>
           これまでの散歩
         </h2>
 
-        <p>まだ散歩の記録はありません</p>
+        <p>まだ散歩の記録はありません。</p>
 
-        <%= button_to "散歩を始める",
-                      word_chain_walks_path,
-                      method: :post,
-                      class: "walk-index-start-button" %>
       </section>
     <% end %>
+
+    <% if active_word_chain_walks.any? %>
+      <div class="walk-index-start-action">
+        <%= link_to "散歩を再開する", word_chain_walk_path(active_word_chain_walks.first),
+                    class: "home-primary-cta walk-start-cta" %>
+      </div>
+    <% else %>
+      <div class="walk-index-start-action" data-controller="walk-start">
+        <%= button_tag "しりとり散歩をはじめる", type: "button",
+                       class: "home-primary-cta walk-start-cta",
+                       data: { action: "walk-start#open" } %>
+        <%= render "word_chain_walks/start_modal" %>
+      </div>
+    <% end %>
   </div>
-</main>
+</div>

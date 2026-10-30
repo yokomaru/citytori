@@ -1,125 +1,58 @@
-<% set_meta_tags title: "しりとり散歩が完了しました", description: "しりとり散歩が完了しました。かかった時間やつないだことばの数、写真の記録を振り返れます。", noindex: true %>
+<% set_meta_tags title: "しりとり散歩が完了しました", description: "今日の散歩で見つけた写真とことばを振り返れます。", noindex: true %> <%# herb:disable erb-no-unused-expressions %>
 
 <article class="completion-page">
   <div class="completion-sheet">
     <header class="text-center">
-      <%= image_tag "completion.png",
-                    alt: "散歩の完了を祝う鳥と街並みのイラスト",
-                    class: "mx-auto w-full max-w-2xl object-contain" %>
-
-      <p class="mt-2 text-xs font-bold tracking-[0.16em] text-[#F16B36] sm:mt-4 sm:text-sm">
-        WALK COMPLETE!
-      </p>
-
-      <h1 class="mt-2 text-3xl font-bold leading-tight tracking-[0.02em] text-[#204D49] sm:text-4xl">
-        しりとり散歩<br>
-        おつかれさまでした！
-      </h1>
-
-      <p class="mt-3 text-sm leading-relaxed text-[#303B3C] sm:text-base">
+      <%= image_tag "completion.png", alt: "", class: "completion-illustration" %>
+      <h1 class="mt-3 text-2xl font-bold leading-snug text-[#204D49] sm:text-3xl">散歩、おつかれさまでした！</h1>
+      <p class="mt-3 text-base text-[#303B3C]">
         <% if @word_chain_walk_steps.empty? %>
-          今回はことばは見つかりませんでした
-        <% elsif @last_step.normalize_last_char == "ん" %>
-          んで終わることばを見つけて終了しました
+          今回は記録がありません。また気軽に出かけてみましょう。
         <% else %>
-          街でたくさんのことばを見つけました
+          <%= @word_chain_walk_steps.size %>個のことばを記録しました。
         <% end %>
       </p>
+      <% if @last_step&.normalize_last_char == "ん" %>
+        <p class="mt-2 text-sm text-[#52645F]">「ん」で終わることばを見つけて、散歩が終わりました。</p>
+      <% end %>
     </header>
 
-    <section class="mt-8 rounded-2xl border border-[#C9E4E5] bg-[#E8F4F5] px-4 py-5 sm:mt-10 sm:px-7 sm:py-6">
-      <dl class="grid gap-4 text-center sm:grid-cols-3 sm:divide-x sm:divide-[#C9DBD7] sm:gap-0">
-        <div class="min-w-0 sm:px-5">
-          <dt class="flex items-center justify-center gap-2 text-xs font-medium text-[#52645F]">
-            <i class="fa-solid fa-pencil text-sm text-[#F16B36]" aria-hidden="true"></i>
-            最初の文字
-          </dt>
-          <dd class="mt-1 text-3xl font-bold leading-none text-[#204D49] sm:text-4xl"><%= @word_chain_walk.start_char %></dd>
-        </div>
-
-        <div class="min-w-0 sm:px-5">
-          <dt class="flex items-center justify-center gap-2 text-xs font-medium text-[#52645F]">
-            <i class="fa-regular fa-comment text-sm text-[#F16B36]" aria-hidden="true"></i>
-            つないだことばの数
-          </dt>
-          <dd class="mt-1 text-2xl font-bold leading-none text-[#204D49] sm:text-3xl"><%= @word_chain_walk_steps.size %><span class="ml-0.5 text-sm font-semibold">個</span></dd>
-        </div>
-
-        <div class="min-w-0 sm:px-5">
-          <dt class="flex items-center justify-center gap-2 text-xs font-medium text-[#52645F]">
-            <i class="fa-regular fa-clock text-sm text-[#F16B36]" aria-hidden="true"></i>
-            かかった時間
-          </dt>
-          <dd class="mt-1 text-lg font-bold leading-tight text-[#204D49] sm:text-xl"><%= formatted_elapsed_time(@word_chain_walk.elapsed_seconds) %></dd>
-        </div>
-      </dl>
-    </section>
-
-    <section class="mt-7 sm:mt-9" aria-labelledby="word-chain-heading">
-      <h2 id="word-chain-heading" class="border-l-2 border-[#F16B36] pl-3 text-lg font-bold text-[#204D49]">
-        今回のしりとり
-      </h2>
-
-      <% if @word_chain_walk_steps.any? %>
-        <div class="mt-3 rounded-2xl border border-[#C9DBD7] bg-white px-4 py-5 sm:px-7">
-          <div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:gap-5">
-            <div class="min-w-0 text-center">
-              <p class="text-xs font-medium text-[#52645F]">最初のことば</p>
-              <p class="mt-2 break-all rounded-xl bg-[#E8F4F5] px-3 py-2 text-base font-bold text-[#204D49] sm:text-lg"><%= @first_step.word %></p>
-            </div>
-
-            <svg class="h-5 w-9 shrink-0 text-[#F16B36] sm:w-16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 120 20" preserveAspectRatio="none">
-              <path stroke-dasharray="1 5" stroke-linecap="round" d="M0 10h108" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M101 4l7 6-7 6" />
-            </svg>
-
-            <div class="min-w-0 text-center">
-              <p class="text-xs font-medium text-[#52645F]">最後のことば</p>
-              <p class="mt-2 break-all rounded-xl bg-[#E8F4F5] px-3 py-2 text-base font-bold text-[#204D49] sm:text-lg"><%= @last_step.word %></p>
-            </div>
-          </div>
-        </div>
-      <% else %>
-        <div class="mt-3 rounded-2xl border border-[#C9DBD7] bg-white px-4 py-6 text-center">
-          <p class="text-sm text-[#52645F]">記録したことばはありませんでした</p>
-        </div>
-      <% end %>
-    </section>
-
-    <section class="mt-7 sm:mt-9" aria-labelledby="walk-photos-heading">
-      <h2 id="walk-photos-heading" class="border-l-2 border-[#F16B36] pl-3 text-lg font-bold text-[#204D49]">
-        散歩の写真
-      </h2>
-
-      <% word_chain_walk_steps_images = @word_chain_walk_steps.select { |step| step.image.attached? } %>
-
-      <% if word_chain_walk_steps_images.any? %>
-        <% walk_photos = word_chain_walk_steps_images.sample(3) %>
-        <% photo_grid_class = {
-          1 => "completion-photo-grid--one",
-          2 => "completion-photo-grid--two",
-          3 => "completion-photo-grid--three"
-        }.fetch(walk_photos.size) %>
-
-        <div class="completion-photo-grid <%= photo_grid_class %>">
-          <% walk_photos.each do |word_chain_walk_step| %>
-            <%= image_tag word_chain_walk_step.image.variant(resize_to_fill: [ 800, 600 ]),
-                          alt: "「#{word_chain_walk_step.word}」の写真",
-                          class: "aspect-[4/3] w-full rounded-xl object-cover" %>
+    <% photos = @word_chain_walk_steps.select { |step| step.image.attached? }.first(3) %>
+    <% if photos.any? %>
+      <section class="mt-6" aria-labelledby="walk-photos-heading">
+        <h2 id="walk-photos-heading" class="flex items-center gap-2 text-xl font-bold text-[#204D49]">
+          <span class="material-symbols-outlined" aria-hidden="true">search</span>
+          今日の発見
+        </h2>
+        <div class="completion-photo-grid <%= { 1 => "completion-photo-grid--one", 2 => "completion-photo-grid--two", 3 => "completion-photo-grid--three" }.fetch(photos.size) %>">
+          <% photos.each do |step| %>
+            <%= link_to word_chain_walk_word_chain_walk_step_path(@word_chain_walk, step), class: "min-w-0 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#204D49]" do %>
+              <%= image_tag step.image.variant(resize_to_limit: [600, 600]), alt: "「#{step.word}」の写真", class: "aspect-[4/3] w-full rounded-xl object-cover" %>
+              <p class="mt-2 break-words text-base font-bold text-[#204D49]"><%= step.word %></p>
+            <% end %>
           <% end %>
         </div>
-      <% else %>
-        <div class="mt-3 px-4 py-4 text-center">
-          <p class="text-sm text-[#52645F]">今回は写真の記録はありません</p>
-          <div class="mx-auto mt-4 w-44 sm:w-52">
-            <%= image_tag "nothing-images.png", alt: "写真の記録がないことを表す鳥とアルバムのイラスト", class: "h-auto w-full object-contain" %>
-          </div>
-        </div>
-      <% end %>
-    </section>
+        <% if @word_chain_walk_steps.size > 3 %>
+          <p class="mt-3 text-sm text-[#52645F]">
+            最初の3件を表示しています。
+            <%= link_to "すべての記録は「今回の散歩を振り返る」から見られます。", word_chain_walk_path(@word_chain_walk), class: "text-[#204D49] underline underline-offset-4" %>
+          </p>
+        <% end %>
+      </section>
+    <% end %>
 
-    <footer class="mt-9 text-center sm:mt-11">
+    <dl class="completion-stats">
+      <div><dt class="text-sm">最初の文字</dt><dd class="mt-1 text-lg font-bold"><%= @word_chain_walk.start_char %></dd></div>
+      <div><dt class="text-sm">つないだことば</dt><dd class="mt-1 text-lg font-bold"><%= @word_chain_walk_steps.size %>個</dd></div>
+      <div><dt class="text-sm">かかった時間</dt><dd class="mt-1 text-lg font-bold"><%= formatted_elapsed_time(@word_chain_walk.elapsed_seconds) %></dd></div>
+    </dl>
+
+    <% if @word_chain_walk_steps.size > 1 %>
+      <p class="mt-5 break-words text-center text-base text-[#303B3C]">「<%= @first_step.word %>」から「<%= @last_step.word %>」まで、ことばがつながりました。</p>
+    <% end %>
+    <footer class="mt-7 flex flex-col items-center text-center">
       <%= link_to "今回の散歩を振り返る", word_chain_walk_path(@word_chain_walk), class: "completion-primary-cta" %>
+      <%= link_to "ホームに戻る", root_path, class: "mt-3 inline-flex min-h-11 items-center px-4 text-[#204D49] underline underline-offset-4" %>
     </footer>
   </div>
 </article>

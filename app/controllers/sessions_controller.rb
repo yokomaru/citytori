@@ -7,12 +7,12 @@ class SessionsController < ApplicationController
     auth = request.env["omniauth.auth"]
     user = User.find_or_create_from_omniauth(auth)
     log_in(user)
-    redirect_to root_path, notice: "ログインしました"
+    redirect_to root_path, notice: "ログインしました。"
   end
 
   def destroy
     log_out
-    redirect_to root_path, notice: "ログアウトしました"
+    redirect_to root_path, notice: "ログアウトしました。"
   end
 
   def failure

@@ -64,7 +64,7 @@ RSpec.describe 'FinishedWalks', type: :system do
       click_link 'りんご'
     end
 
-    expect(page).to have_current_path(word_chain_walk_step_path)
+    expect(page).to have_current_path(word_chain_walk_word_chain_walk_step_path(word_chain_walk, word_chain_walk_step, from: "map"))
     expect(page).to have_content('りんご')
   end
 end

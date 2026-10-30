@@ -1,0 +1,42 @@
+<section class="walk-example" aria-labelledby="walk-example-title">
+  <h2 id="walk-example-title" class="landing-section-title walk-example-heading">
+    <svg class="walk-example-heading-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <rect x="5" y="3" width="15" height="18" rx="2" />
+      <path d="M9 3v18M3 7h4M3 12h4M3 17h4M12 8h5M12 12h5" />
+    </svg>
+    <span>写真とことばで、散歩がつながる</span>
+  </h2>
+  <p class="mt-3 text-center text-base leading-7">看板や張り紙の文字も、街で見つけたものも。写真に撮って、ひらがなでつないでいきます。</p>
+  <ol class="walk-example-grid">
+    <% [
+      { word: "ひやしちゅうかはじめました", image: "walk-example-hiyashi-chuka.webp", alt: "お店の窓に貼られた「冷やし中華はじめました」の張り紙", width: 800, height: 800, time: "14:05", memo: "張り紙のことばを、そのまま記録。", next_char: "た" },
+      { word: "たぬき", image: "walk-example-tanuki.webp", alt: "お店の前に置かれた信楽焼のたぬき", width: 800, height: 800, time: "14:12", memo: "お店の前で、たぬきの置物を発見。", next_char: "き" },
+      { word: "き", image: "walk-example-tree.webp", alt: "街で見つけた大きな木", width: 800, height: 800, time: "14:20", memo: "いつもの道で、大きな木を発見。", next_char: "き" }
+    ].each_with_index do |example, index| %>
+      <li class="walk-example-stop">
+        <article class="walk-example-card">
+          <span class="walk-example-number" aria-hidden="true"><%= format("%02d", index + 1) %></span>
+        <%= image_tag example[:image], alt: example[:alt], width: example[:width], height: example[:height], loading: "lazy", class: "walk-example-photo" %>
+        <time class="walk-example-time" datetime="<%= example[:time] %>"><%= example[:time] %></time>
+        <div class="walk-example-caption">
+          <h3 class="mt-1 text-xl font-bold"><%= example[:word] %></h3>
+          <p class="mt-1 text-sm leading-6"><%= example[:memo] %></p>
+        </div>
+        </article>
+        <% unless index == 2 %>
+          <div class="walk-example-connector">
+          <p class="walk-example-next walk-example-arrow-label">次は「<%= example[:next_char] %>」</p>
+          <svg class="walk-example-arrow" viewBox="0 0 160 90" fill="none" aria-hidden="true" focusable="false">
+            <path d="M12 8 L140 76 M126 78 L140 76 L134 63" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          </div>
+          <% if index.zero? %>
+            <%= image_tag "walk-photo-woman.png", alt: "", width: 1274, height: 1235, loading: "lazy", class: "walk-example-walker" %>
+          <% else %>
+            <%= image_tag "walk-photo-woman-left.png", alt: "", width: 1273, height: 1236, loading: "lazy", class: "walk-example-walker" %>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+</section>

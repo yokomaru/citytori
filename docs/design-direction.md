@@ -31,7 +31,8 @@
 - Warm White: `#FCF9EF`
 - White: `#FFFFFF`
 - Deep Green: `#204D49`
-- Orange: `#F16B36`
+- Orange: `#F16B36`（イラストのアクセント）
+- Action Orange: `#B9471D`（白文字の主要操作・強調文字）
 - Pale Aqua: `#E8F4F5`
 - Cream / Character Background: `#FFF3DF`
 - Charcoal: `#303B3C`

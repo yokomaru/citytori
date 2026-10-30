@@ -1,10 +1,12 @@
 module WordChainWalksHelper
   def formatted_elapsed_time(seconds)
-    hours = seconds / 3600
-    minutes = (seconds % 3600) / 60
-    seconds %= 60
+    minutes = [ seconds.to_i, 0 ].max / 60
+    return "1分未満" if minutes.zero?
 
-    format("%d時間 %02d分 %02d秒", hours, minutes, seconds)
+    hours, remaining_minutes = minutes.divmod(60)
+    return "#{minutes}分" if hours.zero?
+
+    [ "#{hours}時間", ("#{remaining_minutes}分" if remaining_minutes.positive?) ].compact.join(" ")
   end
 
   def formatted_allowed_start_chars(chars)

@@ -1,29 +1,40 @@
-<% set_meta_tags title: "しりとり散歩の地図", description: "Citytoriで記録したしりとり散歩の位置情報を地図で振り返れます。", noindex: true %>
+<% set_meta_tags title: "しりとり散歩の地図", description: "Citytoriで記録したしりとり散歩の位置情報を地図で振り返れます。", noindex: true %> <%# herb:disable erb-no-unused-expressions %>
 
 <div class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6">
   <%= render "word_chain_walks/finished/summary", word_chain_walk: @word_chain_walk, word_chain_walk_steps: @word_chain_walk_steps %>
 
   <%= turbo_frame_tag "finished_walk_view" do %>
-    <nav class="mt-5 grid w-full grid-cols-2 overflow-hidden rounded-xl border border-[#C9DBD7] bg-[#F2F5F3]" aria-label="散歩の表示切り替え">
+    <nav class="walk-view-tabs mt-5 grid w-full grid-cols-2 overflow-hidden rounded-xl border border-[#C9DBD7] bg-[#F2F5F3]" aria-label="散歩の表示切り替え">
       <%= link_to "記録", word_chain_walk_path(@word_chain_walk),
                   data: { turbo_frame: "finished_walk_view" },
                   class: "flex min-h-11 items-center justify-center px-3 text-center text-sm font-medium text-[#303B3C] transition-colors hover:bg-white/60 hover:text-[#204D49] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#204D49]" %>
 
       <%= link_to "地図", map_word_chain_walk_path(@word_chain_walk),
                   data: { turbo_frame: "finished_walk_view" },
-                  class: "relative flex min-h-11 items-center justify-center bg-white px-3 text-center text-sm font-semibold text-[#204D49] shadow-[0_1px_2px_rgba(32,77,73,0.08)] after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:bg-[#F16B36] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#204D49]" %>
+                  aria: { current: "page" },
+                    class: "walk-view-tab-active relative flex min-h-11 items-center justify-center bg-white px-3 text-center text-sm font-semibold text-[#204D49] shadow-[0_1px_2px_rgba(32,77,73,0.08)] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#204D49]" %>
     </nav>
 
-    <%= render "word_chain_walks/finished/map", word_chain_walk_steps: @word_chain_walk_steps, locations: @locations %>
+    <%= render "word_chain_walks/finished/map", word_chain_walk_steps: @word_chain_walk_steps, locations: @locations, selected_step: @selected_step %>
   <% end %>
 
-  <div class="mt-12 border-t border-[#C9DBD7] pt-6 text-center">
-    <%= link_to "この散歩を削除する",
-                word_chain_walk_path(@word_chain_walk),
+  <div class="mt-6 text-center">
+    <%= link_to word_chain_walks_path,
+                class: "walk-history-button" do %>
+      <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+      <span>これまでの散歩を見る</span>
+    <% end %>
+  </div>
+
+  <div class="mt-4 pt-6 pb-8 text-right">
+    <%= button_to word_chain_walk_path(@word_chain_walk),
+                method: :delete,
                 data: {
-                  turbo_method: :delete,
                   turbo_confirm: "この散歩を削除しますか？"
                 },
-                class: "text-sm text-[#52645F] underline hover:text-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" %>
+                class: "walk-delete-button inline-flex items-center gap-2 text-sm text-[#52645F] hover:text-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" do %>
+      <span class="material-symbols-outlined" aria-hidden="true">delete</span>
+      <span class="underline">この散歩を削除する</span>
+    <% end %>
   </div>
 </div>

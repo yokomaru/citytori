@@ -1,13 +1,15 @@
 <% if notice.present? %>
-  <p
-    class="
-      mb-5 inline-block rounded-xl border border-[#C9E4E5] bg-[#E8F4F5]
-      px-4 py-3 font-medium text-[#204D49]
-    "
+  <div
+    class="notice-toast"
     id="notice"
+    data-controller="toast"
+    data-action="mouseenter->toast#pause mouseleave->toast#resume focusin->toast#pause focusout->toast#resume turbo:before-cache@document->toast#dismiss"
   >
-    <%= notice %>
-  </p>
+    <p role="status"><%= notice %></p>
+    <button type="button" class="notice-toast-close" aria-label="通知を閉じる" data-action="toast#dismiss">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+    </button>
+  </div>
 <% end %>
 
 <% if alert.present? %>
@@ -17,6 +19,7 @@
       px-4 py-3 font-medium text-[#B5473C]
     "
     id="alert"
+    role="alert"
   >
     <%= alert %>
   </p>

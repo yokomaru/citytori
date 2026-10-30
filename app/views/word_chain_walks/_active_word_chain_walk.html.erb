@@ -2,12 +2,10 @@
 
 <div id="<%= dom_id word_chain_walk %>" class="home-primary">
   <div class="home-content home-active-card">
-    <p class="home-eyebrow">しりとり散歩中</p>
-
-    <h1 class="sr-only">進行中のしりとり散歩</h1>
+    <h1 class="home-eyebrow">しりとり散歩中</h1>
 
     <section class="home-target" aria-labelledby="target-char-label">
-      <p id="target-char-label">次にさがす文字</p>
+      <h2 id="target-char-label">次にさがす文字</h2>
       <p class="home-target-char"><%= word_chain_walk.target_char %></p>
 
       <p class="home-connected-count">
@@ -22,13 +20,13 @@
                       class: "home-latest-step-image" %>
 
         <div>
-          <p id="latest-step-label" class="home-meta-label">前回見つけたことば</p>
+          <h2 id="latest-step-label" class="home-meta-label">前回見つけたことば</h2>
           <p class="home-latest-word"><%= latest_step.word %></p>
         </div>
       </section>
     <% else %>
       <p class="home-first-word-note">
-        最初の「<%= word_chain_walk.target_char %>」を見つけにいこう
+        最初の「<%= word_chain_walk.target_char %>」を見つけにいこう。
       </p>
     <% end %>
 

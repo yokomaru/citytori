@@ -1,22 +1,19 @@
 <section id="word_chain_walk_target" class="active-walk-target-section">
   <h2 class="active-walk-target-heading">
-    街の中で見つけよう！
+    次にさがす文字
+    <%= render "word_chain_walks/active/count", word_chain_walk_steps: word_chain_walk.word_chain_walk_steps %>
   </h2>
 
-  <div class="active-walk-target-visual">
-    <%= image_tag "street-line-step.png",
-                  class: "active-walk-target-street-image",
-                  alt: "街灯や木、建物が並ぶ街並み" %>
-
+  <div class="active-walk-target-visual" style="background-image: url('<%= asset_path "背景.png" %>');">
     <div class="active-walk-target-char-card">
       <span class="active-walk-target-char"><%= word_chain_walk.target_char %></span>
     </div>
   </div>
 
   <p class="active-walk-target-copy">
-    に続くことばを
+    から始まるものを
     <br>
-    街の中から見つけましょう
+    街の中から見つけましょう。
   </p>
 
   <%= render "word_chain_walks/active/allowed_start_chars", word_chain_walk: word_chain_walk %>

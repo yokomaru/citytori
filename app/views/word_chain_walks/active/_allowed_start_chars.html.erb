@@ -2,13 +2,9 @@
 
 <% if allowed_start_chars.any? %>
   <div class="active-walk-allowed-chars">
-    <div class="active-walk-allowed-icon">
-      <i class="fa-solid fa-check" aria-hidden="true"></i>
-    </div>
-
     <p>
       <span><%= formatted_allowed_start_chars(allowed_start_chars) %></span>
-      から始まることばでもOKです
+      から始まることばでもOK。
     </p>
   </div>
 <% end %>

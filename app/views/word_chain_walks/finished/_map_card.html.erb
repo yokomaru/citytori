@@ -1,8 +1,9 @@
 <%= link_to(
-      word_chain_walk_word_chain_walk_step_path(word_chain_walk_step.word_chain_walk, word_chain_walk_step),
+      word_chain_walk_word_chain_walk_step_path(word_chain_walk_step.word_chain_walk, word_chain_walk_step, from: "map"),
       data: { turbo_frame: "_top" },
-      class: "block rounded-xl border border-[#C9DBD7] bg-white p-3 transition-colors hover:border-[#204D49]/35 hover:bg-[#FCF9EF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#204D49] sm:p-4"
+      class: "walk-record-card block rounded-xl border border-[#C9DBD7] bg-white p-3 transition-colors hover:border-[#204D49]/35 hover:bg-[#FCF9EF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#204D49] sm:p-4"
     ) do %>
+  <span class="walk-record-char" aria-hidden="true"><%= word_chain_walk_step.word.first %></span>
   <div class="flex items-start gap-3 sm:gap-4">
     <% if word_chain_walk_step.image.attached? %>
       <%= image_tag(
@@ -12,17 +13,17 @@
           ) %>
     <% else %>
       <div class="flex h-24 w-24 shrink-0 items-center justify-center rounded-lg bg-[#E8F4F5] text-xs text-[#52645F] sm:h-28 sm:w-28">
-        No Image
+        写真はまだありません。
       </div>
     <% end %>
 
     <div class="min-w-0 flex-1 pt-0.5">
-      <p class="break-words text-lg font-bold leading-tight text-[#204D49] sm:text-xl">
+      <h2 class="break-words text-lg font-bold leading-tight text-[#204D49] sm:text-xl">
         <%= word_chain_walk_step.word %>
-      </p>
+      </h2>
 
       <p class="mt-2 text-xs text-[#303B3C]">
-        <%= l(word_chain_walk_step.created_at, format: :time_only) %>
+        <time datetime="<%= word_chain_walk_step.created_at.iso8601 %>"><%= l(word_chain_walk_step.created_at, format: :time_only) %></time>
       </p>
 
       <% if word_chain_walk_step.memo.present? %>

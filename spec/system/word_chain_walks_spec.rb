@@ -63,7 +63,7 @@ RSpec.describe 'WordChainWalks', type: :system do
       )
 
       within 'dialog[data-modal-target="modal"][open]' do
-        expect(page).to have_content('位置情報を取得できませんでした')
+        expect(page).to have_content('位置情報なしで記録します。')
         fill_in '見つけたことば', with: 'りんご'
         click_button '写真とことばを記録する'
       end
@@ -110,7 +110,7 @@ RSpec.describe 'WordChainWalks', type: :system do
 
       expect(page).to have_css(
         '#steps_count',
-        text: 'つないだことばの数 1個'
+        text: '2個目'
       )
 
       expect(page).to have_no_css('dialog[data-modal-target="modal"][open]')
@@ -302,7 +302,7 @@ RSpec.describe 'WordChainWalks', type: :system do
 
       fill_in '見つけたことば', with: 'りんーー'
 
-      accept_confirm('しりとり散歩をおしまいにしますか？') do
+      accept_confirm('「ん」で終わることばです。この記録を保存して、散歩をおしまいにしますか？') do
         click_button '写真とことばを記録する'
       end
 
@@ -336,7 +336,7 @@ RSpec.describe 'WordChainWalks', type: :system do
 
       fill_in '見つけたことば', with: 'りんーー'
 
-      dismiss_confirm('しりとり散歩をおしまいにしますか？') do
+      dismiss_confirm('「ん」で終わることばです。この記録を保存して、散歩をおしまいにしますか？') do
         click_button '写真とことばを記録する'
       end
 

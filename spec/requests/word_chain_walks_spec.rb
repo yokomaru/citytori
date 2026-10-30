@@ -2,6 +2,30 @@ require 'rails_helper'
 
 RSpec.describe 'WordChainWalks', type: :request do
   describe 'GET /word_chain_walks' do
+    it '進行中の散歩があれば新規開始ではなく再開を案内する' do
+      user = FactoryBot.create(:user)
+      walk = FactoryBot.create(:word_chain_walk, user: user)
+      log_in(user)
+      get word_chain_walks_path
+      page = Nokogiri::HTML(response.body)
+      link = page.at_css('.walk-index-start-action a')
+      expect(link.text).to eq('散歩を再開する')
+      expect(link['href']).to eq(word_chain_walk_path(walk))
+      expect(page.css('[data-action="walk-start#open"]')).to be_empty
+      expect(page.css('[data-walk-start-target="modal"]')).to be_empty
+    end
+
+    it '進行中がなければ従来の開始ボタンとダイアログを表示する' do
+      user = FactoryBot.create(:user)
+      FactoryBot.create(:word_chain_walk, user: user, finished_at: Time.current)
+      log_in(user)
+      get word_chain_walks_path
+      page = Nokogiri::HTML(response.body)
+      expect(page.at_css('[data-action="walk-start#open"]').text).to eq('しりとり散歩をはじめる')
+      expect(page.css('[data-walk-start-target="modal"]').size).to eq(1)
+      expect(page.css('.walk-index-start-action a')).to be_empty
+    end
+
     context 'ログインしている場合' do
       it '一覧を表示できること' do
         user = FactoryBot.create(:user)

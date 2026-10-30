@@ -1,20 +1,20 @@
-<div data-controller="walk-start">
+<div data-controller="<%= "walk-start" unless local_assigns[:shared_start_controller] %>">
   <div class="home-primary">
     <section
       class="home-content home-start-card"
       aria-labelledby="start-walk-title"
     >
 
-      <h1 id="start-walk-title">しりとり散歩をはじめよう</h1>
+      <h1 id="start-walk-title"><span class="inline-block">しりとり散歩に</span><span class="inline-block">出かけよう</span></h1>
 
       <p class="home-start-description">
-        街で見つけたものを、写真とことばでつないでいこう。
+        街で見つけたものを、<br class="mobile-copy-break">写真とことばでつないでいこう。
       </p>
 
-      <%= button_tag "しりとり散歩をはじめる", type: "button", class: "home-primary-cta", data: { action: "walk-start#open"} %>
+      <%= button_tag "しりとり散歩をはじめる", type: "button", class: "home-primary-cta walk-start-cta", data: { action: "walk-start#open"} %>
 
       <p class="home-location-note">
-        「しりとり散歩をはじめる」を押すと、位置情報を利用できるか確認します
+        位置情報は任意です。<br class="mobile-copy-break">写真とことばだけでも楽しめます。
       </p>
     </section>
   </div>

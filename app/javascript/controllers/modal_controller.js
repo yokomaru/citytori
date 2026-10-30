@@ -4,6 +4,7 @@ export default class extends Controller {
   static targets = ["modal", "form", "errors"];
 
   open() {
+    this.returnFocus = this.element.querySelector(".active-walk-photo-button");
     this.modalTarget.showModal();
   }
 
@@ -12,6 +13,12 @@ export default class extends Controller {
     this.errorsTarget.replaceChildren();
     this.modalTarget.close();
     this.dispatch("reset");
+    this.returnFocus?.focus();
+  }
+
+  cancel(event) {
+    event.preventDefault();
+    this.close();
   }
 
   closeIfSubmitSuccess(event) {

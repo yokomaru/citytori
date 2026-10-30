@@ -1,4 +1,4 @@
-<section class="active-walk-photo-section">
+<div class="active-walk-photo-section">
   <%= form_with(
     model: [word_chain_walk, word_chain_walk_step],
     data: {
@@ -19,13 +19,15 @@
       data-action="previews#openFileSelector"
       class="active-walk-photo-button"
     >
-      <i class="fa-regular fa-camera" aria-hidden="true"></i>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z" />
+        <circle cx="12" cy="13" r="4" />
+      </svg>
       写真を撮る
     </button>
 
     <p class="mt-2 text-center text-xs leading-relaxed text-[#52645F]">
-      カメラを使いたい場合は、スマートフォンをご利用ください。<br>
-      スマートフォンでは「写真を撮る」を押すとカメラが起動します。
+      見つけたものを撮って、ひらがなで名前を添えます。
     </p>
 
     <%= form.file_field :image,
@@ -42,4 +44,4 @@
       word_chain_walk: word_chain_walk,
       word_chain_walk_step: word_chain_walk_step %>
   <% end %>
-</section>
+</div>

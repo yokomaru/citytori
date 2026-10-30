@@ -1,113 +1,43 @@
 <div class="landing-page mx-auto w-full text-[#204D49]">
-  <section
-    class="landing-hero pt-8 pb-9 text-center sm:pt-12 sm:pb-12"
-    aria-labelledby="landing-title"
-  >
+  <section class="landing-hero py-6 text-center sm:py-10" aria-labelledby="landing-title">
     <div class="landing-hero-sheet">
       <%= image_tag "top-logo.png", alt: "Citytori", class: "landing-top-logo" %>
-
       <h1 id="landing-title" class="landing-title">
         <span class="block">しりとりしながら、</span>
         <span class="block">街を歩こう。</span>
       </h1>
-
-      <p class="mx-auto mt-4 max-w-xl px-5 text-sm leading-7 text-[#303B3C] sm:text-base">
-        Citytoriは街で見つけたものを、写真とことばでつないでいく散歩サービスです
+      <p class="mx-auto mt-4 max-w-xl px-5 text-base leading-7">
+        街で見つけたものを撮って、<br>しりとりでつなぐ散歩サービス。
       </p>
-
-      <%= image_tag "top-image.png", alt: "街の看板にとまる鳥を、スマートフォン越しに見つけるイラスト", width: 1672, height: 941, class: "landing-hero-image" %>
-
-      <div class="mx-auto mt-6 max-w-xl px-5 text-base leading-8 text-[#303B3C]">
-        <p>看板、お店、道ばたの草花。</p>
-
-        <p>
-          <span class="inline-block">街で見つけたものを、</span><span class="inline-block">しりとりでつないでみませんか。</span>
-        </p>
-
-        <p>
-          <span class="inline-block">写真とことばで残せば、</span><span class="inline-block">今日の散歩が</span><span class="inline-block">自分だけのアルバムに。</span>
+      <div class="mx-auto mt-5 max-w-md px-5">
+        <%= button_to "しりとり散歩をはじめる", "/auth/google_oauth2", method: :post, data: { turbo: false }, class: "landing-cta walk-start-cta" %>
+        <p class="mt-3 text-sm leading-6">Googleアカウントでログインして利用します。</p>
+        <p class="mt-2 text-sm leading-6">
+          <%= link_to "利用規約", terms_path, class: "underline underline-offset-4" %>・<%= link_to "プライバシーポリシー", privacy_path, class: "underline underline-offset-4" %><br>
+          に同意した上でログインしてください。
         </p>
       </div>
-
-      <div class="mx-auto mt-6 max-w-xl px-5 pb-7">
-        <%= button_to "しりとり散歩をはじめる", "/auth/google_oauth2", method: :post, data: { turbo: false }, class: "landing-cta" %>
-
-        <p class="mt-3 text-sm leading-6 text-[#303B3C]">
-          Googleアカウントでログインして利用します
-        </p>
-
-        <p class="mt-3 text-xs leading-6 text-[#303B3C]">
-          <%= link_to "利用規約", terms_path, class: "underline underline-offset-4 hover:text-[#204D49]" %>
-          ・
-          <%= link_to "プライバシーポリシー", privacy_path, class: "underline underline-offset-4 hover:text-[#204D49]" %>
-          <br>
-          に同意した上でログインしてください
-        </p>
-      </div>
+      <%= image_tag "top-image-transparent.png", alt: "街の看板にとまる鳥を、スマートフォン越しに見つけるイラスト", width: 1672, height: 941, class: "landing-hero-image" %>
     </div>
   </section>
 
   <div class="landing-details pb-14 sm:pb-20">
-    <section class="landing-about mx-auto max-w-2xl" aria-labelledby="landing-about">
-      <div class="mx-auto max-w-2xl">
-        <h2 id="landing-about" class="landing-section-title">
-          しりとり散歩とは？
-        </h2>
-
-        <p class="mt-5 text-base leading-8 text-[#303B3C]">
-          見つけたものの名前から、次にさがす文字で始まるものを街で見つける散歩です。しりとりをしながら、いつもは通り過ぎる看板や草花にも目が留まります。気になるものを見つけたら、写真とことばで記録して、あとから振り返ってみましょう。
-        </p>
-      </div>
-    </section>
-
-    <section class="landing-how-to-card mx-auto max-w-2xl" aria-labelledby="landing-how-to">
-      <h2 id="landing-how-to" class="landing-section-title landing-rule-title">
-        Citytoriの使い方
+    <section class="landing-about mx-auto max-w-2xl" aria-labelledby="landing-about-title">
+      <h2 id="landing-about-title" class="landing-section-title landing-about-heading">
+        <svg class="landing-about-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+          <circle cx="10.5" cy="10.5" r="6.5" />
+          <path d="m16 16 5 5" />
+        </svg>
+        <span>いつもの道に、小さな発見。</span>
       </h2>
-
-      <ol class="mt-8 divide-y divide-[#204D49]/10 border-y border-[#204D49]/10">
-        <li class="grid grid-cols-[3.5rem_1fr] gap-3 py-7 sm:grid-cols-[5rem_1fr] sm:gap-6">
-          <span class="landing-step-number" aria-hidden="true"> 01 </span>
-
-          <div>
-            <h3 class="text-lg font-bold">文字をさがす</h3>
-
-            <p class="mt-2 text-base leading-7 text-[#303B3C]">
-              次にさがす文字で始まるものを、街の中で見つけます。
-            </p>
-          </div>
-        </li>
-
-        <li class="grid grid-cols-[3.5rem_1fr] gap-3 py-7 sm:grid-cols-[5rem_1fr] sm:gap-6">
-          <span class="landing-step-number" aria-hidden="true"> 02 </span>
-
-          <div>
-            <h3 class="text-lg font-bold">写真とことばを記録する</h3>
-
-            <p class="mt-2 text-base leading-7 text-[#303B3C]">
-              見つけたものを撮って、ことばを添えます。気づいたことはメモにも。
-            </p>
-          </div>
-        </li>
-
-        <li class="grid grid-cols-[3.5rem_1fr] gap-3 py-7 sm:grid-cols-[5rem_1fr] sm:gap-6">
-          <span class="landing-step-number" aria-hidden="true"> 03 </span>
-
-          <div>
-            <h3 class="text-lg font-bold">振り返る</h3>
-
-            <p class="mt-2 text-base leading-7 text-[#303B3C]">
-              写真とことばの記録を振り返れます。位置情報のある記録は、地図でも振り返れます。
-            </p>
-          </div>
-        </li>
-      </ol>
-
-      <div class="mt-6 text-center">
-        <%= link_to "遊び方をくわしく見る",
-                    how_to_play_path,
-                    class: "text-sm font-medium text-[#52645F] underline underline-offset-4 hover:text-[#204D49] active:text-[#204D49] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#204D49]" %>
-      </div>
+      <p class="mt-4 text-base leading-8">看板や張り紙のことば、道ばたの草花。表示された文字で始まるものをさがして、写真とことばで記録します。見つけたことばやものの名前を、ひらがなで入力してつなぎます。</p>
+      <p class="mt-3 text-base leading-8">好きなタイミングで散歩を終えて、今日の発見を自分だけのアルバムに。</p>
     </section>
+    <div class="landing-how-to-card">
+      <%= render "home/walk_example" %>
+      <div class="mt-8 text-center">
+        <%= link_to "遊び方をくわしく見る", how_to_play_path, class: "landing-cta landing-cta--secondary max-w-xs" %>
+      </div>
+    </div>
   </div>
 </div>

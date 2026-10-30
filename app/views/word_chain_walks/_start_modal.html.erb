@@ -22,55 +22,39 @@
         <%= render "shared/status_notice",
                    variant: :processing,
                    title: "位置情報を取得しています…",
-                   message: "散歩の記録に場所を添えられます" %>
+                   message: "散歩の記録に場所を添えられます。" %>
+        <%= button_to "待たずに散歩を始める", word_chain_walks_path, method: :post, class: "mt-3 min-h-11 w-full rounded-lg border border-[#204D49] px-4 py-2 font-bold text-[#204D49]" %>
+        <p class="mt-2 text-sm text-[#52645F]">場所は写真を記録するときにも確認します。</p>
       </div>
 
       <div data-walk-start-target="successStatus" class="mt-6" hidden>
         <%= render "shared/status_notice",
                    variant: :success,
-                   title: "位置情報を取得できました",
-                   message: "見つけた場所も一緒に記録できます" %>
+                   title: "位置情報を取得できました。",
+                   message: "見つけた場所も一緒に記録できます。" %>
       </div>
 
       <div data-walk-start-target="failedStatus" class="mt-6" hidden>
         <%= render "shared/status_notice",
                    variant: :muted_failure,
-                   title: "位置情報を取得できませんでした",
-                   message: "位置情報なしでこのまま散歩を始められます" %>
+                   title: "位置情報を取得できませんでした。",
+                   message: "位置情報なしでこのまま散歩を始められます。" %>
       </div>
 
-      <div class="mt-6 space-y-3 text-sm leading-relaxed text-[#303B3C]">
-        <p class="flex items-start gap-3">
-          <i class="fa-solid fa-check mt-1 text-xs text-[#315D55]" aria-hidden="true"></i>
-          <span>見つけたことばと写真を記録するときに、位置情報も一緒に記録します</span>
-        </p>
-
-        <p class="flex items-start gap-3">
-          <i class="fa-solid fa-check mt-1 text-xs text-[#315D55]" aria-hidden="true"></i>
-          <span>位置情報を取得しなくても、ことばと写真は記録できます</span>
-        </p>
-
-        <p class="flex items-start gap-3">
-          <i class="fa-solid fa-check mt-1 text-xs text-[#315D55]" aria-hidden="true"></i>
-          <span>位置情報の許可は、途中でもブラウザの設定から変更できます</span>
-        </p>
-      </div>
-
-      <div class="mt-5 text-center">
-        <p class="text-xs leading-relaxed text-[#52645F]">
-          位置情報を利用するには、ブラウザまたは端末の設定で位置情報の利用を許可してください。
-        </p>
-      </div>
+      <p class="mt-5 text-base leading-relaxed text-[#303B3C]">
+        位置情報は任意です。許可すると、見つけた場所も地図に残せます。
+        許可しなくても、写真とことばは記録できます。
+      </p>
 
       <%= button_to "散歩を始める",
                     word_chain_walks_path,
                     method: :post,
                     disabled: true,
                     data: { walk_start_target: "startButton" },
-                    class: "mt-6 w-full rounded-xl bg-[#F16B36] px-4 py-3 text-[19px] font-bold text-white hover:bg-[#CC491C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#204D49] disabled:cursor-not-allowed disabled:bg-[#A8B5B1]" %>
+                    class: "mt-6 w-full rounded-xl bg-[#B9471D] px-4 py-3 text-[19px] font-bold text-white hover:bg-[#CC491C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#204D49] disabled:cursor-not-allowed disabled:bg-[#A8B5B1]" %>
 
-      <p class="mt-4 text-xs leading-relaxed text-[#52645F]">
-        ※位置情報の設定を変更した場合は、このモーダルを一度閉じてもう一度「始める」を押してください。
+      <p class="mt-4 text-sm text-[#52645F]">
+        許可はブラウザの設定から変更できます。
       </p>
     </div>
   </div>

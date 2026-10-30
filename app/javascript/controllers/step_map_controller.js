@@ -54,10 +54,9 @@ export default class extends Controller {
       iconAnchor: [24, 54],
     });
 
-    L.marker(
-      [this.latitudeValue, this.longitudeValue],
-      { icon },
-    ).addTo(this.map);
+    L.marker([this.latitudeValue, this.longitudeValue], { icon }).addTo(
+      this.map,
+    );
   }
 
   disconnect() {

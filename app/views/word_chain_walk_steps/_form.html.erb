@@ -9,43 +9,9 @@
   >
     <img
       data-previews-target="image"
-      class="block max-h-80 w-full object-contain sm:max-h-[26rem]"
+      class="block max-h-32 w-full object-contain sm:max-h-48"
       alt="選択した写真のプレビュー"
     >
-  </div>
-</div>
-
-<div class="mt-5 text-left">
-  <div>
-    <%= form.hidden_field :latitude, data: { geolocation_target: "latitude" } %>
-    <%= form.hidden_field :longitude, data: { geolocation_target: "longitude" } %>
-
-    <div data-geolocation-target="loadingStatus">
-      <%= render "shared/status_notice",
-                 variant: :processing,
-                 title: "位置情報を確認しています…",
-                 message: "見つけた場所も一緒に記録します" %>
-    </div>
-
-    <div data-geolocation-target="successStatus" hidden>
-      <%= render "shared/status_notice",
-                 variant: :success,
-                 title: "位置情報を取得できました",
-                 message: "見つけた場所も一緒に記録します" %>
-    </div>
-
-    <div data-geolocation-target="failedStatus" hidden>
-      <%= render "shared/status_notice",
-                 variant: :muted_failure,
-                 title: "位置情報を取得できませんでした",
-                 message: "位置情報なしでこのまま記録できます" %>
-    </div>
-
-    <div class="mt-2 text-center">
-      <p class="text-xs leading-relaxed text-[#52645F]">
-        位置情報を利用するには、ブラウザまたは端末の設定で位置情報の利用を許可してください。
-      </p>
-    </div>
   </div>
 </div>
 
@@ -60,7 +26,7 @@
     <span class="rounded-full bg-[#FCEDEA] px-2 py-0.5 text-xs font-semibold text-[#CC491C]">必須</span>
   </div>
 
-  <p class="mt-1 text-xs text-[#52645F]">ひらがなとのばし棒（ー）のみ入力できます</p>
+  <p id="word-format-hint" class="mt-1 text-sm text-[#52645F]">ひらがなとのばし棒（ー）のみ入力できます。</p>
 
   <%= form.text_field :word,
                       class: [
@@ -71,8 +37,8 @@
                         }
                       ],
                       data: { form_target: "word" },
-                      placeholder: "こーひーしょっぷ",
-                      aria: (word_errors.any? ? { invalid: true, describedby: word_error_id } : {}) %>
+                      placeholder: "ひらがなで入力",
+                      aria: { required: true, invalid: word_errors.any?, describedby: ["word-format-hint", (word_error_id if word_errors.any?)].compact.join(" ") } %>
 
   <% if word_errors.any? %>
     <p id="<%= word_error_id %>" class="mt-2 text-sm text-[#B5473C]">
@@ -93,7 +59,7 @@
   </div>
 
   <%= form.text_area :memo,
-                      rows: 4,
+                      rows: 2,
                       class: [
                         "mt-2 block w-full rounded-xl border bg-white px-4 py-3 text-base text-[#303B3C] placeholder:text-[#7A8B87] focus:outline-none focus:ring-2",
                         {
@@ -111,8 +77,37 @@
   <% end %>
 </div>
 
+<div class="mt-5 text-left">
+  <div>
+    <%= form.hidden_field :latitude, data: { geolocation_target: "latitude" } %>
+    <%= form.hidden_field :longitude, data: { geolocation_target: "longitude" } %>
+
+    <div data-geolocation-target="loadingStatus">
+      <%= render "shared/status_notice",
+                 variant: :processing,
+                 title: "位置情報を確認しています…",
+                 message: "場所の記録は任意です。" %>
+    </div>
+
+    <div data-geolocation-target="successStatus" hidden>
+      <%= render "shared/status_notice",
+                 variant: :success,
+                 title: "位置情報を取得できました。",
+                 message: "場所の記録は任意です。" %>
+    </div>
+
+    <div data-geolocation-target="failedStatus" hidden>
+      <%= render "shared/status_notice",
+                 variant: :muted_failure,
+                 title: "位置情報なしで記録します。",
+                 message: "写真とことばはこのまま保存できます。" %>
+    </div>
+
+  </div>
+</div>
+
 <div class="mt-7 flex flex-col gap-3 sm:flex-row">
-  <%= form.submit "写真とことばを記録する", data: { geolocation_target: "submit" }, class: "min-h-12 flex-1 cursor-pointer rounded-xl bg-[#F16B36] px-4 py-3 text-[19px] font-bold text-white hover:bg-[#CC491C] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#204D49]" %>
+  <%= form.submit "写真とことばを記録する", data: { geolocation_target: "submit" }, class: "min-h-12 flex-1 cursor-pointer rounded-xl bg-[#B9471D] px-4 py-3 text-[19px] font-bold text-white hover:bg-[#CC491C] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#204D49]" %>
 
   <button
     type="button"

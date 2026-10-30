@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate
     return if logged_in?
-    redirect_to root_path, alert: "ログインが必要です"
+    redirect_to root_path, alert: "ログインが必要です。"
   end
 
   def log_in(user)

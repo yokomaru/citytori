@@ -17,7 +17,7 @@
 
         <ul class="mt-2 list-none p-0 text-left text-sm text-[#303B3C]">
           <% object.errors.each do |error| %>
-            <li><%= error.full_message %></li>
+            <li><%= error.full_message %><%= "。" unless error.full_message.end_with?("。", "！", "？", "!", "?") %></li>
           <% end %>
         </ul>
       </div>

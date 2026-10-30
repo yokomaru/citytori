@@ -35,7 +35,7 @@ RSpec.describe "Sessions", type: :request do
 
       expect(session[:user_id]).to eq(user.id)
       expect(response).to redirect_to(root_path)
-      expect(flash[:notice]).to eq("ログインしました")
+      expect(flash[:notice]).to eq("ログインしました。")
     end
 
     it "既存Userがいる場合はそのUserでログインする" do
@@ -76,7 +76,7 @@ RSpec.describe "Sessions", type: :request do
 
       expect(session[:user_id]).to be_nil
       expect(response).to redirect_to(root_path)
-      expect(flash[:notice]).to eq("ログアウトしました")
+      expect(flash[:notice]).to eq("ログアウトしました。")
     end
   end
 end

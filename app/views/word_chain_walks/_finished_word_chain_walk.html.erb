@@ -1,7 +1,8 @@
 <% latest_step = word_chain_walk.word_chain_walk_steps.max_by(&:id) %>
 
-<div id="<%= dom_id word_chain_walk %>">
+<article id="<%= dom_id word_chain_walk %>" aria-labelledby="<%= dom_id(word_chain_walk, :title) %>">
   <%= link_to word_chain_walk, class: "home-recent-card" do %>
+    <span class="home-recent-start-char">「<%= word_chain_walk.start_char %>」から</span>
     <% if latest_step %>
       <%= image_tag latest_step.image.variant(resize_to_fill: [240, 180]),
                     alt: "「#{word_chain_walk.start_char}」から始まった散歩の写真",
@@ -10,35 +11,29 @@
       <div
         class="home-recent-image home-recent-no-image"
         role="img"
-        aria-label="写真はありません"
+        aria-label="写真はありません。"
       >
-        No Image
+        写真はまだありません。
       </div>
     <% end %>
 
     <div class="home-recent-card-body">
-      <p class="home-recent-word">
-        「<%= word_chain_walk.start_char %>」から始まった散歩
-      </p>
+      <h3 id="<%= dom_id(word_chain_walk, :title) %>" class="home-recent-word">
+        <time datetime="<%= word_chain_walk.started_at.iso8601 %>"><%= word_chain_walk.started_at.strftime("%Y年%-m月%-d日 %H:%M") %></time>の散歩
+      </h3>
     </div>
 
     <dl class="home-recent-stats">
       <div>
-        <dt class="sr-only">日付</dt>
-
-        <dd><%= l(word_chain_walk.finished_at, format: :walk_date) %></dd>
-      </div>
-
-      <div>
-        <dt class="sr-only">つないだことばの数</dt>
+        <dt>ことば</dt>
 
         <dd>
-          つないだことばの数 <%= word_chain_walk.word_chain_walk_steps.size %>個
+          <%= word_chain_walk.word_chain_walk_steps.size %>個
         </dd>
       </div>
 
       <div>
-        <dt class="sr-only">かかった時間</dt>
+        <dt>時間</dt>
 
         <dd>
           <%= formatted_elapsed_time(word_chain_walk.elapsed_seconds) %>
@@ -46,4 +41,4 @@
       </div>
     </dl>
   <% end %>
-</div>
+</article>

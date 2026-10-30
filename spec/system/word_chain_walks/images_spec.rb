@@ -48,7 +48,7 @@ RSpec.describe 'Images', type: :system do
       visible: :all
     )
 
-    accept_alert('画像のサイズは10MB以下にしてください') do
+    accept_alert('画像のサイズは10MB以下にしてください。') do
       file_input.attach_file(
         Rails.root.join('spec/fixtures/files/11MB.png')
       )
@@ -78,7 +78,7 @@ RSpec.describe 'Images', type: :system do
       visible: :all
     )
 
-    accept_alert('PNGまたはJPEG形式のファイルを選択してください') do
+    accept_alert('PNGまたはJPEG形式のファイルを選択してください。') do
       file_input.attach_file(
         Rails.root.join('spec/fixtures/files/test_pdf.pdf')
       )

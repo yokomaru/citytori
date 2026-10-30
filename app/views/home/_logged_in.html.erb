@@ -1,34 +1,41 @@
-<div class="home-page">
-  <section id="active_word_chain_walk">
+<% first_walk = active_word_chain_walk.blank? && finished_word_chain_walks.empty? %>
+<div class="home-page" data-controller="<%= "walk-start" if first_walk %>">
+  <div id="active_word_chain_walk">
     <% if active_word_chain_walk.present? %>
       <%= render "word_chain_walks/active_word_chain_walk", word_chain_walk: active_word_chain_walk %>
     <% else %>
-      <%= render "word_chain_walks/start_word_chain_walk" %>
+      <%= render "word_chain_walks/start_word_chain_walk", shared_start_controller: first_walk %>
     <% end %>
-  </section>
+  </div>
 
-  <section id="finished_word_chain_walks" class="home-recent">
+  <div id="finished_word_chain_walks" class="home-recent">
     <div class="home-content">
       <% if finished_word_chain_walks.any? %>
         <h2 class="home-recent-title">
+          <span class="material-symbols-outlined walk-index-heading-icon walk-index-heading-icon-finished" aria-hidden="true">description</span>
           最近の散歩
         </h2>
-        <div id="word_chain_walks" class="home-recent-grid">
+        <ul id="word_chain_walks" class="home-recent-grid" role="list" aria-label="最近の散歩">
           <% finished_word_chain_walks.each do |finished_word_chain_walk| %>
-            <%= render "word_chain_walks/finished_word_chain_walk",
-                      word_chain_walk: finished_word_chain_walk %>
+            <li><%= render "word_chain_walks/finished_word_chain_walk",
+                           word_chain_walk: finished_word_chain_walk %></li>
           <% end %>
-        </div>
+        </ul>
         <% if current_user.word_chain_walks.finished.size > 3 %>
           <div class="mt-6 text-center">
             <%= link_to "もっと見る", word_chain_walks_path, class: "home-more-link" %>
           </div>
         <% end %>
-      <% else %>
-        <p class="home-no-walks">
-          まだ散歩の記録はありません
-        </p>
+      <% elsif first_walk %>
+        <div class="home-how-to-play">
+          <%= render "home/how_to_play_content", heading_tag: :h2 %>
+          <div class="walk-index-start-action">
+            <%= button_tag "しりとり散歩をはじめる", type: "button",
+                           class: "home-primary-cta walk-start-cta",
+                           data: { action: "walk-start#open" } %>
+          </div>
+        </div>
       <% end %>
     </div>
-  </section>
+  </div>
 </div>

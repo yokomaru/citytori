@@ -1,16 +1,17 @@
 <header class="bg-[#204D49]">
   <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
     <%= link_to root_path, class: "cursor-pointer rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FCF9EF]" do %>
-      <%= image_tag "header-logo.png", alt: "Citytori", class: "h-10 w-auto sm:h-11" %>
+      <%= image_tag "header-logo.png", alt: "Citytori", class: "h-8 w-auto sm:h-9" %>
     <% end %>
 
     <% if logged_in? %>
-      <nav data-controller="header" class="relative">
-        <%= button_tag type: "button", data: { action: "header#toggle" }, aria: { label: "メニュー" }, class: "flex h-10 w-10 cursor-pointer items-center justify-center rounded text-[#FCF9EF] hover:bg-[#E8F4F5]/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCF9EF]" do %>
+      <nav aria-label="メインメニュー" data-controller="header" data-action="keydown.esc->header#close click@window->header#close" class="relative">
+        <%= button_tag type: "button", data: { action: "header#toggle", header_target: "button" }, aria: { label: "メニュー", expanded: false, controls: "header-menu" }, class: "flex h-10 w-10 cursor-pointer items-center justify-center rounded text-[#FCF9EF] hover:bg-[#E8F4F5]/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FCF9EF]" do %>
           <i class="fa-solid fa-bars text-2xl" aria-hidden="true"></i>
         <% end %>
 
         <ul
+          id="header-menu"
           data-header-target="menu"
           class="
             absolute right-0 top-full z-50 hidden w-56 border
@@ -18,19 +19,19 @@
           "
         >
           <li>
-            <%= link_to "遊び方", how_to_play_path, class: "block px-4 py-2 hover:bg-[#E8F4F5]" %>
+            <%= link_to "遊び方", how_to_play_path, class: "flex min-h-11 items-center px-4 py-2 hover:bg-[#E8F4F5]" %>
           </li>
 
           <% active_walk = current_user.word_chain_walks.active.first %>
 
           <% if active_walk.present? %>
             <li>
-              <%= link_to "散歩中に戻る", word_chain_walk_path(active_walk), class: "block px-4 py-2" %>
+              <%= link_to "散歩中に戻る", word_chain_walk_path(active_walk), class: "flex min-h-11 items-center px-4 py-2" %>
             </li>
           <% end %>
 
           <li>
-            <%= link_to "今までの散歩を見る", word_chain_walks_path, class: "block px-4 py-2" %>
+            <%= link_to "これまでの散歩を見る", word_chain_walks_path, class: "flex min-h-11 items-center px-4 py-2" %>
           </li>
 
           <li class="border-t border-[#C9DBD7]">
@@ -38,7 +39,7 @@
                           logout_path,
                           method: :post,
                           form_class: "w-full",
-                          class: "w-full cursor-pointer px-4 py-2 text-left" %>
+                          class: "min-h-11 w-full cursor-pointer px-4 py-2 text-left" %>
           </li>
 
           <li>
@@ -46,7 +47,7 @@
                           withdraw_user_path,
                           method: :delete,
                           form_class: "w-full",
-                          class: "w-full cursor-pointer px-4 py-2 text-left",
+                          class: "min-h-11 w-full cursor-pointer px-4 py-2 text-left",
                           data: {
                             turbo_confirm: "退会するとこれまでの散歩の記録はすべて削除されます。退会してよろしいですか？"
                           } %>

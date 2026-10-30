@@ -1,0 +1,61 @@
+<% child_heading = local_assigns.fetch(:heading_tag, :h1).to_sym == :h1 ? :h2 : :h3 %>
+  <article class="how-to-play-sheet">
+    <header class="text-center">
+      <%= content_tag local_assigns.fetch(:heading_tag, :h1), "Citytoriの遊び方", class: "landing-section-title landing-rule-title" %>
+      <p class="mt-5 text-base leading-8 text-[#303B3C]">
+        しりとりをしながら、<br class="mobile-copy-break">街で見つけたものを<br class="mobile-copy-break">写真とことばで残していきます。
+      </p>
+    </header>
+
+    <ol class="mt-10 divide-y divide-[#204D49]/10 border-y border-[#204D49]/10">
+      <li class="how-to-step py-7">
+        <%= image_tag "how-to-find.png", alt: "街の木を虫眼鏡で見つけるイラスト", width: 1254, height: 1254, loading: "lazy", class: "how-to-step-image" %>
+        <div>
+          <p class="text-2xl font-bold tabular-nums text-[#B9471D]" aria-hidden="true">01</p>
+          <%= content_tag child_heading, "文字をさがす", class: "text-xl font-bold text-[#204D49]" %>
+          <p class="mt-3 text-base leading-8 text-[#303B3C]">
+            最初の文字はランダムに決まります。その文字から始まる名前のものや、看板・張り紙に書かれたことばを、街の中で見つけます。「冷やし中華はじめました」のような一文も、木や花、置物なども記録できます。
+          </p>
+        </div>
+      </li>
+
+      <li class="how-to-step py-7">
+        <%= image_tag "how-to-record.png", alt: "花を撮影して名前やメモを記録するイラスト", width: 1254, height: 1254, loading: "lazy", class: "how-to-step-image" %>
+        <div>
+          <p class="text-2xl font-bold tabular-nums text-[#B9471D]" aria-hidden="true">02</p>
+          <%= content_tag child_heading, "写真とことばを記録する", class: "text-xl font-bold text-[#204D49]" %>
+          <p class="mt-3 text-base leading-8 text-[#303B3C]">
+            見つけたものを写真に撮って、名前をひらがなで入力して記録します。気づいたことはメモにも残せます。入力したことばの最後の文字が、次にさがす文字になります。「きく」なら、次は「く」。
+          </p>
+        </div>
+      </li>
+
+      <li class="how-to-step py-7">
+        <%= image_tag "how-to-revisit.png", alt: "写真のアルバムと地図で散歩を振り返るイラスト", width: 1254, height: 1254, loading: "lazy", class: "how-to-step-image" %>
+        <div>
+          <p class="text-2xl font-bold tabular-nums text-[#B9471D]" aria-hidden="true">03</p>
+          <%= content_tag child_heading, "散歩を振り返る", class: "text-xl font-bold text-[#204D49]" %>
+          <p class="mt-3 text-base leading-8 text-[#303B3C]">
+            好きなタイミングで「しりとり散歩をおしまいにする」を押せます。「ん」で終わることばを記録した場合も散歩が終わります。終了後は、写真とことばの記録を振り返れます。位置情報を記録している場合は、見つけた場所を地図でも見ることができます。
+          </p>
+        </div>
+      </li>
+    </ol>
+
+    <section id="location-information" class="mt-10 rounded-2xl border border-[#E8D9A5] bg-[#FFF8E6] px-5 py-6 sm:px-7" aria-labelledby="location-information-heading">
+      <%= content_tag child_heading, id: "location-information-heading", class: "location-information-heading text-xl font-bold text-[#204D49]" do %>
+        <svg class="location-information-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        <span>位置情報について</span>
+      <% end %>
+      <p class="mt-4 text-base leading-8 text-[#303B3C]">
+        位置情報を許可すると、見つけた場所も一緒に記録できます。位置情報を許可しなくても、写真・ことば・メモは記録できます。位置情報をうまく取得できない場合は、ブラウザまたは端末の設定から位置情報の利用を許可してください。
+      </p>
+    </section>
+  </article>
+
+  <div class="how-to-play-examples">
+    <%= render "home/walk_example" %>
+  </div>

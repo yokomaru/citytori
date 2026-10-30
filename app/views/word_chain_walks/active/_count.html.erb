@@ -1,7 +1,1 @@
-<section id="steps_count" class="active-walk-count">
-  <% if word_chain_walk_steps.any? %>
-    <p class="active-walk-count-label">
-      つないだことばの数 <span><%= word_chain_walk_steps.size %></span>個
-    </p>
-  <% end %>
-</section>
+<span id="steps_count" class="active-walk-target-number"><%= word_chain_walk_steps.count + 1 %>個目</span>
