@@ -20,7 +20,7 @@ RSpec.describe 'Geolocation', type: :system do
 
     within 'dialog[open]' do
       expect(page).to have_button('写真とことばを記録する', disabled: true)
-      expect(page).to have_content('位置情報を取得できませんでした', wait: 15)
+      expect(page).to have_content('位置情報なしで記録します。', wait: 15)
       expect(page).to have_button('写真とことばを記録する', disabled: false)
 
       page.execute_script <<~JS
@@ -29,7 +29,7 @@ RSpec.describe 'Geolocation', type: :system do
 
       expect(page).to have_field('word_chain_walk_step_latitude', with: '', type: 'hidden', visible: :all)
       expect(page).to have_field('word_chain_walk_step_longitude', with: '', type: 'hidden', visible: :all)
-      expect(page).to have_content('位置情報を取得できませんでした')
+      expect(page).to have_content('位置情報なしで記録します。')
       expect(page).to have_button('写真とことばを記録する', disabled: false)
     end
   end
