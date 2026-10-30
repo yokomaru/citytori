@@ -46,7 +46,7 @@ https://citytori.com
 
 | 分類 | 技術 |
 | --- | --- |
-| バックエンド | Ruby 4.0.5、Ruby on Rails 8.1.4 |
+| バックエンド | Ruby 4.0.9、Ruby on Rails 8.1.4 |
 | フロントエンド | Hotwire（Turbo / Stimulus）、Tailwind CSS 4.3.1 |
 | データベース | PostgreSQL 18 |
 | 認証 | Google OAuth 2.0（OmniAuth） |
