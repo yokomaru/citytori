@@ -46,8 +46,8 @@ RSpec.describe 'Design review improvements', type: :system do
       find('#word_chain_walk_step_word').send_keys(:escape)
     end
     expect(page).to have_no_css('dialog[open]')
-    expect(page.evaluate_script('document.activeElement.textContent.trim()')).to eq('写真を撮る')
-    expect(find('#word_chain_walk_step_word', visible: :all).value).to eq('')
+    expect(page).to have_css('button.active-walk-photo-button:focus', text: '写真を撮る')
+    expect(page).to have_field('word_chain_walk_step_word', with: '', visible: :all)
   end
 
   scenario '狭い画面でも長時間の散歩カードの再開導線がカード内に収まる' do
