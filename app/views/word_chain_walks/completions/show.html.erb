@@ -13,8 +13,7 @@
         <% if @word_chain_walk_steps.empty? %>
           今回は記録がありません。また気軽に出かけてみましょう。
         <% else %>
-          <%= @word_chain_walk_steps.size %>
-          個のことばを記録しました。
+          <%= "#{@word_chain_walk_steps.size}個のことばを記録しました。" %>
         <% end %>
       </p>
 
