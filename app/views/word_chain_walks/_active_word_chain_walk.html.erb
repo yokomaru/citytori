@@ -16,7 +16,7 @@
 
     <% if latest_step %>
       <section class="home-latest-step" aria-labelledby="latest-step-label">
-        <%= image_tag latest_step.image.variant(resize_to_fill: [240, 180]),
+        <%= image_tag latest_step.image.variant(:card),
                       alt: "前回見つけた「#{latest_step.word}」の写真",
                       class: "home-latest-step-image" %>
 

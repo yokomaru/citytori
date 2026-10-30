@@ -10,7 +10,7 @@
     </span>
 
     <% if latest_step %>
-      <%= image_tag latest_step.image.variant(resize_to_fill: [240, 180]),
+      <%= image_tag latest_step.image.variant(:card),
                     alt: "「#{word_chain_walk.start_char}」から始まった散歩の写真",
                     class: "home-recent-image" %>
     <% else %>

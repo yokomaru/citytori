@@ -11,7 +11,7 @@
         <%= latest_step.word.first %>
       </span>
 
-      <%= image_tag latest_step.image.variant(resize_to_fill: [240, 180]),
+      <%= image_tag latest_step.image.variant(:card),
                     alt: "「#{latest_step.word}」の写真",
                     class: "h-20 w-20 shrink-0 rounded-lg object-cover sm:h-28 sm:w-28" %>
 

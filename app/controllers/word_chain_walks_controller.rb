@@ -26,7 +26,7 @@ class WordChainWalksController < ApplicationController
         word: step.word,
         latitude: step.latitude,
         longitude: step.longitude,
-        image: url_for(step.image.variant(resize_to_fill: [ 112, 112 ])),
+        image: url_for(step.image.variant(:thumbnail)),
         id: step.id,
         url: word_chain_walk_word_chain_walk_step_path(@word_chain_walk, step)
       }
