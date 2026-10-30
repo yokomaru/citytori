@@ -15,11 +15,22 @@ CityToriは、街で見つけたものでしりとりをしながら歩き、し
 https://citytori.com
 
 ## スクリーンショット
+### トップページ
+<img width="1184" alt="トップページのキャプチャ" src="https://github.com/machida/citytori/blob/design/review-fixes-2026-10-19/docs/screenshots/2026-10-27/landing.png?raw=true">
 
-<!-- スクリーンショットを追加 -->
+### 散歩中・直前の記録
+<img width="1184" alt="ホームのキャプチャ" src="https://github.com/machida/citytori/blob/design/review-fixes-2026-10-19/docs/screenshots/2026-10-27/active.png?raw=true">
+
+### 散歩完了
+<img width="1184" alt="ホームのキャプチャ" src="https://github.com/machida/citytori/blob/design/review-fixes-2026-10-19/docs/screenshots/2026-10-27/completion.png?raw=true">
+
+### 地図・記録の選択状態
+<img width="1184" alt="ホームのキャプチャ" src="https://github.com/machida/citytori/blob/design/review-fixes-2026-10-19/docs/screenshots/2026-10-27/map.png?raw=true">
+
+### 散歩の記録（タイムライン）
+<img width="1184" alt="ホームのキャプチャ" src="https://github.com/machida/citytori/blob/design/review-fixes-2026-10-19/docs/screenshots/2026-10-27/timeline.png?raw=true">
 
 ## 使い方
-
 1. Googleアカウントでログインして、しりとり散歩を始めます。
 2. 表示された文字から始まるものを街で探し、写真とひらがなのことばを記録します。メモも残せます。
 3. 次の文字でしりとりを続け、散歩のあとに写真やことばを振り返ることができます。
