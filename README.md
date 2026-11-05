@@ -15,20 +15,29 @@ CityToriは、街で見つけたものでしりとりをしながら歩き、し
 https://citytori.com
 
 ## スクリーンショット
-### トップページ
-<img width="1184" alt="トップページのキャプチャ" src="https://github.com/machida/citytori/blob/design/review-fixes-2026-10-19/docs/screenshots/2026-10-27/landing.png?raw=true">
+### ログイン前のトップページ
+<img width="500" alt="ログイン前のトップページ" src="docs/screenshots/2026-11-05/home-guest.png" />
 
-### 散歩中・直前の記録
-<img width="1184" alt="ホームのキャプチャ" src="https://github.com/machida/citytori/blob/design/review-fixes-2026-10-19/docs/screenshots/2026-10-27/active.png?raw=true">
+### ログイン後のトップページ
+<img width="500" alt="ログイン後のトップページ" src="docs/screenshots/2026-11-05/logout-top-page.jpg" />
+
+### 散歩中の表示
+<img width="500" alt="散歩中の表示" src="docs/screenshots/2026-11-05/walk-in-progress.png" />
+
+### 登録フォーム
+<img width="500" alt="登録フォーム" src="docs/screenshots/2026-11-05/step-form.png" />
 
 ### 散歩完了
-<img width="1184" alt="ホームのキャプチャ" src="https://github.com/machida/citytori/blob/design/review-fixes-2026-10-19/docs/screenshots/2026-10-27/completion.png?raw=true">
+<img width="500" alt="散歩完了" src="docs/screenshots/2026-11-05/walk-completed.png" />
 
-### 地図・記録の選択状態
-<img width="1184" alt="ホームのキャプチャ" src="https://github.com/machida/citytori/blob/design/review-fixes-2026-10-19/docs/screenshots/2026-10-27/map.png?raw=true">
+### 散歩の記録一覧表示（タイムライン形式）
+<img width="500" alt="散歩の記録一覧表示（タイムライン形式）" src="docs/screenshots/2026-11-05/walk-timeline.png" />
 
-### 散歩の記録（タイムライン）
-<img width="1184" alt="ホームのキャプチャ" src="https://github.com/machida/citytori/blob/design/review-fixes-2026-10-19/docs/screenshots/2026-10-27/timeline.png?raw=true">
+### 散歩の記録一覧表示（地図）
+<img width="500" alt="散歩の記録一覧表示（地図）" src="docs/screenshots/2026-11-05/walk-map.png" />
+
+### 散歩の記録詳細表示
+<img width="500" alt="散歩の記録詳細表示" src="docs/screenshots/2026-11-05/step-detail.png" />
 
 ## 使い方
 1. Googleアカウントでログインして、しりとり散歩を始めます。
