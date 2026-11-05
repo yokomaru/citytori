@@ -282,6 +282,19 @@ RSpec.describe WordChainWalkStep, type: :model do
     expect(word_chain_walk_step.memo).to eq("メモを更新した")
   end
 
+  it "メモが1000文字の場合は有効であること" do
+    word_chain_walk_step = FactoryBot.build(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: "りんご", memo: "あ" * 1000)
+
+    expect(word_chain_walk_step).to be_valid
+  end
+
+  it "メモが1001文字の場合は無効であること" do
+    word_chain_walk_step = FactoryBot.build(:word_chain_walk_step, :with_image, word_chain_walk: word_chain_walk, word: "りんご", memo: "あ" * 1001)
+
+    expect(word_chain_walk_step).to be_invalid
+    expect(word_chain_walk_step.errors[:memo]).to include("は1000文字以内で入力してください")
+  end
+
   describe "#normalize_first_char" do
     it "通常のひらがなはそのまま先頭の文字を返すこと" do
       step = FactoryBot.build(:word_chain_walk_step)
