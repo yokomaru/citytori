@@ -19,37 +19,23 @@ export default class extends Controller {
       attribution: "&copy; OpenStreetMap contributors",
     }).addTo(this.map);
 
+    const marker = document.createElement("div");
+    marker.className = "relative flex h-12 w-12 items-center justify-center";
+
+    const word = document.createElement("div");
+    word.className =
+      "relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#204D49] bg-white text-xl font-bold text-[#204D49] shadow-sm";
+    word.textContent = this.wordValue.charAt(0);
+
+    const pointer = document.createElement("div");
+    pointer.className =
+      "absolute -bottom-1 left-1/2 z-20 h-3 w-3 -translate-x-1/2 rotate-45 border-b-2 border-r-2 border-[#204D49] bg-white";
+
+    marker.append(word, pointer);
+
     const icon = L.divIcon({
       className: "",
-      html: `
-        <div
-          class="
-            relative flex h-12 w-12 items-center justify-center
-          "
-        >
-          <div
-            class="
-              relative z-10
-              flex h-12 w-12 items-center justify-center
-              rounded-full border-2 border-[#204D49]
-              bg-white text-xl font-bold text-[#204D49]
-              shadow-sm
-            "
-          >
-            ${this.wordValue.charAt(0)}
-          </div>
-
-          <div
-            class="
-              absolute -bottom-1 left-1/2 z-20
-              h-3 w-3
-              -translate-x-1/2 rotate-45
-              border-b-2 border-r-2 border-[#204D49]
-              bg-white
-            "
-          ></div>
-        </div>
-      `,
+      html: marker,
       iconSize: [48, 54],
       iconAnchor: [24, 54],
     });
