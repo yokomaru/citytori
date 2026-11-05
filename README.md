@@ -15,11 +15,8 @@ CityToriは、街で見つけたものでしりとりをしながら歩き、し
 https://citytori.com
 
 ## スクリーンショット
-### ログイン前のトップページ
-<img width="500" alt="ログイン前のトップページ" src="docs/screenshots/2026-11-05/home-guest.png" />
-
-### ログイン後のトップページ
-<img width="500" alt="ログイン後のトップページ" src="docs/screenshots/2026-11-05/logout-top-page.jpg" />
+### トップページ
+<img width="500" alt="トップページ" src="docs/screenshots/2026-11-05/logout-top-page.jpg" />
 
 ### 散歩中の表示
 <img width="500" alt="散歩中の表示" src="docs/screenshots/2026-11-05/walk-in-progress.png" />
