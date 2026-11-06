@@ -12,7 +12,7 @@ class WordChainWalksController < ApplicationController
   def map
     @word_chain_walk = current_user.word_chain_walks.finished.find(params[:id])
 
-    @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
+    @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.includes(image_attachment: :blob).order(id: :desc)
 
     if @word_chain_walk_steps.none? { |step| step.latitude.present? && step.longitude.present? }
       redirect_to @word_chain_walk, alert: "位置情報が記録されていないため、地図を表示できません。"
