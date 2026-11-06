@@ -5,7 +5,7 @@
 
       <p class="mt-2 text-base">
         <time datetime="<%= word_chain_walk.started_at.iso8601 %>">
-          <%= word_chain_walk.started_at.strftime("%Y年%-m月%-d日 %H:%M") %>
+          <%= l(word_chain_walk.started_at, format: :date_and_time) %>
         </time>
 
         <span class="inline-block">「<%= word_chain_walk.start_char %>」から</span>

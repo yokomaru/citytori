@@ -17,7 +17,7 @@
 
         <p class="walk-timeline-event">
           <time datetime="<%= word_chain_walk.started_at.iso8601 %>">
-            <%= word_chain_walk.started_at.strftime("%Y年%-m月%-d日 %H:%M") %>
+            <%= l(word_chain_walk.started_at, format: :date_and_time) %>
           </time>
 
           <span>「<%= word_chain_walk.start_char %>」からスタート</span>
@@ -122,7 +122,7 @@
         <p class="walk-timeline-event">
           <% if word_chain_walk.finished_at.present? %>
             <time datetime="<%= word_chain_walk.finished_at.iso8601 %>">
-              <%= word_chain_walk.finished_at.strftime("%Y年%-m月%-d日 %H:%M") %>
+              <%= l(word_chain_walk.finished_at, format: :date_and_time) %>
             </time>
           <% end %>
 

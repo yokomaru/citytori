@@ -31,7 +31,7 @@
             <i class="fa-regular fa-calendar" aria-hidden="true"></i>
 
             <time datetime="<%= @word_chain_walk_step.created_at.iso8601 %>">
-              <%= l(@word_chain_walk_step.created_at, format: :recorded_at) %>
+              <%= l(@word_chain_walk_step.created_at, format: :date_and_time) %>
             </time>
           </p>
         </header>
