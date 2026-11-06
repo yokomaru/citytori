@@ -75,7 +75,7 @@ RSpec.describe 'WordChainWalks', type: :request do
       it '進行中の散歩がない場合は作成できること' do
         user = FactoryBot.create(:user)
         log_in(user)
-        FactoryBot.create(:word_chain_walk, user: user, finished_at: Time.zone.now)
+        FactoryBot.create(:word_chain_walk, user: user, finished_at: Time.current)
 
         expect do
           post word_chain_walks_path
