@@ -50,4 +50,17 @@ jobs:
           } > .kamal/secrets
 
       - name: Deploy with Kamal
-        run: bin/kamal deploy
+        env:
+          CI_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          main_ref=$(git ls-remote --exit-code origin refs/heads/main)
+          main_sha=$(printf '%s\n' "$main_ref" | cut -f1)
+
+          if [ "$CI_SHA" != "$main_sha" ]; then
+            echo "main の先頭と一致しないため、デプロイを見送ります"
+            echo "CIの対象SHA: $CI_SHA"
+            echo "現在のmainのSHA: $main_sha"
+            exit 0
+          fi
+
+          bin/kamal deploy
