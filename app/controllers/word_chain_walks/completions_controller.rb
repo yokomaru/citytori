@@ -7,7 +7,7 @@ class WordChainWalks::CompletionsController < ApplicationController
       return
     end
 
-    @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.with_attached_image.order(:id)
+    @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.includes(image_attachment: :blob).order(:id).to_a
     @first_step = @word_chain_walk_steps.first
     @last_step = @word_chain_walk_steps.last
   end
