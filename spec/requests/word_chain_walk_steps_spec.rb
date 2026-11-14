@@ -130,6 +130,57 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
         expect(response).to redirect_to(word_chain_walk_completion_path(word_chain_walk))
       end
     end
+
+    context '散歩の記録作成時のレート制限' do
+      let(:rate_limit_store) { WordChainWalkStepsController.cache_store }
+      let(:test_cache) { ActiveSupport::Cache::MemoryStore.new }
+
+      let(:cache_key) do
+        [ 'rate-limit', WordChainWalkStepsController.controller_path, user.id ].join(':')
+      end
+
+      before do
+        allow(rate_limit_store).to receive(:increment) do |*args, **options|
+          test_cache.increment(*args, **options)
+        end
+      end
+
+      it 'レート制限の上限を超えない場合は記録を追加できること' do
+        log_in(user)
+
+        test_cache.increment(cache_key, 9, expires_in: 1.minute)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(word_chain_walk), params: valid_step_params
+        end.to change(word_chain_walk.word_chain_walk_steps, :count).by(1)
+
+        expect(response).to redirect_to(word_chain_walk_path(word_chain_walk))
+      end
+
+      it 'レート制限の上限を超えると429を返し、記録が追加できないこと' do
+        log_in(user)
+
+        test_cache.increment(cache_key, 10, expires_in: 1.minute)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(word_chain_walk), params: valid_step_params
+        end.not_to change(WordChainWalkStep, :count)
+
+        expect(response).to have_http_status(:too_many_requests)
+      end
+
+      it '他人の記録の作成にはレート制限が影響しないこと' do
+        log_in(other_user)
+
+        test_cache.increment(cache_key, 10, expires_in: 1.minute)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(other_word_chain_walk), params: valid_step_params
+        end.to change(WordChainWalkStep, :count).by(1)
+
+        expect(response).to redirect_to(word_chain_walk_path(other_word_chain_walk))
+      end
+    end
   end
 
   describe 'GET /word_chain_walks/:word_chain_walk_id/word_chain_walk_steps/:id' do
