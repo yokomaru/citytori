@@ -39,6 +39,10 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
     }
   end
 
+  def rate_limit_cache_key(user)
+    [ 'rate-limit', WordChainWalkStepsController.controller_path, user.id ].join(':')
+  end
+
   def create_word_chain_walk_step(word_chain_walk)
     FactoryBot.create(
       :word_chain_walk_step,
@@ -132,15 +136,10 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
     end
 
     context '散歩の記録作成時のレート制限' do
-      let(:rate_limit_store) { WordChainWalkStepsController.cache_store }
       let(:test_cache) { ActiveSupport::Cache::MemoryStore.new }
 
-      let(:cache_key) do
-        [ 'rate-limit', WordChainWalkStepsController.controller_path, user.id ].join(':')
-      end
-
       before do
-        allow(rate_limit_store).to receive(:increment) do |*args, **options|
+        allow(WordChainWalkStepsController.cache_store).to receive(:increment) do |*args, **options|
           test_cache.increment(*args, **options)
         end
       end
@@ -148,7 +147,7 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
       it 'レート制限の上限を超えない場合は記録を追加できること' do
         log_in(user)
 
-        test_cache.increment(cache_key, 9, expires_in: 1.minute)
+        test_cache.increment(rate_limit_cache_key(user), 9, expires_in: 1.minute)
 
         expect do
           post word_chain_walk_word_chain_walk_steps_path(word_chain_walk), params: valid_step_params
@@ -160,7 +159,7 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
       it 'レート制限の上限を超えると429を返し、記録が追加できないこと' do
         log_in(user)
 
-        test_cache.increment(cache_key, 10, expires_in: 1.minute)
+        test_cache.increment(rate_limit_cache_key(user), 10, expires_in: 1.minute)
 
         expect do
           post word_chain_walk_word_chain_walk_steps_path(word_chain_walk), params: valid_step_params
@@ -172,7 +171,7 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
       it '他人の記録の作成にはレート制限が影響しないこと' do
         log_in(other_user)
 
-        test_cache.increment(cache_key, 10, expires_in: 1.minute)
+        test_cache.increment(rate_limit_cache_key(user), 10, expires_in: 1.minute)
 
         expect do
           post word_chain_walk_word_chain_walk_steps_path(other_word_chain_walk), params: valid_step_params
