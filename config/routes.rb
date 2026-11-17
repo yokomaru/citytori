@@ -24,6 +24,9 @@ Rails.application.routes.draw do
     end
     resources :word_chain_walk_steps, only: %i[create show edit update] do
       delete "latest", on: :collection, action: :destroy_latest
+      scope module: :word_chain_walk_steps do
+        resource :image, only: :show
+      end
     end
   end
 
