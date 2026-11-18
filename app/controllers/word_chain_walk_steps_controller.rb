@@ -12,7 +12,18 @@ class WordChainWalkStepsController < ApplicationController
   end
 
   def create
-    @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build(word_chain_walk_step_params)
+    attributes = word_chain_walk_step_params
+    uploaded_image = attributes.delete(:image)
+
+    processed_file = ImageProcessing::Vips.source(uploaded_image.tempfile).saver(keep: "icc").call
+
+    attributes[:image] = {
+      io: processed_file,
+      filename: uploaded_image.original_filename,
+      content_type: uploaded_image.content_type
+    }
+
+    @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build(attributes)
 
     unless @word_chain_walk_step.save
      respond_to do |format|
