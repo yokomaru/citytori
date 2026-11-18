@@ -12,6 +12,6 @@ class WordChainWalkSteps::ImagesController < ApplicationController
     step = walk.word_chain_walk_steps.find(params[:word_chain_walk_step_id])
     image = step.image.variant(params[:variant].to_sym).processed
 
-    redirect_to image.url, allow_other_host: true
+    redirect_to image.url(expires_in: 1.minute), allow_other_host: true
   end
 end
