@@ -41,7 +41,7 @@
         <% if @word_chain_walk_step.image.attached? %>
           <section aria-label="記録した写真">
             <%= image_tag(
-                  word_chain_walk_word_chain_walk_step_image_path(@word_chain_walk, @word_chain_walk_step),
+                  word_chain_walk_word_chain_walk_step_image_path(@word_chain_walk, @word_chain_walk_step, variant: :detail),
                   alt: "見つけた「#{@word_chain_walk_step.word}」の写真",
                   class: "block w-full rounded-xl object-contain"
                 ) %>

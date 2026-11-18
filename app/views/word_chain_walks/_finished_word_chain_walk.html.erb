@@ -10,7 +10,7 @@
     </span>
 
     <% if latest_step %>
-      <%= image_tag word_chain_walk_word_chain_walk_step_image_path(word_chain_walk, latest_step),
+      <%= image_tag word_chain_walk_word_chain_walk_step_image_path(word_chain_walk, latest_step, variant: :card),
                     alt: "「#{word_chain_walk.start_char}」から始まった散歩の写真",
                     class: "home-recent-image" %>
     <% else %>

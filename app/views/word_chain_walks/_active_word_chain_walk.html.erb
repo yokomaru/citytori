@@ -16,7 +16,7 @@
 
     <% if latest_step %>
       <section class="home-latest-step" aria-labelledby="latest-step-label">
-        <%= image_tag word_chain_walk_word_chain_walk_step_image_path(word_chain_walk, latest_step),
+        <%= image_tag word_chain_walk_word_chain_walk_step_image_path(word_chain_walk, latest_step, variant: :card),
                       alt: "前回見つけた「#{latest_step.word}」の写真",
                       class: "home-latest-step-image" %>
 
