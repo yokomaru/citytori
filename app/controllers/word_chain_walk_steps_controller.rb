@@ -12,7 +12,12 @@ class WordChainWalkStepsController < ApplicationController
   end
 
   def create
-    @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build(word_chain_walk_step_params)
+    attributes = word_chain_walk_step_params
+    uploaded_image = attributes.delete(:image)
+
+    attributes[:image] = ImageMetadataRemover.new(uploaded_image).call
+
+    @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build(attributes)
 
     unless @word_chain_walk_step.save
      respond_to do |format|

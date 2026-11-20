@@ -19,6 +19,13 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
     )
   end
 
+  def metadata_image
+    fixture_file_upload(
+      Rails.root.join('spec/fixtures/files/test_metadata.jpg'),
+      'image/jpeg'
+    )
+  end
+
   def valid_step_params
     {
       word_chain_walk_step: {
@@ -67,6 +74,27 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
              params: valid_step_params
 
         expect(response).to redirect_to(word_chain_walk_path(word_chain_walk))
+      end
+
+      it '保存された添付元からメタデータ(Exif、GPS情報)が削除されていること' do
+        log_in(user)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+               params: {
+                 word_chain_walk_step: {
+                   word: 'りんご',
+                   memo: '赤いりんご',
+                   image: metadata_image
+                 }
+               }
+        end.to change(word_chain_walk.word_chain_walk_steps, :count).by(1)
+
+        step = word_chain_walk.word_chain_walk_steps.order(:id).last
+        image = Vips::Image.new_from_buffer(step.image.download, '')
+
+        expect(image.get_fields.grep(/gps/i)).to be_empty
+        expect(image.get_fields.grep(/exif/i)).to be_empty
       end
     end
 
