@@ -178,6 +178,8 @@ RSpec.describe WordChainWalkStep, type: :model do
             longitude: 139.769876
           )
 
+        word_chain_walk_step.reload
+
         expect(word_chain_walk_step.latitude).to eq(BigDecimal("35.6812"))
         expect(word_chain_walk_step.longitude).to eq(BigDecimal("139.7699"))
       end
