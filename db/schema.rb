@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_13_141425) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_20_045621) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,8 +54,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_13_141425) do
 
   create_table "word_chain_walk_steps", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.decimal "latitude", precision: 10, scale: 6
-    t.decimal "longitude", precision: 10, scale: 6
+    t.decimal "latitude", precision: 10, scale: 4
+    t.decimal "longitude", precision: 10, scale: 4
     t.text "memo"
     t.datetime "updated_at", null: false
     t.string "word", limit: 100, null: false

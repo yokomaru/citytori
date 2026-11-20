@@ -19,6 +19,16 @@ export default class extends Controller {
       attribution: "&copy; OpenStreetMap contributors",
     }).addTo(this.map);
 
+    L.circle([this.latitudeValue, this.longitudeValue], {
+      radius: 10,
+      color: "#204D49",
+      weight: 1,
+      opacity: 0.5,
+      fillColor: "#A8D5CE",
+      fillOpacity: 0.2,
+      interactive: false,
+    }).addTo(this.map);
+
     const icon = L.divIcon({
       className: "",
       html: `
