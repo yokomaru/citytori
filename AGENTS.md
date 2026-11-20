@@ -8,7 +8,7 @@
 ## 技術構成
 
 ```text
-Ruby (4.0.9)
+Ruby (4.0.10)
 Ruby on Rails (8.1.4)
 Hotwire
 Stimulus
