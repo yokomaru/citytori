@@ -25,7 +25,7 @@
 
     <div class="home-recent-card-body">
       <h3 id="<%= dom_id(word_chain_walk, :title) %>" class="home-recent-word">
-        <time datetime="<%= word_chain_walk.started_at.iso8601 %>"><%= word_chain_walk.started_at.strftime("%Y年%-m月%-d日 %H:%M") %></time>の散歩
+        <time datetime="<%= word_chain_walk.started_at.iso8601 %>"><%= l(word_chain_walk.started_at, format: :date_and_time) %></time>の散歩
       </h3>
     </div>
 
