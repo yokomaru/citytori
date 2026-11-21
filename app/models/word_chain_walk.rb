@@ -83,7 +83,6 @@ class WordChainWalk < ApplicationRecord
 
   def must_have_only_one_active_word_chain_walk
     return if user.nil?
-    return if user.word_chain_walks.nil?
     return unless user.word_chain_walks.active.where.not(id: id).exists?
 
     errors.add(:base, "進行中の散歩があるため新しい散歩を作成できません")
