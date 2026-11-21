@@ -15,7 +15,10 @@ class WordChainWalkStepsController < ApplicationController
     attributes = word_chain_walk_step_params
     uploaded_image = attributes.delete(:image)
 
-    attributes[:image] = ImageMetadataRemover.new(uploaded_image).call
+
+    if uploaded_image.present?
+      attributes[:image] = ImageMetadataRemover.new(uploaded_image).call
+    end
 
     @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.build(attributes)
 

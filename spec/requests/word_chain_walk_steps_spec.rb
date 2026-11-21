@@ -116,6 +116,22 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
 
         expect(response).to have_http_status(:unprocessable_content)
       end
+
+      it '画像がない場合は422を返すこと' do
+        log_in(user)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+              params: {
+                word_chain_walk_step: {
+                  word: 'りんご',
+                  memo: '赤いりんご'
+                }
+              }
+        end.not_to change(WordChainWalkStep, :count)
+
+        expect(response).to have_http_status(:unprocessable_content)
+      end
     end
 
     context "他人の散歩の場合" do
