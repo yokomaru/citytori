@@ -1,5 +1,6 @@
 class WordChainWalkStepsController < ApplicationController
   before_action :set_word_chain_walk
+  rate_limit to: 10, within: 1.minute, by: -> { current_user.id }, only: :create
 
   def show
     @word_chain_walk_step = @word_chain_walk.word_chain_walk_steps.find(params[:id])
