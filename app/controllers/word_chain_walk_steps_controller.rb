@@ -17,16 +17,7 @@ class WordChainWalkStepsController < ApplicationController
     uploaded_image = attributes[:image]
 
     unless @word_chain_walk_step.valid?
-      respond_to do |format|
-        format.turbo_stream do
-          render :create_error, status: :unprocessable_entity
-        end
-        format.html do
-          @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
-          @locations = @word_chain_walk.word_chain_walk_steps.where.not(latitude: nil, longitude: nil).order(id: :desc).pluck(:latitude, :longitude)
-          render "word_chain_walks/show", status: :unprocessable_entity
-        end
-      end
+      render_create_error
       return
     end
 
@@ -34,16 +25,7 @@ class WordChainWalkStepsController < ApplicationController
       processed_image = ImageMetadataRemover.new(uploaded_image).call
     rescue Vips::Error
       @word_chain_walk_step.errors.add(:image, "画像を処理できませんでした")
-      respond_to do |format|
-        format.turbo_stream do
-          render :create_error, status: :unprocessable_entity
-        end
-        format.html do
-          @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
-          @locations = @word_chain_walk.word_chain_walk_steps.where.not(latitude: nil, longitude: nil).order(id: :desc).pluck(:latitude, :longitude)
-          render "word_chain_walks/show", status: :unprocessable_entity
-        end
-      end
+      render_create_error
       return
     end
 
@@ -53,16 +35,7 @@ class WordChainWalkStepsController < ApplicationController
       @word_chain_walk_step.image = processed_image
 
       unless @word_chain_walk_step.save
-        respond_to do |format|
-          format.turbo_stream do
-            render :create_error, status: :unprocessable_entity
-          end
-          format.html do
-            @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
-            @locations = @word_chain_walk.word_chain_walk_steps.where.not(latitude: nil, longitude: nil).order(id: :desc).pluck(:latitude, :longitude)
-            render "word_chain_walks/show", status: :unprocessable_entity
-          end
-        end
+        render_create_error
         return
       end
     ensure
@@ -125,5 +98,18 @@ class WordChainWalkStepsController < ApplicationController
 
   def memo_params
     params.require(:word_chain_walk_step).permit(:memo)
+  end
+
+  def render_create_error
+    respond_to do |format|
+      format.turbo_stream do
+        render :create_error, status: :unprocessable_entity
+      end
+      format.html do
+        @word_chain_walk_steps = @word_chain_walk.word_chain_walk_steps.with_attached_image.order(id: :desc)
+        @locations = @word_chain_walk.word_chain_walk_steps.where.not(latitude: nil, longitude: nil).order(id: :desc).pluck(:latitude, :longitude)
+        render "word_chain_walks/show", status: :unprocessable_entity
+      end
+    end
   end
 end
