@@ -22,7 +22,10 @@ class WordChainWalkStepsController < ApplicationController
     end
 
     begin
-      processed_image = ImageMetadataRemover.new(uploaded_image).call
+      processed_image = ImageMetadataRemover.new(
+        uploaded_image,
+        content_type: @word_chain_walk_step.image.blob.content_type
+      ).call
     rescue Vips::Error
       @word_chain_walk_step.errors.add(:image, "画像を処理できませんでした")
       render_create_error

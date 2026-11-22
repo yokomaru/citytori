@@ -96,6 +96,30 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
         expect(image.get_fields.grep(/gps/i)).to be_empty
         expect(image.get_fields.grep(/exif/i)).to be_empty
       end
+
+      it 'PNG画像をJPEGの拡張子で送ってもPNGとして保存されること' do
+        log_in(user)
+        image = Rack::Test::UploadedFile.new(
+          Rails.root.join('spec/fixtures/files/transparent.png'),
+          'image/jpeg',
+          original_filename: 'transparent.jpg'
+        )
+
+        post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+             params: {
+               word_chain_walk_step: {
+                 word: 'りんご',
+                 memo: '透過PNG',
+                 image: image
+               }
+             }
+
+        step = word_chain_walk.word_chain_walk_steps.order(:id).last
+        image = Vips::Image.new_from_buffer(step.image.download, '')
+
+        expect(step.image.blob.content_type).to eq('image/png')
+        expect(image.bands).to eq(4)
+      end
     end
 
     context "無効な記録を登録する場合" do
@@ -183,7 +207,11 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
               word_chain_walk_step: {
                 word: 'りんご',
                 memo: 'WebPテスト',
-                image: fixture_file_upload('/tmp/1.jpg', 'image/jpeg')
+                image: Rack::Test::UploadedFile.new(
+                  Rails.root.join('app/assets/images/walk-example.webp'),
+                  'image/jpeg',
+                  original_filename: 'webp.jpg'
+                )
               }
             }
       end.not_to change(WordChainWalkStep, :count)

@@ -9,7 +9,8 @@ RSpec.describe ImageMetadataRemover do
   end
 
   describe '#call' do
-    let(:result) { described_class.new(uploaded_image).call }
+    let(:content_type) { uploaded_image.content_type }
+    let(:result) { described_class.new(uploaded_image, content_type: content_type).call }
 
     it 'Active Storageに添付できるハッシュを返すこと' do
       expect(result).to include(:io, :filename, :content_type)
@@ -58,6 +59,27 @@ RSpec.describe ImageMetadataRemover do
         result[:io].rewind
         image = Vips::Image.new_from_buffer(result[:io].read, '')
 
+        expect(image.bands).to eq(4)
+      end
+    end
+
+    context 'PNGの実体と拡張子が異なる場合' do
+      let(:content_type) { 'image/png' }
+
+      let(:uploaded_image) do
+        Rack::Test::UploadedFile.new(
+          Rails.root.join('spec/fixtures/files/transparent.png'),
+          'image/jpeg',
+          original_filename: 'transparent.jpg'
+        )
+      end
+
+      it 'PNG形式と透過情報が保持されること' do
+        result[:io].rewind
+        image = Vips::Image.new_from_buffer(result[:io].read, '')
+
+        expect(result[:filename]).to eq('transparent.png')
+        expect(result[:content_type]).to eq('image/png')
         expect(image.bands).to eq(4)
       end
     end
