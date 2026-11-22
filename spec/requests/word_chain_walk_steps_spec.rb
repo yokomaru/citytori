@@ -132,7 +132,65 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
 
         expect(response).to have_http_status(:unprocessable_content)
       end
+
+      it '加工前のサイズが上限を超える場合は加工せず422を返すこと' do
+        log_in(user)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+               params: {
+                 word_chain_walk_step: {
+                   word: 'りんご',
+                   memo: '赤いりんご',
+                   image: fixture_file_upload(
+                     Rails.root.join('spec/fixtures/files/11MB.png'),
+                     'image/png'
+                   )
+                 }
+               }
+        end.not_to change(WordChainWalkStep, :count)
+
+        expect(response).to have_http_status(:unprocessable_content)
+      end
+
+      it '画像加工に失敗した場合は422を返し、記録を保存しないこと' do
+        log_in(user)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+               params: {
+                 word_chain_walk_step: {
+                   word: 'りんご',
+                   memo: '赤いりんご',
+                   image: fixture_file_upload(
+                     Rails.root.join('spec/fixtures/files/test_pdf.pdf'),
+                     'image/jpeg'
+                   )
+                 }
+               }
+        end.not_to change(WordChainWalkStep, :count)
+
+        expect(response).to have_http_status(:unprocessable_content)
+      end
     end
+
+    it 'WebPの実体をJPEGとして送っても登録できないこと' do
+      log_in(user)
+
+      expect do
+        post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+            params: {
+              word_chain_walk_step: {
+                word: 'りんご',
+                memo: 'WebPテスト',
+                image: fixture_file_upload('/tmp/1.jpg', 'image/jpeg')
+              }
+            }
+      end.not_to change(WordChainWalkStep, :count)
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
 
     context "他人の散歩の場合" do
       it '記録を追加できないこと' do
