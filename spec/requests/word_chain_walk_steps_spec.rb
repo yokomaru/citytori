@@ -19,6 +19,13 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
     )
   end
 
+  def metadata_image
+    fixture_file_upload(
+      Rails.root.join('spec/fixtures/files/test_metadata.jpg'),
+      'image/jpeg'
+    )
+  end
+
   def valid_step_params
     {
       word_chain_walk_step: {
@@ -68,6 +75,51 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
 
         expect(response).to redirect_to(word_chain_walk_path(word_chain_walk))
       end
+
+      it '保存された添付元からメタデータ(Exif、GPS情報)が削除されていること' do
+        log_in(user)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+               params: {
+                 word_chain_walk_step: {
+                   word: 'りんご',
+                   memo: '赤いりんご',
+                   image: metadata_image
+                 }
+               }
+        end.to change(word_chain_walk.word_chain_walk_steps, :count).by(1)
+
+        step = word_chain_walk.word_chain_walk_steps.order(:id).last
+        image = Vips::Image.new_from_buffer(step.image.download, '')
+
+        expect(image.get_fields.grep(/gps/i)).to be_empty
+        expect(image.get_fields.grep(/exif/i)).to be_empty
+      end
+
+      it 'PNG画像をJPEGの拡張子で送ってもPNGとして保存されること' do
+        log_in(user)
+        image = Rack::Test::UploadedFile.new(
+          Rails.root.join('spec/fixtures/files/transparent.png'),
+          'image/jpeg',
+          original_filename: 'transparent.jpg'
+        )
+
+        post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+             params: {
+               word_chain_walk_step: {
+                 word: 'りんご',
+                 memo: '透過PNG',
+                 image: image
+               }
+             }
+
+        step = word_chain_walk.word_chain_walk_steps.order(:id).last
+        image = Vips::Image.new_from_buffer(step.image.download, '')
+
+        expect(step.image.blob.content_type).to eq('image/png')
+        expect(image.bands).to eq(4)
+      end
     end
 
     context "無効な記録を登録する場合" do
@@ -88,7 +140,86 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
 
         expect(response).to have_http_status(:unprocessable_content)
       end
+
+      it '画像がない場合は422を返すこと' do
+        log_in(user)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+              params: {
+                word_chain_walk_step: {
+                  word: 'りんご',
+                  memo: '赤いりんご'
+                }
+              }
+        end.not_to change(WordChainWalkStep, :count)
+
+        expect(response).to have_http_status(:unprocessable_content)
+      end
+
+      it '加工前のサイズが上限を超える場合は加工せず422を返すこと' do
+        log_in(user)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+               params: {
+                 word_chain_walk_step: {
+                   word: 'りんご',
+                   memo: '赤いりんご',
+                   image: fixture_file_upload(
+                     Rails.root.join('spec/fixtures/files/11MB.png'),
+                     'image/png'
+                   )
+                 }
+               }
+        end.not_to change(WordChainWalkStep, :count)
+
+        expect(response).to have_http_status(:unprocessable_content)
+      end
+
+      it '画像加工に失敗した場合は422を返し、記録を保存しないこと' do
+        log_in(user)
+        remover = instance_double(ImageMetadataRemover)
+        allow(ImageMetadataRemover).to receive(:new).and_return(remover)
+        allow(remover).to receive(:call).and_raise(Vips::Error)
+
+        expect do
+          post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+               params: {
+                 word_chain_walk_step: {
+                   word: 'りんご',
+                   memo: '赤いりんご',
+                   image: metadata_image
+                 }
+               }
+        end.not_to change(WordChainWalkStep, :count)
+
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(response.body).to include('画像を処理できませんでした')
+      end
     end
+
+    it 'WebPの実体をJPEGとして送っても登録できないこと' do
+      log_in(user)
+
+      expect do
+        post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
+            params: {
+              word_chain_walk_step: {
+                word: 'りんご',
+                memo: 'WebPテスト',
+                image: Rack::Test::UploadedFile.new(
+                  Rails.root.join('app/assets/images/walk-example.webp'),
+                  'image/jpeg',
+                  original_filename: 'webp.jpg'
+                )
+              }
+            }
+      end.not_to change(WordChainWalkStep, :count)
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
 
     context "他人の散歩の場合" do
       it '記録を追加できないこと' do
