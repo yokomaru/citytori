@@ -139,33 +139,50 @@ RSpec.describe WordChainWalkStep, type: :model do
           expect(word_chain_walk_step).to be_valid
       end
 
-        it "緯度が範囲外の場合は無効であること" do
-          word_chain_walk_step =
-            FactoryBot.build(
-              :word_chain_walk_step,
-              :with_image,
-              word_chain_walk: word_chain_walk,
-              word: "りんご",
-              latitude: 91,
-              longitude: 139.767125
-            )
+      it "緯度が範囲外の場合は無効であること" do
+        word_chain_walk_step =
+          FactoryBot.build(
+            :word_chain_walk_step,
+            :with_image,
+            word_chain_walk: word_chain_walk,
+            word: "りんご",
+            latitude: 91,
+            longitude: 139.767125
+          )
 
-          expect(word_chain_walk_step).to be_invalid
-        end
+        expect(word_chain_walk_step).to be_invalid
+      end
 
-        it "経度が範囲外の場合は無効であること" do
-          word_chain_walk_step =
-            FactoryBot.build(
-              :word_chain_walk_step,
-              :with_image,
-              word_chain_walk: word_chain_walk,
-              word: "りんご",
-              latitude: 35.681236,
-              longitude: 181
-            )
+      it "経度が範囲外の場合は無効であること" do
+        word_chain_walk_step =
+          FactoryBot.build(
+            :word_chain_walk_step,
+            :with_image,
+            word_chain_walk: word_chain_walk,
+            word: "りんご",
+            latitude: 35.681236,
+            longitude: 181
+          )
 
-          expect(word_chain_walk_step).to be_invalid
-        end
+        expect(word_chain_walk_step).to be_invalid
+      end
+
+      it "緯度と経度が小数点以下4桁に丸められて保存されること" do
+        word_chain_walk_step =
+          FactoryBot.create(
+            :word_chain_walk_step,
+            :with_image,
+            word_chain_walk: word_chain_walk,
+            word: "りんご",
+            latitude: 35.681236,
+            longitude: 139.769876
+          )
+
+        word_chain_walk_step.reload
+
+        expect(word_chain_walk_step.latitude).to eq(BigDecimal("35.6812"))
+        expect(word_chain_walk_step.longitude).to eq(BigDecimal("139.7699"))
+      end
     end
 
     context "両方ない場合" do
