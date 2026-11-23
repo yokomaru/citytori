@@ -179,6 +179,9 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
 
       it '画像加工に失敗した場合は422を返し、記録を保存しないこと' do
         log_in(user)
+        remover = instance_double(ImageMetadataRemover)
+        allow(ImageMetadataRemover).to receive(:new).and_return(remover)
+        allow(remover).to receive(:call).and_raise(Vips::Error)
 
         expect do
           post word_chain_walk_word_chain_walk_steps_path(word_chain_walk),
@@ -186,15 +189,13 @@ RSpec.describe 'WordChainWalkSteps', type: :request do
                  word_chain_walk_step: {
                    word: 'りんご',
                    memo: '赤いりんご',
-                   image: fixture_file_upload(
-                     Rails.root.join('spec/fixtures/files/test_pdf.pdf'),
-                     'image/jpeg'
-                   )
+                   image: metadata_image
                  }
                }
         end.not_to change(WordChainWalkStep, :count)
 
         expect(response).to have_http_status(:unprocessable_content)
+        expect(response.body).to include('画像を処理できませんでした')
       end
     end
 
