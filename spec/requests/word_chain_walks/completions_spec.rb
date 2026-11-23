@@ -36,7 +36,7 @@ RSpec.describe 'WordChainWalks::Completions', type: :request do
         if count.zero?
           expect(document.text).to include('今回は記録がありません')
         else
-          expect(document.text).to include("#{count}個のことばを記録しました")
+          expect(document.text).to match(/#{count}\s*個のことばを記録しました/)
         end
         expect(document.css('.completion-photo-grid img').map { |image| image['alt'] }).to eq(
           words.first(3).map { |word| "「#{word}」の写真" }
